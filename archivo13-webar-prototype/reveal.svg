@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640">
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7e9"/><stop offset=".55" stop-color="#ead8bd"/><stop offset="1" stop-color="#d8bea0"/></linearGradient>
+<linearGradient id="gold"><stop stop-color="#9b713b"/><stop offset=".5" stop-color="#d8b77e"/><stop offset="1" stop-color="#8f6536"/></linearGradient>
+<pattern id="grain" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="3" cy="5" r=".8" fill="#886a4b" opacity=".13"/><circle cx="14" cy="13" r=".6" fill="#886a4b" opacity=".1"/></pattern>
+</defs>
+<rect width="1200" height="640" fill="url(#paper)"/><rect width="1200" height="640" fill="url(#grain)"/>
+<rect x="22" y="22" width="1156" height="596" rx="10" fill="none" stroke="url(#gold)" stroke-width="5"/><rect x="36" y="36" width="1128" height="568" rx="6" fill="none" stroke="#ad8758" stroke-width="1.5"/>
+<text x="600" y="135" text-anchor="middle" fill="#8c673e" font-family="Arial,sans-serif" font-size="22" letter-spacing="9">ARCHIVO 13 · PRUEBA TÉCNICA</text>
+<text x="600" y="247" text-anchor="middle" fill="#49372d" font-family="Georgia,serif" font-size="66" letter-spacing="2">LA SEGUNDA CAPA</text>
+<path d="M360 278h480" stroke="url(#gold)" stroke-width="2"/>
+<text x="600" y="356" text-anchor="middle" fill="#6d5543" font-family="Georgia,serif" font-size="31" font-style="italic">Hay cosas que no se ven a primera vista.</text>
+<text x="600" y="404" text-anchor="middle" fill="#6d5543" font-family="Georgia,serif" font-size="31" font-style="italic">Esta imagen es solo el comienzo.</text>
+<text x="600" y="514" text-anchor="middle" fill="#99774f" font-family="Arial,sans-serif" font-size="18" letter-spacing="6">IMAGEN RECONOCIDA · SUPERPOSICIÓN ACTIVA</text></svg>
