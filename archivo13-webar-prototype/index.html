@@ -8,53 +8,145 @@
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 <style>
-:root{color-scheme:dark;--gold:#c9a66b;--paper:#f4ead8}*{box-sizing:border-box}body{margin:0;background:#17111b;color:#f7efe7;font-family:Georgia,serif}.intro{max-width:680px;margin:auto;padding:30px 18px 48px}.eyebrow{text-align:center;color:var(--gold);font:600 11px system-ui;letter-spacing:.22em}h1{text-align:center;font-weight:400;font-size:clamp(30px,8vw,46px);margin:12px 0}.lead{text-align:center;color:#d6c8ba;line-height:1.6}.panel{margin:18px 0;padding:18px;border:1px solid #80644380;border-radius:16px;background:linear-gradient(145deg,#3f2b35,#211922)}h2{font-weight:400;margin:0 0 8px}.panel p{font:14px/1.55 system-ui;color:#d6c8ba}.target{display:block;width:100%;max-width:520px;margin:14px auto 8px;border:7px solid #08080a;border-radius:9px}.btn{display:block;margin:16px auto 0;padding:14px 22px;border:0;border-radius:99px;background:linear-gradient(135deg,#ead5af,#c49a60);color:#241a1d;font:700 14px system-ui}.status{text-align:center;margin-top:14px;color:#e8d3ad;font:13px system-ui}.note{text-align:center;color:#b9aa9b;font:12px/1.55 system-ui}.ar{position:fixed!important;inset:0!important;width:100vw!important;height:100svh!important;z-index:1;opacity:0;pointer-events:none}.ar.active{opacity:1;pointer-events:auto}.ar canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}.camera-on .intro{display:none}.camera-on{overflow:hidden}.hint{display:none;position:fixed;z-index:4;top:12px;left:12px;right:12px;padding:12px;border-radius:14px;background:#211923e8;color:#fff;text-align:center;font:13px system-ui}.camera-on .hint{display:block}.stop{display:none;position:fixed;z-index:5;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:99px;border:1px solid #ffffff55;background:#211923;color:#fff}.camera-on .stop{display:block}
+:root{color-scheme:dark;--gold:#c9a66b;--paper:#f4ead8}
+*{box-sizing:border-box}
+body{margin:0;background:#17111b;color:#f7efe7;font-family:Georgia,serif}
+.intro{max-width:680px;margin:auto;padding:30px 18px 48px}
+.eyebrow{text-align:center;color:var(--gold);font:600 11px system-ui;letter-spacing:.22em}
+h1{text-align:center;font-weight:400;font-size:clamp(30px,8vw,46px);margin:12px 0}
+.lead{text-align:center;color:#d6c8ba;line-height:1.6}
+.panel{margin:18px 0;padding:18px;border:1px solid #80644380;border-radius:16px;background:linear-gradient(145deg,#3f2b35,#211922)}
+h2{font-weight:400;margin:0 0 8px}
+.panel p{font:14px/1.55 system-ui;color:#d6c8ba}
+.target{display:block;width:100%;max-width:520px;margin:14px auto 8px;border:7px solid #08080a;border-radius:9px}
+.btn{display:block;margin:16px auto 0;padding:14px 22px;border:0;border-radius:99px;background:linear-gradient(135deg,#ead5af,#c49a60);color:#241a1d;font:700 14px system-ui}
+.btn:disabled{opacity:.55}
+.status{margin-top:14px;padding:12px;border-radius:10px;background:#120e15;text-align:center;color:#e8d3ad;font:13px/1.5 system-ui}
+.note{text-align:center;color:#b9aa9b;font:12px/1.55 system-ui}
+#camera-shell{display:none;position:fixed;inset:0;background:#000;z-index:10}
+#camera-shell.active{display:block}
+a-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+#camera-status{position:fixed;z-index:30;top:12px;left:12px;right:12px;padding:12px 14px;border:1px solid #ffffff2a;border-radius:14px;background:#211923ed;color:#fff;text-align:center;font:13px/1.4 system-ui}
+#stop{position:fixed;z-index:31;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:13px 22px;border-radius:99px;border:1px solid #ffffff55;background:#211923;color:#fff;font:600 14px system-ui}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 <main class="intro">
-<div class="eyebrow">ARCHIVO 13 · LABORATORIO</div>
+<div class="eyebrow">ARCHIVO 13 · LABORATORIO 0.2</div>
 <h1>Una imagen. Otra historia.</h1>
-<p class="lead">Primera prueba: la cámara reconoce una imagen impresa y revela una segunda composición alineada sobre ella.</p>
+<p class="lead">Esta prueba comprueba dos cosas por separado: que la cámara encuentre la imagen y que una segunda composición aparezca encima, siguiendo su posición.</p>
 <section class="panel">
-<h2>1 · Prepara la imagen de prueba</h2>
-<p>Abre esta imagen en una computadora o imprímela. La cámara del teléfono debe apuntar a una pantalla o papel aparte, no a la pantalla del propio teléfono.</p>
+<h2>1 · Prepara la imagen de referencia</h2>
+<p>Abre la imagen de muestra en una computadora o imprímela. La cámara del Samsung debe apuntar a esa imagen en otra pantalla o en papel.</p>
 <a href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener"><img class="target" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" alt="Imagen de referencia de prueba"></a>
-<p class="note">Imagen técnica de muestra. No será el cuadro definitivo de Evelyn.</p>
+<p class="note">Debe ser exactamente esta imagen, sin recortarla ni editarla.</p>
 </section>
 <section class="panel">
 <h2>2 · Inicia la cámara en Chrome</h2>
-<p>Abre esta página en el Samsung A15, permite el acceso a la cámara y apunta hacia la imagen que tienes en otro dispositivo o impresa.</p>
+<p>Abre esta página en el Samsung A15, permite el acceso a la cámara y apunta hacia la imagen que tienes abierta en la PC o impresa.</p>
 <button class="btn" id="start">Iniciar prueba de cámara</button>
 <div class="status" id="status">Estado: esperando para iniciar</div>
-<p class="note" id="detail">La página debe estar publicada con HTTPS. El primer inicio puede tardar mientras carga MindAR.</p>
+<p class="note" id="detail">La página necesita HTTPS y conexión para descargar el motor de reconocimiento.</p>
 </section>
 <section class="panel">
 <h2>Qué debe ocurrir</h2>
-<p>Al detectar la imagen, la cámara mostrará encima una carta de demostración. Al mover suavemente el teléfono, la carta debe permanecer pegada a la imagen.</p>
-<p class="note">Esta versión todavía no contiene postal, QR propio, clave de seis cifras ni fotografías privadas. Solo valida reconocimiento visual y superposición.</p>
+<p>Primero verás la cámara y el estado “BUSCANDO IMAGEN”. Cuando detecte la tarjeta, aparecerá encima un panel dorado claro con el texto “ARCHIVO 13”.</p>
+<p class="note">No es todavía el cuadro de Evelyn. Esta prueba no contiene clave, postal, QR propio ni fotos privadas.</p>
 </section>
 </main>
-<div class="hint" id="hint">Busca la imagen de referencia y mantenla completa dentro del encuadre.</div>
-<button class="stop" id="stop">Cerrar cámara</button>
-<a-scene id="scene" class="ar" embedded
+
+<div id="camera-shell">
+<div id="camera-status">INICIANDO CÁMARA…</div>
+<button id="stop">Cerrar cámara</button>
+<a-scene id="scene"
  mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: false; uiLoading: no; uiError: no; uiScanning: no"
- color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
- vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-<a-assets><img id="overlay" src="./reveal.svg" crossorigin="anonymous"></a-assets>
-<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-<a-entity id="target" mindar-image-target="targetIndex: 0">
-<a-plane src="#overlay" position="0 0 0.002" width="1" height="0.534" material="shader: flat; side: double"></a-plane>
-</a-entity>
+ color-space="sRGB"
+ renderer="colorManagement: true, physicallyCorrectLights"
+ vr-mode-ui="enabled: false"
+ device-orientation-permission-ui="enabled: false">
+ <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+ <a-entity id="target" mindar-image-target="targetIndex: 0">
+   <a-plane position="0 0 0.001" width="1" height="0.552"
+     material="shader: flat; color: #F3E5CE; side: double">
+   </a-plane>
+   <a-plane position="0 0 0.003" width="0.965" height="0.517"
+     material="shader: flat; color: #E8D3B2; side: double">
+   </a-plane>
+   <a-text value="ARCHIVO 13" align="center" color="#59422E"
+     width="1.7" position="0 0.105 0.006"></a-text>
+   <a-text value="IMAGEN DETECTADA" align="center" color="#765B3D"
+     width="1.4" position="0 -0.015 0.006"></a-text>
+   <a-text value="LA SEGUNDA CAPA" align="center" color="#59422E"
+     width="1.5" position="0 -0.14 0.006"></a-text>
+ </a-entity>
 </a-scene>
+</div>
 <script>
-(()=>{const scene=document.querySelector('#scene'),target=document.querySelector('#target'),start=document.querySelector('#start'),stop=document.querySelector('#stop'),status=document.querySelector('#status'),detail=document.querySelector('#detail');let running=false;
-const say=(s)=>status.textContent='Estado: '+s;
-target.addEventListener('targetFound',()=>{say('imagen detectada · segunda capa visible');document.querySelector('#hint').textContent='¡Imagen reconocida! Mueve suavemente el teléfono: la carta debe seguir el cuadro.'});
-target.addEventListener('targetLost',()=>{say('imagen fuera de vista · vuelve a encuadrarla');document.querySelector('#hint').textContent='Busca la imagen de referencia y mantenla completa dentro del encuadre.'});
-const wait=()=>scene.hasLoaded?Promise.resolve():new Promise((ok,no)=>{const t=setTimeout(()=>no(new Error('La escena tardó demasiado en cargar. Revisa la conexión.')),25000);scene.addEventListener('loaded',()=>{clearTimeout(t);ok()},{once:true})});
-start.addEventListener('click',async()=>{start.disabled=true;say('preparando cámara y cargando objetivo…');try{if(!window.isSecureContext)throw Error('Abre la página mediante HTTPS para permitir la cámara.');if(!navigator.mediaDevices?.getUserMedia)throw Error('Chrome no ofrece acceso a la cámara. Actualiza el navegador y vuelve a probar.');await wait();const system=scene.systems['mindar-image-system'];if(!system)throw Error('MindAR no se pudo inicializar. Recarga la página.');document.body.classList.add('camera-on');scene.classList.add('active');await system.start();running=true;say('cámara activa · buscando imagen');detail.textContent='Prueba en curso.'}catch(e){document.body.classList.remove('camera-on');scene.classList.remove('active');say('no se pudo iniciar');detail.textContent=e.message||'Error desconocido al iniciar la cámara.';start.disabled=false}});
-stop.addEventListener('click',async()=>{try{const system=scene.systems['mindar-image-system'];if(system&&running)await system.stop()}catch(e){console.warn(e)}running=false;scene.classList.remove('active');document.body.classList.remove('camera-on');start.disabled=false;say('cámara cerrada · lista para repetir');detail.textContent='Puedes volver a iniciar la prueba.'});
+(()=> {
+ const scene=document.querySelector('#scene');
+ const target=document.querySelector('#target');
+ const shell=document.querySelector('#camera-shell');
+ const start=document.querySelector('#start');
+ const stop=document.querySelector('#stop');
+ const status=document.querySelector('#status');
+ const detail=document.querySelector('#detail');
+ const cameraStatus=document.querySelector('#camera-status');
+ let running=false;
+
+ const say=(message)=>{status.textContent='Estado: '+message};
+ const cameraSay=(message)=>{cameraStatus.textContent=message};
+
+ target.addEventListener('targetFound',()=>{
+   say('IMAGEN DETECTADA');
+   cameraSay('✓ IMAGEN DETECTADA · DEBE APARECER EL PANEL DORADO');
+ });
+ target.addEventListener('targetLost',()=>{
+   say('imagen fuera de vista; vuelve a encuadrarla');
+   cameraSay('BUSCANDO IMAGEN · MANTÉN LA TARJETA COMPLETA EN EL ENCUADRE');
+ });
+ scene.addEventListener('arReady',()=>{
+   say('cámara lista; buscando imagen');
+   cameraSay('BUSCANDO IMAGEN · APUNTA A LA TARJETA DE MUESTRA');
+ });
+ scene.addEventListener('arError',(event)=>{
+   const message=event?.detail?.error||'Error de compatibilidad o de cámara';
+   say('ERROR: '+message);
+   cameraSay('ERROR AL INICIAR LA CÁMARA');
+   detail.textContent=String(message);
+ });
+ const waitForScene=()=>scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{
+   const timer=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);
+   scene.addEventListener('loaded',()=>{clearTimeout(timer);resolve()},{once:true});
+ });
+ start.addEventListener('click',async()=>{
+   start.disabled=true;say('cargando motor de reconocimiento…');detail.textContent='Solicitando cámara al navegador…';
+   try{
+     if(!window.isSecureContext)throw new Error('La cámara exige una página HTTPS.');
+     if(!navigator.mediaDevices?.getUserMedia)throw new Error('Chrome no ofrece acceso a la cámara en esta sesión.');
+     await waitForScene();
+     const system=scene.systems['mindar-image-system'];
+     if(!system)throw new Error('MindAR no se inicializó. Comprueba la conexión y recarga.');
+     shell.classList.add('active');cameraSay('INICIANDO CÁMARA…');
+     await system.start();
+     running=true;say('cámara activa; buscando la imagen exacta');
+     detail.textContent='La cámara está activa. Si no detecta la tarjeta en unos segundos, revisaremos el encuadre y el reconocimiento.';
+   }catch(error){
+     shell.classList.remove('active');start.disabled=false;
+     say('no se pudo iniciar');
+     detail.textContent=error?.message||'Error desconocido al iniciar.';
+     console.error(error);
+   }
+ });
+ stop.addEventListener('click',async()=>{
+   try{
+     const system=scene.systems['mindar-image-system'];
+     if(system&&running)await system.stop();
+   }catch(error){console.warn(error)}
+   running=false;shell.classList.remove('active');start.disabled=false;
+   say('cámara cerrada; lista para repetir');detail.textContent='Puedes iniciar otra vez cuando quieras.';
+ });
 })();
 </script>
-</body></html>
+</body>
+</html>
