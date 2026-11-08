@@ -23,8 +23,8 @@ h2{font-weight:400;margin:0 0 8px}
 .btn:disabled{opacity:.55}
 .status{margin-top:14px;padding:12px;border-radius:10px;background:#120e15;text-align:center;color:#e8d3ad;font:13px/1.5 system-ui}
 .note{text-align:center;color:#b9aa9b;font:12px/1.55 system-ui}
-#camera-shell{display:none;position:fixed;inset:0;background:#000;z-index:10}
-#camera-shell.active{display:block}
+#camera-shell{display:block;position:fixed;inset:0;background:#000;z-index:10;opacity:0;pointer-events:none}
+#camera-shell.active{opacity:1;pointer-events:auto}
 a-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
 #camera-status{position:fixed;z-index:30;top:12px;left:12px;right:12px;padding:12px 14px;border:1px solid #ffffff2a;border-radius:14px;background:#211923ed;color:#fff;text-align:center;font:13px/1.4 system-ui}
 #stop{position:fixed;z-index:31;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:13px 22px;border-radius:99px;border:1px solid #ffffff55;background:#211923;color:#fff;font:600 14px system-ui}
