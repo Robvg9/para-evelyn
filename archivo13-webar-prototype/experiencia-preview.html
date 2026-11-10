@@ -233,7 +233,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  scene.addEventListener('arError',e=>showCameraError(e?.detail?.error||'MindAR no pudo inicializar la cámara.'));
  function waitScene(){return scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);scene.addEventListener('loaded',()=>{clearTimeout(t);resolve()},{once:true})})}
  async function beginCamera(){
-   cameraError.classList.add('hidden');$('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
+   scanStarted=false;elapsed=0;targetVisible=false;clearInterval(ticker);ticker=null;
+   $('progress-fill').style.width='0%';$('progress-count').textContent='00:00 / 00:20';
+   $('progress-phase').textContent='ESPERANDO OBJETIVO';$('scan-log').textContent='El archivo permanece en silencio…';
+   lost.classList.add('hidden');cameraError.classList.add('hidden');
+   $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
      initAudio();await waitScene();const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
      shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;$('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
