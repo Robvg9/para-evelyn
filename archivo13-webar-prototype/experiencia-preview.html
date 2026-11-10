@@ -3,64 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#171019">
-<title>ARCHIVO 13 · Ensayo de respaldo</title>
+<meta name="theme-color" content="#120d16">
+<title>ARCHIVO 13 · Lectura del corazón</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 <style>
-:root{color-scheme:dark;--bg:#171019;--panel:#241923;--panel2:#30212b;--gold:#d6b477;--gold2:#a77c43;--cream:#f3ead9;--muted:#c6b8ad;--line:#9f7b514d}
+:root{color-scheme:dark;--bg:#120d16;--gold:#d9b879;--cream:#f5ead8;--muted:#c6b9ad;--line:#d9b8794d}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#49303a 0,#211721 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
 button,input{font:inherit}
-.wrap{width:min(100% - 28px,720px);margin:0 auto;padding:22px 0 54px}
+.wrap{width:min(100% - 28px,720px);margin:0 auto;padding:20px 0 54px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--gold);font:600 10px/1.4 system-ui;letter-spacing:.18em;text-transform:uppercase}
-.pill{border:1px solid #d6b47766;border-radius:99px;padding:7px 10px;color:#ead5ae;font:600 9px system-ui;letter-spacing:.12em}
-.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);margin:18px 0 34px}
+.pill{border:1px solid #d9b87966;border-radius:99px;padding:7px 10px;color:#ead5ae;font:600 9px system-ui;letter-spacing:.12em}
+.rule{height:1px;background:linear-gradient(90deg,transparent,#a77c43,transparent);margin:18px 0 32px}
 .eyebrow{text-align:center;color:var(--gold);font:600 10px system-ui;letter-spacing:.28em;text-transform:uppercase}
-h1{font-size:clamp(35px,9vw,62px);font-weight:400;line-height:1.03;text-align:center;margin:15px 0 14px}
+h1{font-size:clamp(36px,9vw,64px);font-weight:400;line-height:1.02;text-align:center;margin:15px 0}
 h1 em{color:var(--gold);font-weight:400}
-.lead{max-width:530px;margin:0 auto;color:var(--muted);font:15px/1.7 system-ui;text-align:center}
-.card{margin:24px 0;padding:clamp(20px,5vw,34px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#35252fdd,#211820f5);box-shadow:0 22px 55px #0004}
+.lead{max-width:540px;margin:0 auto;color:var(--muted);font:15px/1.7 system-ui;text-align:center}
+.card{margin:23px 0;padding:clamp(20px,5vw,34px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#382631e8,#201720f5);box-shadow:0 22px 55px #0005}
 h2{font-size:26px;font-weight:400;margin:0 0 10px}
 .copy{color:var(--muted);font:14px/1.7 system-ui;margin:0}
-.pinrow{display:flex;justify-content:center;gap:8px;margin:24px 0 12px}
-.pinrow input{width:clamp(38px,11vw,52px);height:58px;border-radius:12px;border:1px solid #d6b47777;background:#100d12;color:var(--cream);text-align:center;font:28px Georgia;outline:none}
-.pinrow input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d6b47722}
-.btn{border:0;border-radius:99px;padding:14px 21px;background:linear-gradient(135deg,#efdcb9,#bf9556);color:#231820;font:700 13px system-ui;cursor:pointer}
-.btn.secondary{background:transparent;border:1px solid #d6b47780;color:var(--cream)}
+.pinrow{display:flex;justify-content:center;gap:7px;margin:23px 0 12px}
+.pinrow input{width:clamp(38px,11vw,52px);height:58px;border-radius:12px;border:1px solid #d9b87977;background:#100c12;color:var(--cream);text-align:center;font:28px Georgia;outline:none}
+.pinrow input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d9b87922}
+.btn{border:0;border-radius:99px;padding:14px 21px;background:linear-gradient(135deg,#f0ddb8,#bd9150);color:#231820;font:700 13px system-ui;cursor:pointer}
+.btn.secondary{background:transparent;border:1px solid #d9b87980;color:var(--cream)}
+.btn:disabled{opacity:.5;cursor:wait}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
 .hint{text-align:center;color:#a99a90;font:11px/1.6 system-ui;margin:12px 0 0}
-.notice{margin:18px 0 0;padding:11px 13px;border-left:2px solid var(--gold);background:#d6b4770d;color:#ddcdbb;font:11px/1.55 system-ui}
+.target-link{display:block;max-width:230px;margin:18px auto 0;padding:8px;border:1px solid #d9b87966;border-radius:12px;color:var(--gold);text-align:center;text-decoration:none;font:12px system-ui}
 .choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
-.choice button{min-height:130px;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;background:#1c151d;color:var(--cream);cursor:pointer}
+.choice button{min-height:128px;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;background:#1c151d;color:var(--cream);cursor:pointer}
 .choice strong{display:block;font:19px Georgia;margin-bottom:8px;color:var(--gold)}
 .choice span{font:12px/1.5 system-ui;color:var(--muted)}
-.paper{background:linear-gradient(145deg,#f4ead8,#e6d6bd);color:#34232a;border-radius:4px;padding:clamp(22px,6vw,48px);box-shadow:0 18px 45px #0005;position:relative;overflow:hidden}
+.hidden{display:none!important}
+.paper{background:linear-gradient(145deg,#f4ead8,#e7d8c1);color:#34232a;border-radius:4px;padding:clamp(22px,6vw,48px);box-shadow:0 18px 45px #0005;position:relative;overflow:hidden}
 .paper:before{content:'';position:absolute;inset:9px;border:1px solid #b99a6b;pointer-events:none}
 .paper .eyebrow{color:#99713e}
 .paper h2{font-size:clamp(28px,7vw,43px);text-align:center;line-height:1.12;margin:13px 0 22px}
 .paper p{font-size:15px;line-height:1.8;position:relative}
 .paper .sign{margin-top:27px;text-align:right;font-style:italic;color:#816044}
-.quote{font-size:clamp(23px,6vw,34px)!important;line-height:1.3!important;text-align:center;color:#815b36;margin:22px 0!important}
-.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
-.photo{aspect-ratio:4/5;border:1px solid #d6b47766;border-radius:12px;background:linear-gradient(145deg,#3a2933,#211821);display:flex;flex-direction:column;justify-content:end;padding:12px;color:var(--muted);font:11px/1.5 system-ui}
-.photo:first-child{grid-row:span 2;aspect-ratio:auto;min-height:250px}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+.photo{min-height:160px;border:1px solid #d9b87966;border-radius:12px;background:linear-gradient(145deg,#3a2933,#211821);display:flex;flex-direction:column;justify-content:end;padding:13px;color:var(--muted);font:11px/1.5 system-ui}
+.photo:first-child{grid-row:span 2;min-height:320px}
 .photo b{color:var(--gold);font:16px Georgia;margin-bottom:4px}
-.footer{text-align:center;color:#94867d;font:10px/1.6 system-ui;margin:30px 8px 0}
-.hidden{display:none!important}
-@media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:96px}.photos{grid-template-columns:1fr 1fr}}
+.secret{display:block;margin:20px auto 0;border:0;background:transparent;color:#a98751;font:12px system-ui;letter-spacing:.35em;cursor:pointer;opacity:.65}
+.secret-message{text-align:center;color:#936d43;font:italic 12px/1.6 system-ui;margin-top:8px}
+.footer{text-align:center;color:#94867d;font:10px/1.6 system-ui;margin:28px 8px 0}
+#camera-shell{display:block;position:fixed;inset:0;background:#000;z-index:20;opacity:0;pointer-events:none}
+#camera-shell.active{opacity:1;pointer-events:auto}
+#ar-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+#scan-ui{position:absolute;z-index:25;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));pointer-events:none;background:linear-gradient(180deg,#08060bd9 0%,transparent 30%,transparent 60%,#08060be8 100%)}
+.scan-top{text-align:center}
+.scan-label{font:600 10px system-ui;letter-spacing:.24em;color:var(--gold)}
+#scan-title{font:clamp(22px,6vw,32px) Georgia;margin-top:9px;text-shadow:0 2px 16px #000}
+.scan-bottom{max-width:600px;width:100%;margin:0 auto}
+#scan-status{font:600 12px/1.5 system-ui;letter-spacing:.1em;text-align:center;color:#f2dfbd;min-height:40px;text-shadow:0 2px 8px #000}
+.progress-track{height:5px;border-radius:9px;background:#ffffff35;overflow:hidden;margin:12px 0 8px}
+#progress-fill{height:100%;width:0;background:linear-gradient(90deg,#9b6b37,#f6dca6,#fff1cb);box-shadow:0 0 14px #f5d18a;transition:width .12s linear}
+.progress-meta{display:flex;justify-content:space-between;color:#d3c5b5;font:10px system-ui;letter-spacing:.12em}
+#scan-log{min-height:34px;text-align:center;color:#e9d5b2;font:italic 13px/1.5 Georgia;margin-top:12px;text-shadow:0 2px 8px #000}
+#target-lost{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:#100b15d9;text-align:center;padding:30px;color:#f2dfbd;font:600 15px/1.7 system-ui;z-index:27}
+#scan-flash{position:fixed;inset:0;z-index:50;background:#fff;opacity:0;pointer-events:none}
+#scan-flash.fire{animation:flash .8s ease-out}
+@keyframes flash{0%{opacity:0}20%{opacity:.9}100%{opacity:0}}
+.scanline{position:absolute;z-index:24;left:0;right:0;height:2px;top:15%;background:linear-gradient(90deg,transparent,#f6dca6,transparent);box-shadow:0 0 18px #f6dca6;animation:sweep 3s linear infinite;pointer-events:none}
+@keyframes sweep{0%{top:15%;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:82%;opacity:0}}
+.particle{position:absolute;z-index:24;width:3px;height:3px;border-radius:50%;background:#f9dfaa;box-shadow:0 0 12px 3px #e5bb6e;pointer-events:none;animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate3d(0,20px,0) scale(.5);opacity:0}50%{transform:translate3d(12px,-20px,0) scale(1.5);opacity:.9}}
+#camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
+.error-box{max-width:440px;text-align:center}
+@media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header class="top"><span>ARCHIVO 13</span><span class="pill">VISTA DE ENSAYO</span></header>
+  <header class="top"><span>ARCHIVO 13</span><span class="pill">EXPEDIENTE 03</span></header>
   <div class="rule"></div>
   <section id="pin-screen">
     <div class="eyebrow">Una imagen. Otra historia.</div>
     <h1>Hay cosas que<br><em>merecen ser descubiertas.</em></h1>
-    <p class="lead">Algunas respuestas no están en la postal. Están esperando a que encuentres la clave.</p>
+    <p class="lead">La postal te ha traído hasta aquí. Pero la siguiente puerta no se abre con una palabra.</p>
     <div class="card">
       <div class="eyebrow">Acceso al expediente</div>
       <h2 style="text-align:center;margin-top:12px">Introduce el código</h2>
-      <p class="copy" style="text-align:center">Seis cifras. Una puerta a lo que hay detrás de la imagen.</p>
+      <p class="copy" style="text-align:center">Seis cifras. Una puerta a lo que permanece detrás de la imagen.</p>
       <div class="pinrow" aria-label="Código de seis cifras">
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Primera cifra">
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Segunda cifra">
@@ -70,33 +98,33 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Sexta cifra">
       </div>
       <div class="actions"><button class="btn" id="unlock">Abrir expediente</button></div>
-      <p class="hint" id="pin-feedback">En esta vista de ensayo, cualquier combinación de seis cifras permite continuar.</p>
-      <div class="notice">Importante: esto es una maqueta visual. La clave real aún no está configurada; no escribas aquí el código definitivo.</div>
+      <p class="hint" id="pin-feedback">La clave definitiva se configurará cuando aprobemos la experiencia final.</p>
     </div>
   </section>
 
-  <section id="choice-screen" class="hidden">
-    <div class="eyebrow">Expediente desbloqueado</div>
-    <h1>Ahora puedes<br><em>mirar más allá.</em></h1>
-    <p class="lead">La experiencia final intentará abrir la cámara para transformar el cuadro. Y si el teléfono no coopera, la historia seguirá teniendo un camino.</p>
+  <section id="first-camera-screen" class="hidden">
+    <div class="eyebrow">Primera lectura obligatoria</div>
+    <h1>El archivo necesita<br><em>verte mirar.</em></h1>
+    <p class="lead">Esta primera vez no existe una ruta alternativa. El cuadro es la llave de esta parte de la historia.</p>
     <div class="card">
-      <h2>¿Cómo quieres continuar?</h2>
+      <h2>Activa la cámara</h2>
+      <p class="copy">Apunta al cuadro cuando lo tengas delante. Para esta prueba técnica, utiliza la tarjeta de muestra abierta en otra pantalla o impresa. En la entrega final, reconocerá la obra ELITE.</p>
+      <a class="target-link" href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener">Abrir imagen de prueba ↗</a>
+      <div class="actions"><button class="btn" id="start-camera">Iniciar lectura con cámara</button></div>
+      <p class="hint" id="camera-hint">Permite el acceso a la cámara. No cierres esta página mientras el archivo está leyendo la imagen.</p>
+    </div>
+    <p class="footer">Primera visita: la cámara es parte de la experiencia. Si no puede abrirse, podrás reintentar, pero no saltar esta escena.</p>
+  </section>
+
+  <section id="return-choice-screen" class="hidden">
+    <div class="eyebrow">Segundo acceso</div>
+    <h1>La primera puerta<br><em>ya fue abierta.</em></h1>
+    <p class="lead">Puedes volver a mirar el cuadro o entrar directamente a la revelación.</p>
+    <div class="card">
       <div class="choice">
-        <button id="camera-choice"><strong>① Ver el cuadro</strong><span>En la versión final, abrirá la cámara y buscará la imagen impresa.</span></button>
-        <button id="fallback-choice"><strong>② Continuar sin cámara</strong><span>Abre directamente la carta y los recuerdos. Esta ruta será nuestro respaldo.</span></button>
+        <button id="repeat-camera"><strong>① Volver a mirar</strong><span>Repetir la lectura del cuadro y sus señales ocultas.</span></button>
+        <button id="skip-camera"><strong>② Ir a la carta</strong><span>Continuar directamente con la revelación.</span></button>
       </div>
-    </div>
-    <div class="actions"><button class="btn secondary" id="back-pin">Volver</button></div>
-  </section>
-
-  <section id="camera-screen" class="hidden">
-    <div class="eyebrow">Experiencia aumentada</div>
-    <h1>El cuadro será<br><em>la puerta de entrada.</em></h1>
-    <div class="card">
-      <h2>La cámara se conectará aquí</h2>
-      <p class="copy">Esta página de ensayo todavía no utiliza el objetivo personalizado ELITE. En la versión final, este paso abrirá la cámara y reconocerá la impresión exacta del cuadro.</p>
-      <div class="notice">Si no reconoce la imagen, pierde el seguimiento o el navegador no permite usar la cámara, el botón de abajo abrirá la misma revelación sin realidad aumentada.</div>
-      <div class="actions"><button class="btn" id="camera-fallback">Continuar sin cámara</button><button class="btn secondary" id="camera-back">Volver</button></div>
     </div>
   </section>
 
@@ -107,41 +135,120 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
       <div class="eyebrow">Para Evelyn</div>
       <h2>Más allá de lo que se ve</h2>
       <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
-      <p class="quote">“Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti.”</p>
-      <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en lo que eres y en todo eso que te hace tan especial para mí.</p>
-      <p>Esta es solo una primera mirada. La carta definitiva llevará tus palabras, nuestros recuerdos y todo lo que Robert quiera decirte.</p>
+      <p style="font-size:clamp(23px,6vw,34px);line-height:1.3;text-align:center;color:#815b36">“Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti.”</p>
+      <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en tu forma de ser, en lo que sueñas, en tu fuerza y en todos esos detalles que te hacen tan especial para mí.</p>
+      <p>Esta carta es un primer borrador visual. La versión definitiva llevará las palabras de Robert, los recuerdos de ambos y las fotografías elegidas para contar vuestra historia.</p>
       <p class="sign">Con todo mi cariño.</p>
+      <button class="secret" id="easter-egg" aria-label="Pista oculta">13</button>
+      <p id="easter-message" class="secret-message hidden">EXPEDIENTE 04 · La próxima pista no estará en una imagen. Tendrás que escuchar para encontrarla.</p>
     </div>
     <div class="photos">
-      <div class="photo"><b>Un recuerdo de los dos</b><span>WA0038 · fotografía de pareja pendiente de integrar</span></div>
-      <div class="photo"><b>Un instante</b><span>WA0044 · fotografía de pareja pendiente de integrar</span></div>
-      <div class="photo"><b>Otra parte de nuestra historia</b><span>WA0041 · fotografía de pareja pendiente de integrar</span></div>
+      <div class="photo"><b>Un recuerdo de los dos</b><span>WA0038 · fotografía por integrar</span></div>
+      <div class="photo"><b>Un instante</b><span>WA0044 · fotografía por integrar</span></div>
+      <div class="photo"><b>Otra parte de nuestra historia</b><span>WA0041 · fotografía por integrar</span></div>
     </div>
+    <p class="hint">El pequeño “13” es una señal. Tócalo tres veces.</p>
     <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
   </section>
-  <p class="footer">MAQUETA DE TRABAJO · No es el enlace final de la sorpresa.<br>El código real, las fotografías definitivas, el audio y la carta final se añadirán después de su aprobación.</p>
+  <p class="footer">MAQUETA DE TRABAJO · La clave, la imagen ELITE, las fotos y la carta definitiva se integrarán después de las aprobaciones.</p>
 </main>
+
+<div id="camera-shell">
+  <div class="scanline"></div>
+  <div id="scan-ui">
+    <div class="scan-top"><div class="scan-label">ARCHIVO 13 · ESCÁNER ÓPTICO</div><div id="scan-title">Buscando la imagen original</div></div>
+    <div class="scan-bottom">
+      <div id="scan-status">ENFOCA LA IMAGEN PARA INICIAR LA LECTURA</div>
+      <div class="progress-track"><div id="progress-fill"></div></div>
+      <div class="progress-meta"><span id="progress-phase">ESPERANDO OBJETIVO</span><span id="progress-count">00:00 / 00:20</span></div>
+      <div id="scan-log">El archivo permanece en silencio…</div>
+    </div>
+  </div>
+  <div id="target-lost" class="hidden">SEÑAL INTERRUMPIDA<br>Vuelve a encuadrar la imagen.<br>La lectura continuará desde donde se detuvo.</div>
+  <a-scene id="ar-scene"
+    mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: false; uiLoading: no; uiError: no; uiScanning: no"
+    color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
+    vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
+      <a-plane position="0 0 0.001" width="1" height="0.552" material="shader: flat; color: #F3E5CE; opacity: .08; transparent: true; side: double"></a-plane>
+      <a-ring position="0 0 0.01" radius-inner="0.34" radius-outer="0.36" material="shader: flat; color: #D9B879; opacity: .95; transparent: true; side: double"></a-ring>
+      <a-ring position="0 0 0.012" radius-inner="0.22" radius-outer="0.225" material="shader: flat; color: #FFF0CC; opacity: .9; transparent: true; side: double"></a-ring>
+      <a-text value="ARCHIVO 13" align="center" color="#FFF0CC" width="1.7" position="0 0.04 0.02"></a-text>
+    </a-entity>
+  </a-scene>
+</div>
+<div id="scan-flash"></div>
+<div id="camera-error" class="hidden">
+  <div class="error-box">
+    <div class="eyebrow">SEÑAL NO DISPONIBLE</div>
+    <h2 id="error-title" style="font-size:32px;margin:15px 0">No se pudo abrir la cámara</h2>
+    <p id="error-text" class="copy">Comprueba el permiso de cámara y vuelve a intentarlo.</p>
+    <div class="actions"><button class="btn" id="retry-camera">Reintentar lectura</button><button class="btn secondary" id="close-error">Volver</button></div>
+    <p class="hint">En la primera visita no se puede saltar esta lectura.</p>
+  </div>
+</div>
 <script>
 (()=>{
- const screens=['pin-screen','choice-screen','camera-screen','letter-screen'];
+ const screens=['pin-screen','first-camera-screen','return-choice-screen','letter-screen'];
  const show=id=>screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+ const $=id=>document.getElementById(id);
  const inputs=[...document.querySelectorAll('.pinrow input')];
- inputs.forEach((input,i)=>{
-   input.addEventListener('input',()=>{input.value=input.value.replace(/\\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});
-   input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});
-   input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}});
- });
- document.getElementById('unlock').addEventListener('click',()=>{
-   const code=inputs.map(x=>x.value).join('');
-   if(code.length!==6){document.getElementById('pin-feedback').textContent='Escribe las seis cifras para probar la secuencia.';return}
-   show('choice-screen');
- });
- document.getElementById('fallback-choice').addEventListener('click',()=>show('letter-screen'));
- document.getElementById('camera-choice').addEventListener('click',()=>show('camera-screen'));
- document.getElementById('camera-fallback').addEventListener('click',()=>show('letter-screen'));
- document.getElementById('camera-back').addEventListener('click',()=>show('choice-screen'));
- document.getElementById('back-pin').addEventListener('click',()=>show('pin-screen'));
- document.getElementById('restart').addEventListener('click',()=>{inputs.forEach(x=>x.value='');show('pin-screen')});
+ const FIRST_KEY='a13_first_camera_completed_v2';
+ const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
+ const cameraError=$('camera-error'), lost=$('target-lost');
+ let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null;
+ function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
+ function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
+ function closeScene(){try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}running=false;targetVisible=false;clearInterval(ticker);ticker=null;shell.classList.remove('active')}
+ function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
+ function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
+ function initAudio(){try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
+ function chime(){playTone(523,.22,'sine',.03);setTimeout(()=>playTone(659,.25,'sine',.025),170);setTimeout(()=>playTone(784,.35,'sine',.03),360)}
+ function soundPulse(){playTone(72,.25,'sine',.055);setTimeout(()=>playTone(90,.18,'sine',.035),500)}
+ function addParticles(){if(shell.querySelector('.particle'))return;for(let i=0;i<22;i++){const p=document.createElement('i');p.className='particle';p.style.left=(Math.random()*100)+'%';p.style.top=(Math.random()*100)+'%';p.style.animationDelay=(-Math.random()*5)+'s';p.style.animationDuration=(3+Math.random()*4)+'s';shell.appendChild(p)}}
+ const stages=[
+ {at:0,log:'Iniciando lectura de la superficie…',phase:'CALIBRANDO ÓPTICA',status:'CALIBRANDO LUZ, TEXTURA Y PROFUNDIDAD'},
+ {at:3,log:'Midiendo la refracción de los recuerdos…',phase:'MAPEANDO CAPAS',status:'BUSCANDO LO QUE LA FOTOGRAFÍA NO MUESTRA'},
+ {at:6,log:'Detectando una señal fuera del espectro visible…',phase:'SEÑAL ENCONTRADA',status:'ANALIZANDO PULSOS Y PATRONES'},
+ {at:9,log:'Extrayendo el cifrado del corazón de ROBERT…',phase:'DESCIFRANDO ARCHIVO',status:'LEYENDO FRECUENCIA AFECTIVA'},
+ {at:12,log:'Comparando latidos, recuerdos y coordenadas…',phase:'SINCRONIZANDO RECUERDOS',status:'RECONSTRUYENDO LA CAPA OCULTA'},
+ {at:15,log:'La señal emocional tiene una coincidencia…',phase:'COINCIDENCIA 99.9%',status:'IDENTIDAD DE LA SEÑAL: EVELYN'},
+ {at:18,log:'El archivo ha encontrado aquello que buscaba.',phase:'REVELACIÓN PREPARADA',status:'ABRIENDO LA CAPA QUE NO SE VE'}
+ ];
+ function startTicker(){clearInterval(ticker);lastTick=performance.now();ticker=setInterval(()=>{
+   const now=performance.now();if(targetVisible&&scanStarted)elapsed+=now-lastTick;lastTick=now;
+   const seconds=Math.min(20,elapsed/1000),pct=Math.min(100,seconds/20*100);
+   $('progress-fill').style.width=pct+'%';
+   const s=Math.floor(seconds).toString().padStart(2,'0');$('progress-count').textContent='00:'+s+' / 00:20';
+   let stage=stages[0];for(const item of stages){if(seconds>=item.at)stage=item}
+   if(targetVisible){$('scan-log').textContent=stage.log;$('progress-phase').textContent=stage.phase;$('scan-status').textContent=stage.status}
+   const pulse=Math.floor(seconds);if([3,9,15].includes(pulse)&&startTicker.lastPulse!==pulse){soundPulse();startTicker.lastPulse=pulse}
+   if(seconds>=20)completeScan();
+ },100)}
+ function completeScan(){clearInterval(ticker);ticker=null;markFirstDone();chime();$('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');setTimeout(()=>{closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;show('letter-screen')},650)}
+ target.addEventListener('targetFound',()=>{targetVisible=true;lost.classList.add('hidden');if(!scanStarted)startScan();else $('scan-status').textContent='SEÑAL RESTABLECIDA · CONTINUANDO LECTURA'});
+ target.addEventListener('targetLost',()=>{targetVisible=false;if(scanStarted){lost.classList.remove('hidden');$('scan-status').textContent='SEÑAL INTERRUMPIDA · REENFOCA LA IMAGEN'}});
+ scene.addEventListener('arReady',()=>{$('camera-hint').textContent='Cámara lista. Encuadra la tarjeta completa para que el archivo pueda reconocerla.'});
+ scene.addEventListener('arError',e=>showCameraError(e?.detail?.error||'MindAR no pudo inicializar la cámara.'));
+ function waitScene(){return scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);scene.addEventListener('loaded',()=>{clearTimeout(t);resolve()},{once:true})})}
+ async function beginCamera(){
+   cameraError.classList.add('hidden');$('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
+   try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
+     initAudio();await waitScene();const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
+     shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;$('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
+   }catch(e){$('start-camera').disabled=false;showCameraError(e?.message||'No se pudo iniciar la cámara.')}
+ }
+ inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}})});
+ $('unlock').addEventListener('click',()=>{const code=inputs.map(x=>x.value).join('');if(code.length!==6){$('pin-feedback').textContent='Necesitas las seis cifras para continuar.';return}if(firstDone())show('return-choice-screen');else show('first-camera-screen')});
+ $('start-camera').addEventListener('click',beginCamera);
+ $('repeat-camera').addEventListener('click',()=>{show('first-camera-screen');$('start-camera').disabled=false});
+ $('skip-camera').addEventListener('click',()=>show('letter-screen'));
+ $('retry-camera').addEventListener('click',beginCamera);
+ $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
+ $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
+ $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
+ window.addEventListener('pagehide',closeScene);
 })();
 </script>
 </body>
