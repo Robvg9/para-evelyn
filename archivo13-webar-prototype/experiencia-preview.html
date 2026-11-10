@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171019">
+<title>ARCHIVO 13 · Ensayo de respaldo</title>
+<style>
+:root{color-scheme:dark;--bg:#171019;--panel:#241923;--panel2:#30212b;--gold:#d6b477;--gold2:#a77c43;--cream:#f3ead9;--muted:#c6b8ad;--line:#9f7b514d}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#49303a 0,#211721 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+button,input{font:inherit}
+.wrap{width:min(100% - 28px,720px);margin:0 auto;padding:22px 0 54px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--gold);font:600 10px/1.4 system-ui;letter-spacing:.18em;text-transform:uppercase}
+.pill{border:1px solid #d6b47766;border-radius:99px;padding:7px 10px;color:#ead5ae;font:600 9px system-ui;letter-spacing:.12em}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);margin:18px 0 34px}
+.eyebrow{text-align:center;color:var(--gold);font:600 10px system-ui;letter-spacing:.28em;text-transform:uppercase}
+h1{font-size:clamp(35px,9vw,62px);font-weight:400;line-height:1.03;text-align:center;margin:15px 0 14px}
+h1 em{color:var(--gold);font-weight:400}
+.lead{max-width:530px;margin:0 auto;color:var(--muted);font:15px/1.7 system-ui;text-align:center}
+.card{margin:24px 0;padding:clamp(20px,5vw,34px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#35252fdd,#211820f5);box-shadow:0 22px 55px #0004}
+h2{font-size:26px;font-weight:400;margin:0 0 10px}
+.copy{color:var(--muted);font:14px/1.7 system-ui;margin:0}
+.pinrow{display:flex;justify-content:center;gap:8px;margin:24px 0 12px}
+.pinrow input{width:clamp(38px,11vw,52px);height:58px;border-radius:12px;border:1px solid #d6b47777;background:#100d12;color:var(--cream);text-align:center;font:28px Georgia;outline:none}
+.pinrow input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d6b47722}
+.btn{border:0;border-radius:99px;padding:14px 21px;background:linear-gradient(135deg,#efdcb9,#bf9556);color:#231820;font:700 13px system-ui;cursor:pointer}
+.btn.secondary{background:transparent;border:1px solid #d6b47780;color:var(--cream)}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
+.hint{text-align:center;color:#a99a90;font:11px/1.6 system-ui;margin:12px 0 0}
+.notice{margin:18px 0 0;padding:11px 13px;border-left:2px solid var(--gold);background:#d6b4770d;color:#ddcdbb;font:11px/1.55 system-ui}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.choice button{min-height:130px;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;background:#1c151d;color:var(--cream);cursor:pointer}
+.choice strong{display:block;font:19px Georgia;margin-bottom:8px;color:var(--gold)}
+.choice span{font:12px/1.5 system-ui;color:var(--muted)}
+.paper{background:linear-gradient(145deg,#f4ead8,#e6d6bd);color:#34232a;border-radius:4px;padding:clamp(22px,6vw,48px);box-shadow:0 18px 45px #0005;position:relative;overflow:hidden}
+.paper:before{content:'';position:absolute;inset:9px;border:1px solid #b99a6b;pointer-events:none}
+.paper .eyebrow{color:#99713e}
+.paper h2{font-size:clamp(28px,7vw,43px);text-align:center;line-height:1.12;margin:13px 0 22px}
+.paper p{font-size:15px;line-height:1.8;position:relative}
+.paper .sign{margin-top:27px;text-align:right;font-style:italic;color:#816044}
+.quote{font-size:clamp(23px,6vw,34px)!important;line-height:1.3!important;text-align:center;color:#815b36;margin:22px 0!important}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
+.photo{aspect-ratio:4/5;border:1px solid #d6b47766;border-radius:12px;background:linear-gradient(145deg,#3a2933,#211821);display:flex;flex-direction:column;justify-content:end;padding:12px;color:var(--muted);font:11px/1.5 system-ui}
+.photo:first-child{grid-row:span 2;aspect-ratio:auto;min-height:250px}
+.photo b{color:var(--gold);font:16px Georgia;margin-bottom:4px}
+.footer{text-align:center;color:#94867d;font:10px/1.6 system-ui;margin:30px 8px 0}
+.hidden{display:none!important}
+@media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:96px}.photos{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top"><span>ARCHIVO 13</span><span class="pill">VISTA DE ENSAYO</span></header>
+  <div class="rule"></div>
+  <section id="pin-screen">
+    <div class="eyebrow">Una imagen. Otra historia.</div>
+    <h1>Hay cosas que<br><em>merecen ser descubiertas.</em></h1>
+    <p class="lead">Algunas respuestas no están en la postal. Están esperando a que encuentres la clave.</p>
+    <div class="card">
+      <div class="eyebrow">Acceso al expediente</div>
+      <h2 style="text-align:center;margin-top:12px">Introduce el código</h2>
+      <p class="copy" style="text-align:center">Seis cifras. Una puerta a lo que hay detrás de la imagen.</p>
+      <div class="pinrow" aria-label="Código de seis cifras">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Primera cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Segunda cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Tercera cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Cuarta cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Quinta cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Sexta cifra">
+      </div>
+      <div class="actions"><button class="btn" id="unlock">Abrir expediente</button></div>
+      <p class="hint" id="pin-feedback">En esta vista de ensayo, cualquier combinación de seis cifras permite continuar.</p>
+      <div class="notice">Importante: esto es una maqueta visual. La clave real aún no está configurada; no escribas aquí el código definitivo.</div>
+    </div>
+  </section>
+
+  <section id="choice-screen" class="hidden">
+    <div class="eyebrow">Expediente desbloqueado</div>
+    <h1>Ahora puedes<br><em>mirar más allá.</em></h1>
+    <p class="lead">La experiencia final intentará abrir la cámara para transformar el cuadro. Y si el teléfono no coopera, la historia seguirá teniendo un camino.</p>
+    <div class="card">
+      <h2>¿Cómo quieres continuar?</h2>
+      <div class="choice">
+        <button id="camera-choice"><strong>① Ver el cuadro</strong><span>En la versión final, abrirá la cámara y buscará la imagen impresa.</span></button>
+        <button id="fallback-choice"><strong>② Continuar sin cámara</strong><span>Abre directamente la carta y los recuerdos. Esta ruta será nuestro respaldo.</span></button>
+      </div>
+    </div>
+    <div class="actions"><button class="btn secondary" id="back-pin">Volver</button></div>
+  </section>
+
+  <section id="camera-screen" class="hidden">
+    <div class="eyebrow">Experiencia aumentada</div>
+    <h1>El cuadro será<br><em>la puerta de entrada.</em></h1>
+    <div class="card">
+      <h2>La cámara se conectará aquí</h2>
+      <p class="copy">Esta página de ensayo todavía no utiliza el objetivo personalizado ELITE. En la versión final, este paso abrirá la cámara y reconocerá la impresión exacta del cuadro.</p>
+      <div class="notice">Si no reconoce la imagen, pierde el seguimiento o el navegador no permite usar la cámara, el botón de abajo abrirá la misma revelación sin realidad aumentada.</div>
+      <div class="actions"><button class="btn" id="camera-fallback">Continuar sin cámara</button><button class="btn secondary" id="camera-back">Volver</button></div>
+    </div>
+  </section>
+
+  <section id="letter-screen" class="hidden">
+    <div class="eyebrow">ARCHIVO 13 · Revelación</div>
+    <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
+    <div class="paper">
+      <div class="eyebrow">Para Evelyn</div>
+      <h2>Más allá de lo que se ve</h2>
+      <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
+      <p class="quote">“Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti.”</p>
+      <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en lo que eres y en todo eso que te hace tan especial para mí.</p>
+      <p>Esta es solo una primera mirada. La carta definitiva llevará tus palabras, nuestros recuerdos y todo lo que Robert quiera decirte.</p>
+      <p class="sign">Con todo mi cariño.</p>
+    </div>
+    <div class="photos">
+      <div class="photo"><b>Un recuerdo de los dos</b><span>WA0038 · fotografía de pareja pendiente de integrar</span></div>
+      <div class="photo"><b>Un instante</b><span>WA0044 · fotografía de pareja pendiente de integrar</span></div>
+      <div class="photo"><b>Otra parte de nuestra historia</b><span>WA0041 · fotografía de pareja pendiente de integrar</span></div>
+    </div>
+    <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
+  </section>
+  <p class="footer">MAQUETA DE TRABAJO · No es el enlace final de la sorpresa.<br>El código real, las fotografías definitivas, el audio y la carta final se añadirán después de su aprobación.</p>
+</main>
+<script>
+(()=>{
+ const screens=['pin-screen','choice-screen','camera-screen','letter-screen'];
+ const show=id=>screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+ const inputs=[...document.querySelectorAll('.pinrow input')];
+ inputs.forEach((input,i)=>{
+   input.addEventListener('input',()=>{input.value=input.value.replace(/\\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});
+   input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});
+   input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}});
+ });
+ document.getElementById('unlock').addEventListener('click',()=>{
+   const code=inputs.map(x=>x.value).join('');
+   if(code.length!==6){document.getElementById('pin-feedback').textContent='Escribe las seis cifras para probar la secuencia.';return}
+   show('choice-screen');
+ });
+ document.getElementById('fallback-choice').addEventListener('click',()=>show('letter-screen'));
+ document.getElementById('camera-choice').addEventListener('click',()=>show('camera-screen'));
+ document.getElementById('camera-fallback').addEventListener('click',()=>show('letter-screen'));
+ document.getElementById('camera-back').addEventListener('click',()=>show('choice-screen'));
+ document.getElementById('back-pin').addEventListener('click',()=>show('pin-screen'));
+ document.getElementById('restart').addEventListener('click',()=>{inputs.forEach(x=>x.value='');show('pin-screen')});
+})();
+</script>
+</body>
+</html>
