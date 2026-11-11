@@ -197,10 +197,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const FIRST_KEY='a13_first_camera_completed_v2';
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
- let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null;
+ let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null;
  function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
  function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
- function closeScene(){try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}running=false;targetVisible=false;clearInterval(ticker);ticker=null;shell.classList.remove('active')}
+ function closeScene(){try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}running=false;targetVisible=false;clearInterval(ticker);ticker=null;clearInterval(detectionPoll);detectionPoll=null;shell.classList.remove('active')}
  function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
  function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
  function initAudio(){try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
@@ -227,8 +227,20 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    if(seconds>=20)completeScan();
  },100)}
  function completeScan(){clearInterval(ticker);ticker=null;markFirstDone();chime();$('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');setTimeout(()=>{closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;show('letter-screen')},650)}
- target.addEventListener('targetFound',()=>{targetVisible=true;lost.classList.add('hidden');if(!scanStarted)startScan();else $('scan-status').textContent='SEÑAL RESTABLECIDA · CONTINUANDO LECTURA'});
- target.addEventListener('targetLost',()=>{targetVisible=false;if(scanStarted){lost.classList.remove('hidden');$('scan-status').textContent='SEÑAL INTERRUMPIDA · REENFOCA LA IMAGEN'}});
+ function handleTargetFound(source='evento'){
+   lost.classList.add('hidden');
+   if(!targetVisible){targetVisible=true;if(!scanStarted){$('scan-status').textContent='IMAGEN RECONOCIDA · INICIANDO LECTURA';startScan()}else $('scan-status').textContent='SEÑAL RESTABLECIDA · CONTINUANDO LECTURA'}
+ }
+ function handleTargetLost(){
+   if(!targetVisible)return;
+   targetVisible=false;
+   if(scanStarted){lost.classList.remove('hidden');$('scan-status').textContent='SEÑAL INTERRUMPIDA · REENFOCA LA IMAGEN'}
+ }
+ target.addEventListener('targetFound',()=>handleTargetFound('targetFound'));
+ target.addEventListener('targetLost',handleTargetLost);
+ // Respaldo: MindAR marca el ancla visible cuando el objetivo ya está reconocido.
+ scene.addEventListener('targetFound',()=>handleTargetFound('scene targetFound'));
+ scene.addEventListener('targetLost',handleTargetLost);
  scene.addEventListener('arReady',()=>{$('camera-hint').textContent='Cámara lista. Encuadra la tarjeta completa para que el archivo pueda reconocerla.'});
  scene.addEventListener('arError',e=>showCameraError(e?.detail?.error||'MindAR no pudo inicializar la cámara.'));
  function waitScene(){return scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);scene.addEventListener('loaded',()=>{clearTimeout(t);resolve()},{once:true})})}
@@ -240,7 +252,15 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
      initAudio();await waitScene();const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
-     shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;$('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
+     shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;
+     clearInterval(detectionPoll);
+     detectionPoll=setInterval(()=>{
+       if(!running)return;
+       const anchorVisible=!!(target.object3D&&target.object3D.visible);
+       if(anchorVisible&&!targetVisible)handleTargetFound('anchor visibility');
+       else if(!anchorVisible&&targetVisible)handleTargetLost();
+     },100);
+     $('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
    }catch(e){$('start-camera').disabled=false;showCameraError(e?.message||'No se pudo iniciar la cámara.')}
  }
  inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}})});
