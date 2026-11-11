@@ -54,36 +54,46 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 #camera-shell{display:block;position:fixed;inset:0;background:#000;z-index:20;opacity:0;pointer-events:none}
 #camera-shell.active{opacity:1;pointer-events:auto}
 #ar-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
-#scan-ui{position:absolute;z-index:25;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));pointer-events:none;background:radial-gradient(ellipse at 50% 49%,#d6a85d18 0%,transparent 48%),linear-gradient(180deg,#08060bd9 0%,transparent 30%,transparent 60%,#08060be8 100%)}
-.scan-top{text-align:center}
-.scan-label{font:600 10px system-ui;letter-spacing:.24em;color:var(--gold)}
-#scan-title{font:clamp(21px,5.5vw,30px) Georgia;margin-top:9px;text-shadow:0 2px 16px #000}
-.scan-center{position:absolute;left:18px;right:18px;top:48%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:17px}
-.scan-emblem{position:relative;width:clamp(118px,34vw,170px);height:clamp(118px,34vw,170px);display:grid;place-items:center;margin-bottom:2px}
-.scan-emblem:before,.scan-emblem:after{content:"";position:absolute;inset:3px;border:1px solid #e4c17b9c;border-radius:50%;box-shadow:0 0 22px #d4a65c35,inset 0 0 22px #d4a65c22;animation:orbit-glow 3.2s ease-in-out infinite}
-.scan-emblem:after{inset:17px;border-style:dashed;border-color:#f5dfae88;animation:spin 18s linear infinite}
-.scan-emblem .inner-ring{position:absolute;inset:31px;border:1px solid #f7e5bd77;border-radius:50%;animation:spin 12s linear infinite reverse}
-#scan-symbols{position:relative;z-index:2;color:#ffe7b1;font:clamp(30px,9vw,46px)/1 Georgia;letter-spacing:.13em;text-shadow:0 0 10px #f7d58e,0 0 32px #e4b65e,0 0 58px #e4b65e88;animation:symbol-breathe 2.2s ease-in-out infinite}
-#scan-status{width:min(100%,510px);font:600 clamp(19px,5.1vw,27px)/1.32 Georgia,'Times New Roman',serif;letter-spacing:.055em;text-align:center;text-wrap:balance;white-space:pre-line;color:#fff1d2;min-height:70px;text-shadow:0 0 8px #f0c77d88,0 2px 18px #000,0 0 35px #dcae61aa}
-#scan-status.scan-status-pop{animation:status-reveal .62s cubic-bezier(.2,.8,.2,1)}
-.scan-bottom{max-width:600px;width:100%;margin:0 auto}
-#scan-log{min-height:38px;text-align:center;color:#f1d8ad;font:italic 14px/1.55 Georgia;text-shadow:0 2px 12px #000;margin-top:10px}
-.progress-track{height:5px;border-radius:9px;background:#ffffff35;overflow:hidden;margin:12px 0 8px}
-#progress-fill{height:100%;width:0;background:linear-gradient(90deg,#9b6b37,#f6dca6,#fff1cb);box-shadow:0 0 14px #f5d18a;transition:width .12s linear}
-.progress-meta{display:flex;justify-content:space-between;color:#d3c5b5;font:10px system-ui;letter-spacing:.12em}
-#scan-log{min-height:34px;text-align:center;color:#e9d5b2;font:italic 13px/1.5 Georgia;margin-top:12px;text-shadow:0 2px 8px #000}
-#target-lost{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:#100b15d9;text-align:center;padding:30px;color:#f2dfbd;font:600 15px/1.7 system-ui;z-index:27}
-#scan-flash{position:fixed;inset:0;z-index:50;background:#fff;opacity:0;pointer-events:none}
+#scan-ui{position:absolute!important;z-index:90!important;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));pointer-events:none;background:radial-gradient(ellipse at 50% 50%,#d6a85d22 0%,transparent 56%),linear-gradient(180deg,#08060b9c 0%,transparent 33%,transparent 58%,#08060bdc 100%)}
+#scan-particles{position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
+.scanline{position:absolute;z-index:2;left:-10%;right:-10%;height:3px;top:14%;background:linear-gradient(90deg,transparent,#fff1cd 30%,#e5b75f 50%,#fff1cd 70%,transparent);box-shadow:0 0 10px #fff0c6,0 0 26px #f0c36d,0 0 54px #c98b3f;animation:sweep 2.8s linear infinite;pointer-events:none}
+#scan-burst{position:absolute;z-index:3;inset:0;opacity:0;pointer-events:none;background:radial-gradient(circle at 50% 48%,#fff4d980 0%,#f3cc7d55 13%,#dfaa5130 28%,transparent 63%),conic-gradient(from 0deg at 50% 48%,transparent 0deg,#f0d18a22 12deg,transparent 25deg,#f0d18a22 38deg,transparent 51deg,#f0d18a22 64deg,transparent 78deg,#f0d18a22 92deg,transparent 110deg,#f0d18a22 128deg,transparent 145deg,#f0d18a22 162deg,transparent 180deg,#f0d18a22 198deg,transparent 216deg,#f0d18a22 234deg,transparent 252deg,#f0d18a22 270deg,transparent 288deg,#f0d18a22 306deg,transparent 324deg,#f0d18a22 342deg,transparent 360deg)}
+#scan-burst.fire{animation:cinematic-burst 1.05s ease-out}
+.scan-top{position:relative;z-index:6;text-align:center}
+.scan-label{font:700 10px system-ui;letter-spacing:.24em;color:var(--gold);text-shadow:0 0 12px #e6bd72aa}
+#scan-title{font:clamp(21px,5.5vw,30px) Georgia;margin-top:9px;text-shadow:0 2px 16px #000,0 0 22px #d8ab62aa}
+.scan-center{position:absolute;z-index:6;left:14px;right:14px;top:49%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+.scan-emblem{position:relative;width:clamp(205px,58vw,270px);height:clamp(205px,58vw,270px);display:grid;place-items:center;margin-bottom:0;filter:drop-shadow(0 0 18px #d9ac5c88)}
+.scan-emblem:before,.scan-emblem:after{content:"";position:absolute;inset:4px;border-radius:50%;border:2px solid transparent;border-top-color:#fff0c9;border-right-color:#e3ba72;border-bottom-color:#fff0c977;box-shadow:0 0 20px #d4a65c66,inset 0 0 26px #d4a65c33;animation:spin 5.5s linear infinite}
+.scan-emblem:after{inset:20px;border:2px dashed #f5dfaeec;box-shadow:0 0 18px #e4b96b88;animation:spin 8s linear infinite reverse}
+.scan-emblem .inner-ring{position:absolute;inset:43px;border:2px solid #f7e5bdc9;border-left-color:transparent;border-right-color:#f7e5bd66;border-radius:50%;box-shadow:inset 0 0 15px #e6c17b55,0 0 18px #e6c17b77;animation:spin 3.8s linear infinite reverse}
+.scan-emblem .ring-three{position:absolute;inset:62px;border:1px dotted #fff0c9;border-radius:50%;animation:spin 13s linear infinite}
+.scan-emblem .ring-four{position:absolute;inset:7px;border:1px solid #d5aa5a55;border-radius:44%;transform:rotate(45deg) scaleX(.72);animation:orbit-glow 2s ease-in-out infinite}
+.scan-emblem .ring-four:before,.scan-emblem .ring-four:after{content:"✦";position:absolute;color:#fff2c8;font:20px Georgia;text-shadow:0 0 14px #f0cc85}
+.scan-emblem .ring-four:before{top:-10px;left:50%;transform:translateX(-50%)}
+.scan-emblem .ring-four:after{bottom:-10px;left:50%;transform:translateX(-50%)}
+#scan-symbols{position:relative;z-index:4;color:#fff4d2;font:clamp(42px,12vw,62px)/1 Georgia;letter-spacing:.13em;text-shadow:0 0 10px #fff4d2,0 0 24px #f7d58e,0 0 56px #e4b65e,0 0 82px #e4b65eaa;animation:symbol-breathe 1.8s ease-in-out infinite}
+#scan-status{width:min(100%,520px);font:700 clamp(21px,5.5vw,29px)/1.28 Georgia,'Times New Roman',serif;letter-spacing:.045em;text-align:center;text-wrap:balance;white-space:pre-line;color:#fff5dc;min-height:78px;text-shadow:0 0 8px #ffe5ad,0 2px 18px #000,0 0 35px #dcae61cc}
+#scan-status.scan-status-pop{animation:status-reveal .78s cubic-bezier(.15,.8,.2,1)}
+.scan-bottom{position:relative;z-index:6;max-width:600px;width:100%;margin:0 auto}
+#scan-log{min-height:38px;text-align:center;color:#ffe8bc;font:italic 15px/1.55 Georgia;text-shadow:0 2px 12px #000,0 0 18px #dcae61;margin-top:10px}
+.progress-track{height:6px;border-radius:9px;background:#ffffff45;overflow:hidden;margin:12px 0 8px;box-shadow:0 0 12px #000}
+#progress-fill{height:100%;width:0;background:linear-gradient(90deg,#9b6b37,#f6dca6,#fffbe9);box-shadow:0 0 14px #fff0bd,0 0 30px #f5d18a;transition:width .12s linear}
+.progress-meta{display:flex;justify-content:space-between;color:#f1dfc8;font:700 10px system-ui;letter-spacing:.12em;text-shadow:0 1px 8px #000}
+#target-lost{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:#100b15e8;text-align:center;padding:30px;color:#f2dfbd;font:700 16px/1.8 system-ui;z-index:120}
+#scan-flash{position:fixed;inset:0;z-index:150;background:#fff;opacity:0;pointer-events:none}
 #scan-flash.fire{animation:flash .8s ease-out}
-@keyframes flash{0%{opacity:0}20%{opacity:.9}100%{opacity:0}}
-.scanline{position:absolute;z-index:24;left:0;right:0;height:2px;top:15%;background:linear-gradient(90deg,transparent,#f6dca6,transparent);box-shadow:0 0 18px #f6dca6;animation:sweep 3s linear infinite;pointer-events:none}
-@keyframes sweep{0%{top:15%;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:82%;opacity:0}}
+@keyframes flash{0%{opacity:0}20%{opacity:.95}100%{opacity:0}}
+@keyframes sweep{0%{top:13%;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:84%;opacity:0}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes orbit-glow{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.06);opacity:1}}
-@keyframes symbol-breathe{0%,100%{transform:scale(.92) rotate(-5deg);opacity:.78}50%{transform:scale(1.12) rotate(5deg);opacity:1}}
-@keyframes status-reveal{0%{opacity:0;transform:translateY(17px) scale(.94);filter:blur(7px)}65%{opacity:1;filter:blur(0)}100%{transform:translateY(0) scale(1)}}
-.particle{position:absolute;z-index:24;width:3px;height:3px;border-radius:50%;background:#f9dfaa;box-shadow:0 0 12px 3px #e5bb6e;pointer-events:none;animation:float 4s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translate3d(0,20px,0) scale(.5);opacity:0}50%{transform:translate3d(12px,-20px,0) scale(1.5);opacity:.9}}
+@keyframes orbit-glow{0%,100%{opacity:.55;filter:brightness(.9)}50%{opacity:1;filter:brightness(1.8)}}
+@keyframes symbol-breathe{0%,100%{transform:scale(.88) rotate(-8deg);opacity:.76}50%{transform:scale(1.15) rotate(8deg);opacity:1}}
+@keyframes status-reveal{0%{opacity:0;transform:translateY(22px) scale(.86);filter:blur(9px)}60%{opacity:1;filter:blur(0)}100%{transform:translateY(0) scale(1)}}
+@keyframes cinematic-burst{0%{opacity:0;transform:scale(.55) rotate(-14deg)}22%{opacity:1}100%{opacity:0;transform:scale(1.25) rotate(12deg)}}
+.particle{position:absolute;display:block;border-radius:50%;background:#fff1c6;box-shadow:0 0 8px 3px #e5bb6e,0 0 22px 7px #e5bb6e77;pointer-events:none;animation:float 3.7s ease-in-out infinite}
+.scan-rune{position:absolute;display:block;color:#ffebbb;font:clamp(15px,4vw,24px) Georgia;text-shadow:0 0 8px #f7d58e,0 0 20px #d9ac5c;opacity:0;animation:rune-float 5.6s ease-in-out infinite;pointer-events:none}
+@keyframes float{0%,100%{transform:translate3d(0,30px,0) scale(.45);opacity:0}22%{opacity:.75}50%{transform:translate3d(20px,-34px,0) scale(1.7);opacity:1}78%{opacity:.8}}
+@keyframes rune-float{0%,100%{transform:translate3d(0,35px,0) rotate(-20deg) scale(.7);opacity:0}30%,70%{opacity:.9}50%{transform:translate3d(12px,-28px,0) rotate(25deg) scale(1.2)}}
 #camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
 .error-box{max-width:440px;text-align:center}
 @media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
@@ -162,16 +172,19 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     </div>
     <p class="hint">El pequeño “13” es una señal. Tócalo tres veces.</p>
     <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
+    <p class="footer" style="padding:28px 0 80px">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
   </section>
   <p class="footer">MAQUETA DE TRABAJO · La clave, la imagen ELITE, las fotos y la carta definitiva se integrarán después de las aprobaciones.</p>
 </main>
 
 <div id="camera-shell">
-  <div class="scanline"></div>
   <div id="scan-ui">
+    <div id="scan-particles"></div>
+    <div class="scanline"></div>
+    <div id="scan-burst"></div>
     <div class="scan-top"><div class="scan-label">ARCHIVO 13 · ESCÁNER ÓPTICO</div><div id="scan-title">Buscando la imagen original</div></div>
     <div class="scan-center">
-      <div class="scan-emblem"><div class="inner-ring"></div><div id="scan-symbols">✧ ⟡ ✧</div></div>
+      <div class="scan-emblem"><div class="inner-ring"></div><div class="ring-three"></div><div class="ring-four"></div><div id="scan-symbols">✧ ⟡ ✧</div></div>
       <div id="scan-status">ENFOCA LA IMAGEN PARA INICIAR LA LECTURA</div>
     </div>
     <div class="scan-bottom">
@@ -188,8 +201,9 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
     <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
       <a-plane position="0 0 0.001" width="1" height="0.552" material="shader: flat; color: #F3E5CE; opacity: .08; transparent: true; side: double"></a-plane>
-      <a-ring position="0 0 0.01" radius-inner="0.34" radius-outer="0.36" material="shader: flat; color: #D9B879; opacity: .95; transparent: true; side: double"></a-ring>
-      <a-ring position="0 0 0.012" radius-inner="0.22" radius-outer="0.225" material="shader: flat; color: #FFF0CC; opacity: .9; transparent: true; side: double"></a-ring>
+      <a-ring position="0 0 0.01" radius-inner="0.34" radius-outer="0.36" material="shader: flat; color: #D9B879; opacity: .98; transparent: true; side: double" animation="property: rotation; to: 0 0 360; loop: true; dur: 5200; easing: linear"></a-ring>
+      <a-ring position="0 0 0.012" radius-inner="0.22" radius-outer="0.225" material="shader: flat; color: #FFF0CC; opacity: .95; transparent: true; side: double" animation="property: rotation; to: 0 0 -360; loop: true; dur: 3400; easing: linear"></a-ring>
+      <a-ring position="0 0 0.014" radius-inner="0.43" radius-outer="0.435" material="shader: flat; color: #E6C27E; opacity: .85; transparent: true; side: double" animation="property: rotation; to: 0 0 360; loop: true; dur: 7600; easing: linear"></a-ring>
       <a-text value="ARCHIVO 13" align="center" color="#FFF0CC" width="1.7" position="0 0.04 0.02"></a-text>
     </a-entity>
   </a-scene>
@@ -225,9 +239,37 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
  function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
  function initAudio(){try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
+ function playSweep(step=0){
+   if(muted||!audioCtx)return;
+   try{
+     const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter(),now=audioCtx.currentTime;
+     osc.type='sine';osc.frequency.setValueAtTime(130+step*12,now);osc.frequency.exponentialRampToValueAtTime(680+step*18,now+.72);
+     filter.type='lowpass';filter.frequency.setValueAtTime(420,now);filter.frequency.exponentialRampToValueAtTime(2200,now+.72);
+     gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.045,now+.22);gain.gain.exponentialRampToValueAtTime(.0001,now+.78);
+     osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start(now);osc.stop(now+.82);
+   }catch(e){}
+ }
+ function triggerBurst(){
+   const burst=$('scan-burst');if(!burst)return;burst.classList.remove('fire');void burst.offsetWidth;burst.classList.add('fire');
+ }
  function chime(){playTone(523,.22,'sine',.03);setTimeout(()=>playTone(659,.25,'sine',.025),170);setTimeout(()=>playTone(784,.35,'sine',.03),360)}
  function soundPulse(){playTone(72,.25,'sine',.055);setTimeout(()=>playTone(90,.18,'sine',.035),500)}
- function addParticles(){if(shell.querySelector('.particle'))return;for(let i=0;i<22;i++){const p=document.createElement('i');p.className='particle';p.style.left=(Math.random()*100)+'%';p.style.top=(Math.random()*100)+'%';p.style.animationDelay=(-Math.random()*5)+'s';p.style.animationDuration=(3+Math.random()*4)+'s';shell.appendChild(p)}}
+ function addParticles(){
+   const layer=$('scan-particles');if(!layer)return;layer.innerHTML='';
+   for(let i=0;i<38;i++){
+     const p=document.createElement('i');p.className='particle';const size=2+Math.random()*5;
+     p.style.left=(Math.random()*100)+'%';p.style.top=(Math.random()*100)+'%';
+     p.style.width=size+'px';p.style.height=size+'px';p.style.animationDelay=(-Math.random()*5)+'s';
+     p.style.animationDuration=(2.7+Math.random()*3.8)+'s';layer.appendChild(p);
+   }
+   const symbols=['⌬','⟡','✧','ᚷ','∴','⟁','♢','∞','⋈','◈','ᛉ','✦'];
+   for(let i=0;i<symbols.length;i++){
+     const rune=document.createElement('span');rune.className='scan-rune';rune.textContent=symbols[i];
+     rune.style.left=(5+Math.random()*88)+'%';rune.style.top=(12+Math.random()*72)+'%';
+     rune.style.animationDelay=(-Math.random()*6)+'s';rune.style.animationDuration=(4+Math.random()*4)+'s';
+     layer.appendChild(rune);
+   }
+ }
  const stages=[
  {at:0,log:'Una memoria acaba de despertar…',phase:'CALIBRANDO ÓPTICA',status:'NO ESTÁS MIRANDO UNA FOTOGRAFÍA.\nESTÁS ABRIENDO UNA MEMORIA.',symbols:'✧ ◈ ✧'},
  {at:3,log:'Midiendo la refracción de los recuerdos…',phase:'MAPEANDO CAPAS',status:'RASTREANDO LAS HUELLAS DE LO QUE NO SE VE…',symbols:'⌬ ⟡ ⌬'},
@@ -272,7 +314,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
        status.classList.remove('scan-status-pop');void status.offsetWidth;status.classList.add('scan-status-pop');
        const emblem=document.querySelector('.scan-emblem');
        emblem.classList.remove('scan-status-pop');void emblem.offsetWidth;emblem.classList.add('scan-status-pop');
-       playTone(420+stageIndex*55,.18,'sine',.025);
+       triggerBurst();
+       playSweep(stageIndex);
      }
    }
    const pulse=Math.floor(seconds);if([3,9,15].includes(pulse)&&startTicker.lastPulse!==pulse){soundPulse();startTicker.lastPulse=pulse}
