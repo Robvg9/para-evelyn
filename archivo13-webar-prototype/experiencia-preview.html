@@ -318,7 +318,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
        playSweep(stageIndex);
      }
    }
-   const pulse=Math.floor(seconds);if([3,9,15].includes(pulse)&&startTicker.lastPulse!==pulse){soundPulse();startTicker.lastPulse=pulse}
    if(seconds>=20)completeScan();
  },100)}
  function completeScan(){
