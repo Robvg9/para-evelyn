@@ -10,9 +10,10 @@
 <style>
 :root{color-scheme:dark;--bg:#120d16;--gold:#d9b879;--cream:#f5ead8;--muted:#c6b9ad;--line:#d9b8794d}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+html{min-height:100%;overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;min-height:100svh;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
 button,input{font:inherit}
-.wrap{width:min(100% - 28px,720px);margin:0 auto;padding:20px 0 54px}
+.wrap{width:min(100% - 28px,720px);min-height:100svh;margin:0 auto;padding:20px 0 max(76px,env(safe-area-inset-bottom))}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--gold);font:600 10px/1.4 system-ui;letter-spacing:.18em;text-transform:uppercase}
 .pill{border:1px solid #d9b87966;border-radius:99px;padding:7px 10px;color:#ead5ae;font:600 9px system-ui;letter-spacing:.12em}
 .rule{height:1px;background:linear-gradient(90deg,transparent,#a77c43,transparent);margin:18px 0 32px}
@@ -53,12 +54,20 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 #camera-shell{display:block;position:fixed;inset:0;background:#000;z-index:20;opacity:0;pointer-events:none}
 #camera-shell.active{opacity:1;pointer-events:auto}
 #ar-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
-#scan-ui{position:absolute;z-index:25;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));pointer-events:none;background:linear-gradient(180deg,#08060bd9 0%,transparent 30%,transparent 60%,#08060be8 100%)}
+#scan-ui{position:absolute;z-index:25;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));pointer-events:none;background:radial-gradient(ellipse at 50% 49%,#d6a85d18 0%,transparent 48%),linear-gradient(180deg,#08060bd9 0%,transparent 30%,transparent 60%,#08060be8 100%)}
 .scan-top{text-align:center}
 .scan-label{font:600 10px system-ui;letter-spacing:.24em;color:var(--gold)}
-#scan-title{font:clamp(22px,6vw,32px) Georgia;margin-top:9px;text-shadow:0 2px 16px #000}
+#scan-title{font:clamp(21px,5.5vw,30px) Georgia;margin-top:9px;text-shadow:0 2px 16px #000}
+.scan-center{position:absolute;left:18px;right:18px;top:48%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:17px}
+.scan-emblem{position:relative;width:clamp(118px,34vw,170px);height:clamp(118px,34vw,170px);display:grid;place-items:center;margin-bottom:2px}
+.scan-emblem:before,.scan-emblem:after{content:"";position:absolute;inset:3px;border:1px solid #e4c17b9c;border-radius:50%;box-shadow:0 0 22px #d4a65c35,inset 0 0 22px #d4a65c22;animation:orbit-glow 3.2s ease-in-out infinite}
+.scan-emblem:after{inset:17px;border-style:dashed;border-color:#f5dfae88;animation:spin 18s linear infinite}
+.scan-emblem .inner-ring{position:absolute;inset:31px;border:1px solid #f7e5bd77;border-radius:50%;animation:spin 12s linear infinite reverse}
+#scan-symbols{position:relative;z-index:2;color:#ffe7b1;font:clamp(30px,9vw,46px)/1 Georgia;letter-spacing:.13em;text-shadow:0 0 10px #f7d58e,0 0 32px #e4b65e,0 0 58px #e4b65e88;animation:symbol-breathe 2.2s ease-in-out infinite}
+#scan-status{width:min(100%,510px);font:600 clamp(19px,5.1vw,27px)/1.32 Georgia,'Times New Roman',serif;letter-spacing:.055em;text-align:center;text-wrap:balance;white-space:pre-line;color:#fff1d2;min-height:70px;text-shadow:0 0 8px #f0c77d88,0 2px 18px #000,0 0 35px #dcae61aa}
+#scan-status.scan-status-pop{animation:status-reveal .62s cubic-bezier(.2,.8,.2,1)}
 .scan-bottom{max-width:600px;width:100%;margin:0 auto}
-#scan-status{font:600 12px/1.5 system-ui;letter-spacing:.1em;text-align:center;color:#f2dfbd;min-height:40px;text-shadow:0 2px 8px #000}
+#scan-log{min-height:38px;text-align:center;color:#f1d8ad;font:italic 14px/1.55 Georgia;text-shadow:0 2px 12px #000;margin-top:10px}
 .progress-track{height:5px;border-radius:9px;background:#ffffff35;overflow:hidden;margin:12px 0 8px}
 #progress-fill{height:100%;width:0;background:linear-gradient(90deg,#9b6b37,#f6dca6,#fff1cb);box-shadow:0 0 14px #f5d18a;transition:width .12s linear}
 .progress-meta{display:flex;justify-content:space-between;color:#d3c5b5;font:10px system-ui;letter-spacing:.12em}
@@ -69,6 +78,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 @keyframes flash{0%{opacity:0}20%{opacity:.9}100%{opacity:0}}
 .scanline{position:absolute;z-index:24;left:0;right:0;height:2px;top:15%;background:linear-gradient(90deg,transparent,#f6dca6,transparent);box-shadow:0 0 18px #f6dca6;animation:sweep 3s linear infinite;pointer-events:none}
 @keyframes sweep{0%{top:15%;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:82%;opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbit-glow{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.06);opacity:1}}
+@keyframes symbol-breathe{0%,100%{transform:scale(.92) rotate(-5deg);opacity:.78}50%{transform:scale(1.12) rotate(5deg);opacity:1}}
+@keyframes status-reveal{0%{opacity:0;transform:translateY(17px) scale(.94);filter:blur(7px)}65%{opacity:1;filter:blur(0)}100%{transform:translateY(0) scale(1)}}
 .particle{position:absolute;z-index:24;width:3px;height:3px;border-radius:50%;background:#f9dfaa;box-shadow:0 0 12px 3px #e5bb6e;pointer-events:none;animation:float 4s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translate3d(0,20px,0) scale(.5);opacity:0}50%{transform:translate3d(12px,-20px,0) scale(1.5);opacity:.9}}
 #camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
@@ -157,8 +170,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   <div class="scanline"></div>
   <div id="scan-ui">
     <div class="scan-top"><div class="scan-label">ARCHIVO 13 · ESCÁNER ÓPTICO</div><div id="scan-title">Buscando la imagen original</div></div>
-    <div class="scan-bottom">
+    <div class="scan-center">
+      <div class="scan-emblem"><div class="inner-ring"></div><div id="scan-symbols">✧ ⟡ ✧</div></div>
       <div id="scan-status">ENFOCA LA IMAGEN PARA INICIAR LA LECTURA</div>
+    </div>
+    <div class="scan-bottom">
       <div class="progress-track"><div id="progress-fill"></div></div>
       <div class="progress-meta"><span id="progress-phase">ESPERANDO OBJETIVO</span><span id="progress-count">00:00 / 00:20</span></div>
       <div id="scan-log">El archivo permanece en silencio…</div>
@@ -197,10 +213,15 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const FIRST_KEY='a13_first_camera_completed_v2';
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
- let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null;
+ let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1;
  function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
  function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
- function closeScene(){try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}running=false;targetVisible=false;clearInterval(ticker);ticker=null;clearInterval(detectionPoll);detectionPoll=null;shell.classList.remove('active')}
+ function closeScene(){
+   try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}
+   running=false;targetVisible=false;clearInterval(ticker);ticker=null;clearInterval(detectionPoll);detectionPoll=null;
+   shell.classList.remove('active');
+   document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
+ }
  function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
  function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
  function initAudio(){try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
@@ -208,13 +229,13 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  function soundPulse(){playTone(72,.25,'sine',.055);setTimeout(()=>playTone(90,.18,'sine',.035),500)}
  function addParticles(){if(shell.querySelector('.particle'))return;for(let i=0;i<22;i++){const p=document.createElement('i');p.className='particle';p.style.left=(Math.random()*100)+'%';p.style.top=(Math.random()*100)+'%';p.style.animationDelay=(-Math.random()*5)+'s';p.style.animationDuration=(3+Math.random()*4)+'s';shell.appendChild(p)}}
  const stages=[
- {at:0,log:'Iniciando lectura de la superficie…',phase:'CALIBRANDO ÓPTICA',status:'CALIBRANDO LUZ, TEXTURA Y PROFUNDIDAD'},
- {at:3,log:'Midiendo la refracción de los recuerdos…',phase:'MAPEANDO CAPAS',status:'BUSCANDO LO QUE LA FOTOGRAFÍA NO MUESTRA'},
- {at:6,log:'Detectando una señal fuera del espectro visible…',phase:'SEÑAL ENCONTRADA',status:'ANALIZANDO PULSOS Y PATRONES'},
- {at:9,log:'Extrayendo el cifrado del corazón de ROBERT…',phase:'DESCIFRANDO ARCHIVO',status:'LEYENDO FRECUENCIA AFECTIVA'},
- {at:12,log:'Comparando latidos, recuerdos y coordenadas…',phase:'SINCRONIZANDO RECUERDOS',status:'RECONSTRUYENDO LA CAPA OCULTA'},
- {at:15,log:'La señal emocional tiene una coincidencia…',phase:'COINCIDENCIA 99.9%',status:'IDENTIDAD DE LA SEÑAL: EVELYN'},
- {at:18,log:'El archivo ha encontrado aquello que buscaba.',phase:'REVELACIÓN PREPARADA',status:'ABRIENDO LA CAPA QUE NO SE VE'}
+ {at:0,log:'Una memoria acaba de despertar…',phase:'CALIBRANDO ÓPTICA',status:'NO ESTÁS MIRANDO UNA FOTOGRAFÍA.\nESTÁS ABRIENDO UNA MEMORIA.',symbols:'✧ ◈ ✧'},
+ {at:3,log:'Midiendo la refracción de los recuerdos…',phase:'MAPEANDO CAPAS',status:'RASTREANDO LAS HUELLAS DE LO QUE NO SE VE…',symbols:'⌬ ⟡ ⌬'},
+ {at:6,log:'Una señal atraviesa el archivo…',phase:'SEÑAL ENCONTRADA',status:'HAY ALGO ESCONDIDO ENTRE TODOS ESOS RECUERDOS…',symbols:'⋈ ◉ ⋈'},
+ {at:9,log:'La firma del emisor está apareciendo…',phase:'DESCIFRANDO ARCHIVO',status:'DESCIFRANDO EL CÓDIGO DEL CORAZÓN DE ROBERT…',symbols:'∞ ♡ ∞'},
+ {at:12,log:'Los recuerdos empiezan a responder…',phase:'SINCRONIZANDO RECUERDOS',status:'CONECTANDO CADA LATIDO CON SU RECUERDO…',symbols:'☼ ⌘ ☼'},
+ {at:15,log:'La señal emocional tiene una coincidencia…',phase:'COINCIDENCIA 99.9%',status:'SEÑAL IDENTIFICADA:\nEVELYN.',symbols:'✦ ♡ ✦'},
+ {at:18,log:'El archivo ha encontrado aquello que buscaba.',phase:'REVELACIÓN PREPARADA',status:'NO SE PUEDE OCULTAR LO QUE EL CORAZÓN RECONOCE.',symbols:'✧ ∞ ✧'}
  ];
  function startScan(){
    if(scanStarted)return;
@@ -229,6 +250,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    $('scan-log').textContent=stages[0].log;
    $('progress-fill').style.width='0%';
    $('progress-count').textContent='00:00 / 00:20';
+   activeStageIndex=-1;
    chime();
    startTicker();
  }
@@ -237,12 +259,35 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    const seconds=Math.min(20,elapsed/1000),pct=Math.min(100,seconds/20*100);
    $('progress-fill').style.width=pct+'%';
    const s=Math.floor(seconds).toString().padStart(2,'0');$('progress-count').textContent='00:'+s+' / 00:20';
-   let stage=stages[0];for(const item of stages){if(seconds>=item.at)stage=item}
-   if(targetVisible){$('scan-log').textContent=stage.log;$('progress-phase').textContent=stage.phase;$('scan-status').textContent=stage.status}
+   let stageIndex=0;for(let i=0;i<stages.length;i++){if(seconds>=stages[i].at)stageIndex=i}
+   const stage=stages[stageIndex];
+   if(targetVisible){
+     $('scan-log').textContent=stage.log;
+     $('progress-phase').textContent=stage.phase;
+     $('scan-status').textContent=stage.status;
+     if(stageIndex!==activeStageIndex){
+       activeStageIndex=stageIndex;
+       $('scan-symbols').textContent=stage.symbols;
+       const status=$('scan-status');
+       status.classList.remove('scan-status-pop');void status.offsetWidth;status.classList.add('scan-status-pop');
+       const emblem=document.querySelector('.scan-emblem');
+       emblem.classList.remove('scan-status-pop');void emblem.offsetWidth;emblem.classList.add('scan-status-pop');
+       playTone(420+stageIndex*55,.18,'sine',.025);
+     }
+   }
    const pulse=Math.floor(seconds);if([3,9,15].includes(pulse)&&startTicker.lastPulse!==pulse){soundPulse();startTicker.lastPulse=pulse}
    if(seconds>=20)completeScan();
  },100)}
- function completeScan(){clearInterval(ticker);ticker=null;markFirstDone();chime();$('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');setTimeout(()=>{closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;show('letter-screen')},650)}
+ function completeScan(){
+   clearInterval(ticker);ticker=null;markFirstDone();chime();
+   $('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');
+   setTimeout(()=>{
+     closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;
+     show('letter-screen');
+     document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
+     window.scrollTo({top:0,behavior:'instant'});
+   },650)
+ }
  function handleTargetFound(source='evento'){
    lost.classList.add('hidden');
    if(!targetVisible){targetVisible=true;if(!scanStarted){$('scan-status').textContent='IMAGEN RECONOCIDA · INICIANDO LECTURA';startScan()}else $('scan-status').textContent='SEÑAL RESTABLECIDA · CONTINUANDO LECTURA'}
@@ -268,6 +313,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
      initAudio();await waitScene();const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
+     document.documentElement.style.overflowY='hidden';document.body.style.overflowY='hidden';
      shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;
      clearInterval(detectionPoll);
      detectionPoll=setInterval(()=>{
