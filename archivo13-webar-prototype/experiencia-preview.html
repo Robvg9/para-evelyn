@@ -216,6 +216,22 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  {at:15,log:'La señal emocional tiene una coincidencia…',phase:'COINCIDENCIA 99.9%',status:'IDENTIDAD DE LA SEÑAL: EVELYN'},
  {at:18,log:'El archivo ha encontrado aquello que buscaba.',phase:'REVELACIÓN PREPARADA',status:'ABRIENDO LA CAPA QUE NO SE VE'}
  ];
+ function startScan(){
+   if(scanStarted)return;
+   scanStarted=true;
+   elapsed=0;
+   lastTick=performance.now();
+   targetVisible=true;
+   lost.classList.add('hidden');
+   $('scan-title').textContent='Leyendo la realidad oculta';
+   $('scan-status').textContent=stages[0].status;
+   $('progress-phase').textContent=stages[0].phase;
+   $('scan-log').textContent=stages[0].log;
+   $('progress-fill').style.width='0%';
+   $('progress-count').textContent='00:00 / 00:20';
+   chime();
+   startTicker();
+ }
  function startTicker(){clearInterval(ticker);lastTick=performance.now();ticker=setInterval(()=>{
    const now=performance.now();if(targetVisible&&scanStarted)elapsed+=now-lastTick;lastTick=now;
    const seconds=Math.min(20,elapsed/1000),pct=Math.min(100,seconds/20*100);
