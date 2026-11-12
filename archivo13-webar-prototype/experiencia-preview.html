@@ -718,7 +718,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
        const status=$('scan-status');
        status.classList.remove('scan-status-pop');void status.offsetWidth;status.classList.add('scan-status-pop');
        const emblem=document.querySelector('.scan-emblem');
-       emblem.classList.remove('scan-status-pop');void emblem.offsetWidth;emblem.classList.add('scan-status-pop');
+       if(emblem){emblem.classList.remove('scan-status-pop');void emblem.offsetWidth;emblem.classList.add('scan-status-pop');}
        triggerBurst();
        playSweep(stageIndex);
      }
@@ -876,7 +876,7 @@ const storyDialogues=[
 ];
 let loveFrame=-1,loveRaf=0,loveProgress=0;
 let avatarAudioStarted=false,avatarAudioTimer=null,avatarAudioStartAt=0,avatarLastVolume=-1;
-const AVATAR_LOVE_AUDIO_SRC='';
+const AVATAR_LOVE_AUDIO_SRC='assets/the-avatars-love.mp3';
 const clamp01=n=>Math.max(0,Math.min(1,n));
 const ease=(a,b,x)=>{const t=clamp01((x-a)/(b-a));return t*t*(3-2*t)};
 const mix=(a,b,t)=>a+(b-a)*t;
@@ -925,7 +925,7 @@ function updateLoveStory(){
  $('evy-arm-pose').setAttribute('transform','rotate('+(-42*hug)+' 29 -194)');
  $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
  $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
- const eyesClosed=kiss>.32?'0.12':'1';$('boy-eyes').setAttribute('opacity',eyesClosed);$('evy-eyes').setAttribute('opacity',eyesClosed);
+ 
  const frame=Math.min(storyDialogues.length-1,Math.floor(p*storyDialogues.length));
  if(frame!==loveFrame){
   loveFrame=frame;const d=storyDialogues[frame],talk=$('love-story-talk');
@@ -934,7 +934,7 @@ function updateLoveStory(){
   $('love-story-speaker').textContent=d.speaker;$('love-story-line').textContent=d.line;
  }
  $('love-story-caption').textContent=p>.85?'Y todavía quedan muchos momentos por compartir.':p>.62?'Los mejores recuerdos suelen nacer de las cosas más sencillas.':p>.33?'Risas, abrazos y esa complicidad que aparece sin avisar.':'A veces, lo bonito está en los pequeños detalles.';
- $('story-hearts').classList.toggle('visible',p>.83);updateAvatarCrescendo();
+ updateAvatarCrescendo();
 }
 function scheduleLoveStoryUpdate(){if(loveRaf)return;loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()})}
 document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
