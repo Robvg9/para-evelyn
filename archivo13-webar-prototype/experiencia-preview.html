@@ -138,6 +138,48 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 }
 @media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+/* ARCHIVO 13 — storybook, scroll-driven love scene */
+.love-story{margin:36px 0 22px;position:relative}
+.love-story-head{text-align:center;max-width:520px;margin:0 auto 22px;padding:0 12px}
+.love-story-kicker{font:600 9px system-ui;letter-spacing:.27em;text-transform:uppercase;color:#c9a8a2}
+.love-story-head h2{font:400 clamp(27px,7vw,37px)/1.12 Georgia,serif;color:#f7e9df;margin:10px 0}
+.love-story-head p{font:13px/1.7 system-ui;color:#c8b6b3;margin:0}
+.love-story-track{height:225vh;position:relative;margin:0 -2px}
+.love-story-sticky{position:sticky;top:7vh;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px 0 10px}
+.love-story-illustration{position:relative;width:min(100%,520px);overflow:hidden;border-radius:25px;border:1px solid #f6e5dc55;box-shadow:0 18px 55px #09060d55,0 0 28px #d8b5bc22;background:#6d526d}
+.love-story-illustration:after{content:"";position:absolute;inset:0;border-radius:25px;box-shadow:inset 0 0 38px #fff2e51b;pointer-events:none}
+#couple-svg{display:block;width:100%;height:auto}
+#couple-svg .love-pose{display:none;opacity:0}
+#couple-svg .love-pose.active{display:block;opacity:1;animation:pose-soft-in .65s ease both}
+@keyframes pose-soft-in{from{opacity:0;filter:blur(3px);transform:translateY(6px) scale(.99)}to{opacity:1;filter:blur(0);transform:translateY(0) scale(1)}}
+.love-story-caption{max-width:490px;min-height:58px;margin:0 auto;color:#f7e8dc;text-align:center;font:italic clamp(18px,4.8vw,23px)/1.35 Georgia,serif;text-shadow:0 2px 14px #120c16;transition:opacity .35s ease}
+.love-story-caption.changing{animation:caption-soft-in .55s ease both}
+@keyframes caption-soft-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.love-story-dots{display:flex;align-items:center;justify-content:center;gap:8px}
+.love-story-dots span{width:6px;height:6px;border-radius:50%;background:#d6b9b46c;transition:transform .35s ease,background .35s ease}
+.love-story-dots span.active{background:#f2d9cc;transform:scale(1.55);box-shadow:0 0 12px #f3d9c8aa}
+.love-scroll-hint{color:#bda9a9;font:9px system-ui;letter-spacing:.18em;text-transform:uppercase;text-align:center;margin:0}
+.love-story-final{max-width:490px;margin:22px auto 36px;padding:0 16px;text-align:center;color:#f3dfd8;font:italic clamp(21px,5.5vw,28px)/1.35 Georgia,serif}
+.love-story-final:before{content:"✧";display:block;color:#d4b1a8;font-size:22px;margin-bottom:10px}
+.love-secret{margin:34px auto 12px;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center}
+.love-secret .secret{margin:0 auto;width:54px;height:54px;border:1px solid #d9b87966;border-radius:50%;background:radial-gradient(circle,#e8cdbb22,#201620);color:#e9cdb6;font:15px Georgia;letter-spacing:.2em;opacity:.9;box-shadow:0 0 24px #e7c6bb1d}
+.love-secret .hint{margin:0;color:#bdaaa7;font-size:10px}
+.love-secret .secret-message{max-width:310px}
+@media(max-width:600px){
+ .love-story{margin-top:26px}
+ .love-story-head{margin-bottom:15px}
+ .love-story-head p{font-size:11px}
+ .love-story-track{height:220vh}
+ .love-story-sticky{top:6vh;gap:10px}
+ .love-story-illustration{width:min(100%,430px);border-radius:19px}
+ .love-story-caption{min-height:56px;font-size:18px;padding:0 8px}
+ .love-story-final{margin:18px auto 30px}
+}
+@media(prefers-reduced-motion:reduce){
+ .love-story-illustration *{animation:none!important;transition:none!important}
+ .love-story-caption{transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -241,19 +283,105 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
       <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en tu forma de ser, en lo que sueñas, en tu fuerza y en todos esos detalles que te hacen tan especial para mí.</p>
       <p>Esta carta es un primer borrador visual. La versión definitiva llevará las palabras de Robert, los recuerdos de ambos y las fotografías elegidas para contar vuestra historia.</p>
       <p class="sign">Con todo mi cariño.</p>
-      <button class="secret" id="easter-egg" aria-label="Pista oculta">13</button>
+    </div>
+    <section class="love-story" aria-label="Una pequeña historia ilustrada de Robert y Evelyn">
+      <div class="love-story-head">
+        <div class="love-story-kicker">UN PEQUEÑO CUENTO</div>
+        <h2>Y entonces, nos encontramos.</h2>
+        <p>Sigue bajando despacito. Hay historias que se cuentan mejor cuando las recorremos juntos.</p>
+      </div>
+      <div id="love-story-track" class="love-story-track">
+        <div id="love-story-sticky" class="love-story-sticky">
+          <div class="love-story-illustration">
+            <svg id="couple-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 600" role="img" aria-label="Dos personajes ilustrados que se acercan, se abrazan y se besan en un jardín al atardecer">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#45354d"/><stop offset=".48" stop-color="#89677b"/><stop offset="1" stop-color="#d9a6a0"/></linearGradient>
+                <radialGradient id="glow"><stop stop-color="#fff1d7" stop-opacity=".8"/><stop offset="1" stop-color="#f5cbd2" stop-opacity="0"/></radialGradient>
+                <linearGradient id="dress" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6d5d2"/><stop offset=".55" stop-color="#df9db0"/><stop offset="1" stop-color="#bd829e"/></linearGradient>
+                <linearGradient id="shirt" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#555062"/><stop offset="1" stop-color="#232638"/></linearGradient>
+                <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#34212b"/><stop offset=".55" stop-color="#241923"/><stop offset="1" stop-color="#66404a"/></linearGradient>
+                <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5c6a9"/><stop offset="1" stop-color="#d99478"/></linearGradient>
+                <filter id="glow-shadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <g id="avatar-boy">
+                  <path d="M-25 -102 L-26 -14 Q-25 0 -10 0 L1 -4 L3 -104Z" fill="#252638"/>
+                  <path d="M2 -104 L4 -14 Q5 0 21 0 L31 -5 L28 -104Z" fill="#303042"/>
+                  <path d="M-25 -9 Q-42 -2 -40 8 Q-38 14 -8 13 Q2 11 0 4 L-7 -5Z" fill="#eee2d8"/>
+                  <path d="M6 -7 Q1 1 7 10 Q23 15 43 8 Q46 1 31 -7Z" fill="#f2e6dc"/>
+                  <path d="M-34 -210 Q0 -224 35 -210 L43 -118 Q5 -99 -40 -118Z" fill="url(#shirt)"/>
+                  <path d="M-14 -213 Q0 -192 14 -213" fill="none" stroke="#a89aaa" stroke-width="3" opacity=".5"/>
+                  <path d="M-27 -198 Q-42 -178 -45 -142" fill="none" stroke="#f0bda2" stroke-width="18" stroke-linecap="round"/>
+                  <path d="M31 -198 Q50 -185 58 -156 Q65 -137 77 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/>
+                  <path d="M75 -126 q10 -2 12 8 q-4 12 -15 6" fill="url(#skin)"/>
+                  <rect x="-12" y="-235" width="24" height="28" rx="8" fill="url(#skin)"/>
+                  <ellipse cx="-36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
+                  <ellipse cx="36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
+                  <ellipse cx="0" cy="-264" rx="39" ry="48" fill="url(#skin)"/>
+                  <path d="M-39 -267 Q-51 -297 -30 -309 Q-20 -329 -2 -316 Q10 -332 25 -313 Q47 -314 43 -290 Q53 -280 39 -265 Q28 -279 20 -282 Q2 -291 -10 -279 Q-24 -270 -39 -267Z" fill="url(#hair)"/>
+                  <g fill="#2a1c27"><circle cx="-31" cy="-298" r="13"/><circle cx="-18" cy="-310" r="12"/><circle cx="-2" cy="-312" r="13"/><circle cx="14" cy="-307" r="12"/><circle cx="30" cy="-296" r="13"/><circle cx="-39" cy="-282" r="10"/><circle cx="39" cy="-281" r="10"/></g>
+                  <g fill="none" stroke="#302432" stroke-width="4"><rect x="-30" y="-274" width="26" height="19" rx="7"/><rect x="4" y="-274" width="26" height="19" rx="7"/><path d="M-4 -265 Q0 -269 4 -265"/></g>
+                  <g fill="#3a2930"><circle cx="-17" cy="-265" r="2.5"/><circle cx="17" cy="-265" r="2.5"/></g>
+                  <path d="M-7 -244 Q0 -238 8 -244" fill="none" stroke="#9a5a56" stroke-width="2.4" stroke-linecap="round"/>
+                  <circle cx="-22" cy="-245" r="5" fill="#e88885" opacity=".35"/><circle cx="22" cy="-245" r="5" fill="#e88885" opacity=".35"/>
+                </g>
+                <g id="avatar-evy">
+                  <path d="M-42 -269 Q-55 -318 -18 -326 Q22 -343 42 -307 Q55 -280 45 -229 Q52 -178 31 -118 Q21 -105 18 -143 L13 -203 L-25 -205 L-35 -138 Q-48 -110 -52 -150 Q-62 -218 -42 -269Z" fill="url(#hair)"/>
+                  <path d="M-18 -112 L-16 -13 Q-15 1 -3 1 L5 -3 L4 -112Z" fill="url(#skin)"/>
+                  <path d="M4 -112 L8 -13 Q10 0 23 0 L31 -5 L24 -112Z" fill="url(#skin)"/>
+                  <path d="M-18 -5 Q-34 0 -34 9 Q-30 14 -5 12 Q4 9 1 4Z" fill="#f6e8dc"/>
+                  <path d="M11 -5 Q6 3 12 10 Q31 14 40 7 Q41 1 26 -5Z" fill="#f6e8dc"/>
+                  <path d="M-29 -207 Q-1 -225 29 -207 L40 -119 Q56 -81 63 -35 Q4 -12 -61 -35 Q-55 -79 -39 -119Z" fill="url(#dress)"/>
+                  <path d="M-36 -193 Q-18 -176 0 -189 Q18 -176 36 -193" fill="none" stroke="#fff0e7" stroke-width="4" opacity=".8"/>
+                  <path d="M-54 -53 Q0 -38 56 -53" fill="none" stroke="#fce8e5" stroke-width="3" opacity=".65"/>
+                  <g fill="#fff0e7" opacity=".8"><circle cx="-25" cy="-84" r="3"/><circle cx="8" cy="-110" r="3"/><circle cx="29" cy="-72" r="2.5"/></g>
+                  <path d="M-27 -193 Q-49 -178 -56 -153 Q-68 -137 -78 -126" fill="none" stroke="url(#skin)" stroke-width="16" stroke-linecap="round"/>
+                  <path d="M-79 -126 q-9 0 -11 9 q5 11 15 5" fill="url(#skin)"/>
+                  <path d="M29 -194 Q46 -178 44 -151" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/>
+                  <rect x="-11" y="-237" width="22" height="30" rx="9" fill="url(#skin)"/>
+                  <ellipse cx="0" cy="-267" rx="36" ry="46" fill="url(#skin)"/>
+                  <path d="M-40 -271 Q-52 -319 -16 -328 Q24 -340 42 -304 Q47 -282 33 -268 Q27 -285 18 -286 Q4 -281 -9 -289 Q-25 -278 -40 -271Z" fill="url(#hair)"/>
+                  <path d="M-39 -280 Q-47 -251 -37 -231 L-44 -179 Q-53 -151 -57 -182 Q-65 -233 -47 -274Z" fill="#2b1d28"/>
+                  <path d="M38 -281 Q48 -253 39 -226 L50 -175 Q54 -148 60 -179 Q66 -236 48 -276Z" fill="#2b1d28"/>
+                  <g fill="#392630"><path d="M-25 -286 Q-8 -299 6 -287 Q22 -296 31 -282 Q20 -278 8 -280 Q-9 -275 -25 -286Z"/></g>
+                  <g fill="#4b2b34"><ellipse cx="-13" cy="-262" rx="3.2" ry="4"/><ellipse cx="13" cy="-262" rx="3.2" ry="4"/></g>
+                  <path d="M-7 -242 Q0 -236 8 -242" fill="none" stroke="#a85e67" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="-21" cy="-243" r="6" fill="#e98c99" opacity=".35"/><circle cx="21" cy="-243" r="6" fill="#e98c99" opacity=".35"/>
+                  <circle cx="0" cy="-216" r="5" fill="#f0d5b9" stroke="#c99675" stroke-width="1"/>
+                </g>
+              </defs>
+              <rect width="640" height="600" rx="30" fill="url(#sky)"/>
+              <circle cx="320" cy="245" r="245" fill="url(#glow)"/>
+              <circle cx="505" cy="106" r="28" fill="#f8e6ce" opacity=".65"/><circle cx="517" cy="94" r="27" fill="#84657d" opacity=".75"/>
+              <g fill="#fff2dc" opacity=".9"><circle cx="90" cy="90" r="3"/><circle cx="170" cy="145" r="2"/><circle cx="350" cy="70" r="2.5"/><circle cx="570" cy="220" r="2"/><circle cx="250" cy="58" r="1.8"/></g>
+              <g fill="none" stroke="#e6c5c6" opacity=".6" stroke-width="2"><path d="M70 205 q38 -35 64 0 q-26 35 -64 0Z"/><path d="M520 300 q30 -30 56 0 q-26 30 -56 0Z"/></g>
+              <path d="M0 445 Q130 405 255 448 T640 438 L640 600 L0 600Z" fill="#665065" opacity=".85"/>
+              <path d="M0 500 Q155 455 320 500 T640 488 L640 600 L0 600Z" fill="#46374c" opacity=".92"/>
+              <path d="M160 600 Q250 505 320 505 Q400 505 480 600Z" fill="#d8b6ae" opacity=".38"/>
+              <path d="M210 600 Q282 520 320 520 Q370 520 430 600" fill="none" stroke="#f6dfd6" stroke-width="3" opacity=".55"/>
+              <g fill="#8da18e" opacity=".85"><path d="M25 560 Q70 470 110 455 Q100 510 25 560Z"/><path d="M50 578 Q80 500 150 495 Q122 550 50 578Z"/><path d="M615 560 Q570 470 530 455 Q540 510 615 560Z"/><path d="M590 578 Q560 500 490 495 Q518 550 590 578Z"/></g>
+              <g fill="#f2d6d3" filter="url(#glow-shadow)"><circle cx="85" cy="475" r="7"/><circle cx="105" cy="456" r="6"/><circle cx="552" cy="470" r="7"/><circle cx="530" cy="448" r="6"/></g>
+              <g class="love-pose pose-0 active"><use href="#avatar-boy" transform="translate(145 540) scale(.92)"/><use href="#avatar-evy" transform="translate(495 540) scale(-.92 .92)"/></g>
+              <g class="love-pose pose-1"><use href="#avatar-boy" transform="translate(210 540) scale(.92)"/><use href="#avatar-evy" transform="translate(430 540) scale(-.92 .92)"/><path d="M290 340 Q320 310 350 340" fill="none" stroke="#fce8df" stroke-width="4" stroke-linecap="round" opacity=".8"/><circle cx="320" cy="329" r="6" fill="#f6d6d4"/></g>
+              <g class="love-pose pose-2"><use href="#avatar-boy" transform="translate(270 540) scale(.92)"/><use href="#avatar-evy" transform="translate(370 540) scale(-.92 .92)"/><path d="M288 395 Q320 430 352 395" fill="none" stroke="#f4d2d4" stroke-width="12" stroke-linecap="round" opacity=".9"/><path d="M290 335 C270 314 290 294 310 309 C326 291 347 310 330 330 L310 350Z" fill="#f0b5c6" opacity=".8"/></g>
+              <g class="love-pose pose-3"><use href="#avatar-boy" transform="translate(285 540) rotate(5 -10 -270) scale(.92)"/><use href="#avatar-evy" transform="translate(355 540) rotate(-5 10 -270) scale(-.92 .92)"/><path d="M302 310 C280 286 301 268 320 284 C339 267 360 288 340 310 L321 330Z" fill="#f6c5cd" filter="url(#glow-shadow)"/><g fill="#fff1df"><path d="M252 230 l5 10 10 5 -10 5 -5 10 -5 -10 -10 -5 10 -5Z"/><path d="M396 244 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4Z"/></g></g>
+              <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
+            </svg>
+          </div>
+          <p id="love-story-caption" class="love-story-caption">A veces, todo empieza con una mirada.</p>
+          <div id="love-story-dots" class="love-story-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
+          <p class="love-scroll-hint">DESLIZA DESPACITO · LA HISTORIA AVANZA CONTIGO</p>
+        </div>
+      </div>
+      <p class="love-story-final">Y si pudiera volver a empezar, volvería a caminar hacia ti.</p>
+    </section>
+    <div class="love-secret">
+      <button class="secret" id="easter-egg" aria-label="Pista oculta del próximo expediente">13</button>
+      <p class="hint">Hay una última señal escondida. Toca el 13 tres veces.</p>
       <p id="easter-message" class="secret-message hidden">EXPEDIENTE 04 · La próxima pista no estará en una imagen. Tendrás que escuchar para encontrarla.</p>
     </div>
-    <div class="photos">
-      <div class="photo"><b>Un recuerdo de los dos</b><span>WA0038 · fotografía por integrar</span></div>
-      <div class="photo"><b>Un instante</b><span>WA0044 · fotografía por integrar</span></div>
-      <div class="photo"><b>Otra parte de nuestra historia</b><span>WA0041 · fotografía por integrar</span></div>
-    </div>
-    <p class="hint">El pequeño “13” es una señal. Tócalo tres veces.</p>
     <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
     <p class="footer" style="padding:30px 0 max(120px,env(safe-area-inset-bottom))">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
   </section>
-  <p class="footer">MAQUETA DE TRABAJO · La clave, la imagen ELITE, las fotos y la carta definitiva se integrarán después de las aprobaciones.</p>
+  <p class="footer">ARCHIVO 13 · Un recuerdo guardado para el día 13.</p>
 </main>
 
 <div id="camera-shell">
@@ -310,7 +438,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const show=id=>{
    screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
-   if(id==='letter-screen') $('preview-ribbon').classList.toggle('hidden',!previewMode);
+   if(id==='letter-screen'){
+     $('preview-ribbon').classList.toggle('hidden',!previewMode);
+     requestAnimationFrame(()=>{loveFrame=-1;updateLoveStory()});
+   }
  };
  const $=id=>document.getElementById(id);
  show('pin-screen');
@@ -583,6 +714,38 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('retry-camera').addEventListener('click',beginCamera);
  $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
+ const loveCaptions=[
+   'A veces, todo empieza con una mirada.',
+   'Después, dos caminos empiezan a acercarse.',
+   'Hasta que encontramos nuestro lugar en un abrazo.',
+   'Y por un instante, el mundo entero se queda quieto.'
+ ];
+ let loveFrame=-1,loveRaf=0;
+ function updateLoveStory(){
+   const track=$('love-story-track');
+   if(!track||!track.offsetHeight)return;
+   const rect=track.getBoundingClientRect();
+   const sticky=$('love-story-sticky');
+   const stickyHeight=sticky?sticky.offsetHeight:0;
+   const travel=Math.max(1,track.offsetHeight-stickyHeight);
+   const topOffset=window.innerHeight*.07;
+   const startScroll=window.scrollY+rect.top-topOffset;
+   const progress=Math.max(0,Math.min(1,(window.scrollY-startScroll)/travel));
+   const frame=Math.min(3,Math.floor(progress*4));
+   if(frame!==loveFrame){
+     loveFrame=frame;
+     document.querySelectorAll('#couple-svg .love-pose').forEach((el,i)=>el.classList.toggle('active',i===frame));
+     $('love-story-caption').textContent=loveCaptions[frame];
+     $('love-story-caption').classList.remove('changing');void $('love-story-caption').offsetWidth;$('love-story-caption').classList.add('changing');
+     document.querySelectorAll('#love-story-dots span').forEach((el,i)=>el.classList.toggle('active',i===frame));
+   }
+ }
+ function scheduleLoveStoryUpdate(){
+   if(loveRaf)return;
+   loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()});
+ }
+ window.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+ window.addEventListener('resize',scheduleLoveStoryUpdate);
  $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
  window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null});
 })();
