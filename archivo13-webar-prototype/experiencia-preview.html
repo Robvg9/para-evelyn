@@ -138,8 +138,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <p class="lead">Esta primera vez no existe una ruta alternativa. El cuadro es la llave de esta parte de la historia.</p>
     <div class="card">
       <h2>Activa la cámara</h2>
-      <p class="copy">Apunta al cuadro cuando lo tengas delante. Para esta prueba técnica, utiliza la tarjeta de muestra abierta en otra pantalla o impresa. En la entrega final, reconocerá la obra ELITE.</p>
-      <a class="target-link" href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener">Abrir imagen de prueba ↗</a>
+      <p class="copy">Apunta directamente al cuadro ELITE ya impreso. Este teléfono debe haberse preparado antes con la imagen FINAL; después reconocerá el retrato real, no una tarjeta de muestra.</p>
+      <a class="target-link" href="./preparar-cuadro.html">Preparar este teléfono para reconocer ELITE</a>
       <div class="actions"><button class="btn" id="start-camera">Iniciar lectura con cámara</button></div>
       <p class="hint" id="camera-hint">Permite el acceso a la cámara. No cierres esta página mientras el archivo está leyendo la imagen.</p>
     </div>
@@ -207,12 +207,12 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   </div>
   <div id="target-lost" class="hidden">SEÑAL INTERRUMPIDA<br>Vuelve a encuadrar la imagen.<br>La lectura continuará desde donde se detuvo.</div>
   <a-scene id="ar-scene"
-    mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: false; uiLoading: no; uiError: no; uiScanning: no"
+    mindar-image="imageTargetSrc: about:blank; autoStart: false; uiLoading: no; uiError: no; uiScanning: no"
     color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
     vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
     <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
-      <a-plane position="0 0 0.001" width="1" height="0.552" material="shader: flat; color: #F4DDE0; opacity: .045; transparent: true; side: double"></a-plane>
+      <a-plane position="0 0 0.001" width="1" height="1.333" material="shader: flat; color: #F4DDE0; opacity: .045; transparent: true; side: double"></a-plane>
       <a-sphere position="0 0 0.025" radius="0.12" scale="1 1 0.08" material="shader: flat; color: #FFF0E8; opacity: .10; transparent: true" animation="property: scale; from: 1 1 0.08; to: 1.16 1.16 0.08; dir: alternate; loop: true; dur: 2600; easing: easeInOutSine"></a-sphere>
       <a-text value="♡" align="center" color="#FFF1EA" width="1.15" position="0 0.02 0.045" animation="property: scale; from: 1 1 1; to: 1.12 1.12 1; dir: alternate; loop: true; dur: 2600; easing: easeInOutSine"></a-text>
       <a-text value="✧" align="center" color="#FFF0E7" width="0.28" position="-0.30 0.20 0.04"></a-text>
@@ -227,6 +227,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <h2 id="error-title" style="font-size:32px;margin:15px 0">No se pudo abrir la cámara</h2>
     <p id="error-text" class="copy">Comprueba el permiso de cámara y vuelve a intentarlo.</p>
     <div class="actions"><button class="btn" id="retry-camera">Reintentar lectura</button><button class="btn secondary" id="close-error">Volver</button></div>
+    <a id="prepare-from-error" class="target-link" href="./preparar-cuadro.html">Preparar el reconocimiento de ELITE en este teléfono</a>
     <p class="hint">En la primera visita no se puede saltar esta lectura.</p>
   </div>
 </div>
@@ -240,14 +241,31 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const ACCESS_CODE='919493';
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
- let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1;
+ let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1,mindTargetUrl=null;
  function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
  function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
  function closeScene(){
    try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}
    running=false;targetVisible=false;clearInterval(ticker);ticker=null;clearInterval(detectionPoll);detectionPoll=null;
    shell.classList.remove('active');
+   if(mindTargetUrl){URL.revokeObjectURL(mindTargetUrl);mindTargetUrl=null}
    document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
+ }
+ function readCompiledTarget(){
+   return new Promise((resolve,reject)=>{
+     if(!('indexedDB' in window)){reject(new Error('Este navegador no permite guardar la preparación del cuadro.'));return}
+     const request=indexedDB.open('archivo13-mindar',1);
+     request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains('targets'))db.createObjectStore('targets')};
+     request.onerror=()=>reject(request.error||new Error('No se pudo leer la preparación del cuadro.'));
+     request.onsuccess=()=>{
+       const db=request.result;
+       if(!db.objectStoreNames.contains('targets')){db.close();resolve(null);return}
+       const tx=db.transaction('targets','readonly');
+       const get=tx.objectStore('targets').get('elite');
+       get.onsuccess=()=>{const value=get.result;db.close();resolve(value||null)};
+       get.onerror=()=>{db.close();reject(get.error||new Error('No se pudo recuperar el objetivo ELITE.'))};
+     };
+   });
  }
  function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
  function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
@@ -369,7 +387,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  // Respaldo: MindAR marca el ancla visible cuando el objetivo ya está reconocido.
  scene.addEventListener('targetFound',()=>handleTargetFound('scene targetFound'));
  scene.addEventListener('targetLost',handleTargetLost);
- scene.addEventListener('arReady',()=>{$('camera-hint').textContent='Cámara lista. Encuadra la tarjeta completa para que el archivo pueda reconocerla.'});
+ scene.addEventListener('arReady',()=>{$('camera-hint').textContent='Cámara lista. Encuadra el cuadro ELITE completo para que el archivo lo reconozca.'});
  scene.addEventListener('arError',e=>showCameraError(e?.detail?.error||'MindAR no pudo inicializar la cámara.'));
  function waitScene(){return scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);scene.addEventListener('loaded',()=>{clearTimeout(t);resolve()},{once:true})})}
  async function beginCamera(){
@@ -379,9 +397,15 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    lost.classList.add('hidden');cameraError.classList.add('hidden');
    $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
-     initAudio();await waitScene();const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
+     initAudio();const compiledTarget=await readCompiledTarget();
+     if(!compiledTarget)throw new Error('Este teléfono todavía no tiene preparado el reconocimiento del cuadro. Abre “Preparar este teléfono”, selecciona el JPG FINAL exacto y vuelve a esta página.');
+     const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
+     if(mindTargetUrl)URL.revokeObjectURL(mindTargetUrl);
+     mindTargetUrl=URL.createObjectURL(new Blob([compiledTarget],{type:'application/octet-stream'}));
+     system.imageTargetSrc=mindTargetUrl;
+     await waitScene();
      document.documentElement.style.overflowY='hidden';document.body.style.overflowY='hidden';
-     shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando la imagen original';$('scan-status').textContent='ENFOCA LA IMAGEN PARA INICIAR LA LECTURA';await system.start();running=true;
+     shell.classList.add('active');addParticles();$('scan-title').textContent='Un recuerdo está despertando';$('scan-status').textContent='ENFOCA EL CUADRO PARA INICIAR LA LECTURA';await system.start();running=true;
      clearInterval(detectionPoll);
      detectionPoll=setInterval(()=>{
        if(!running)return;
