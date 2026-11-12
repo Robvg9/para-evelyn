@@ -10,8 +10,8 @@
 <style>
 :root{color-scheme:dark;--bg:#120d16;--gold:#d9b879;--cream:#f5ead8;--muted:#c6b9ad;--line:#d9b8794d}
 *{box-sizing:border-box}
-html{min-height:100%;overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth}
-body{margin:0;min-height:100vh;min-height:100svh;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+html{min-height:100%;overflow-x:clip;overflow-y:auto;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;min-height:100svh;overflow-x:clip;overflow-y:visible;overscroll-behavior-y:contain;touch-action:pan-y;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
 button,input{font:inherit}
 .wrap{width:min(100% - 28px,720px);min-height:100svh;margin:0 auto;padding:20px 0 max(76px,env(safe-area-inset-bottom))}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--gold);font:600 10px/1.4 system-ui;letter-spacing:.18em;text-transform:uppercase}
@@ -180,6 +180,65 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  .love-story-illustration *{animation:none!important;transition:none!important}
  .love-story-caption{transition:none!important}
 }
+
+/* ARCHIVO 13 — presentadores, recuerdos y música */
+.presenter-prologue{max-width:590px;margin:26px auto 28px;padding:0 3px}
+.presenter-prologue-title{text-align:center;color:#c9a8a2;font:600 9px system-ui;letter-spacing:.24em;text-transform:uppercase;margin-bottom:15px}
+.presenter-line{display:flex;align-items:flex-end;gap:10px;margin:11px 0}
+.presenter-line.from-evy{flex-direction:row-reverse}
+.presenter-photo{width:46px;height:46px;flex:0 0 46px;border-radius:50%;border:1px solid #e9c9bc88;object-fit:cover;box-shadow:0 3px 14px #0005}
+.presenter-bubble{position:relative;max-width:calc(100% - 62px);padding:12px 14px;border:1px solid #d9b87955;border-radius:17px 17px 17px 5px;background:linear-gradient(145deg,#382733f2,#241a26f4);box-shadow:0 8px 20px #0002;color:#f7e9df}
+.presenter-line.from-evy .presenter-bubble{border-radius:17px 17px 5px 17px;background:linear-gradient(145deg,#46303b,#2c202d)}
+.presenter-name{display:block;margin-bottom:4px;color:#d7b482;font:700 9px system-ui;letter-spacing:.12em;text-transform:uppercase}
+.presenter-bubble p{margin:0;font:14px/1.5 system-ui;color:#f5e8e0}
+.music-card{max-width:580px;margin:18px auto 27px;padding:17px;border:1px solid #d8b47b55;border-radius:20px;background:linear-gradient(145deg,#352733e8,#1d1723f2);box-shadow:0 14px 32px #0003;text-align:center}
+.music-kicker{color:#d1af7e;font:600 9px system-ui;letter-spacing:.22em;text-transform:uppercase}
+.music-card h3{font:400 23px Georgia,serif;color:#f6e9df;margin:8px 0 4px}
+.music-card .music-credit{color:#c4b4b0;font:11px system-ui;margin:0 0 13px}
+.music-frame{width:min(100%,320px);aspect-ratio:16/9;margin:0 auto 13px;overflow:hidden;border-radius:12px;border:1px solid #d9b87955;background:radial-gradient(ellipse at 50% 30%,#654457,#231927 72%)}
+#avatar-player{width:100%;height:100%}
+#avatar-player iframe{width:100%;height:100%;border:0}
+.music-actions{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.music-button{border:1px solid #d9b87999;border-radius:99px;padding:11px 17px;background:linear-gradient(135deg,#f0ddb8,#bd9150);color:#231820;font:700 12px system-ui;cursor:pointer}
+.music-status{min-height:17px;margin:9px 0 0;color:#bda9a6;font:10px/1.5 system-ui}
+.music-source{display:block;margin-top:6px;color:#d6b58f;text-decoration:underline;text-underline-offset:3px;font:10px system-ui}
+.memory-gallery{max-width:600px;margin:32px auto 36px}
+.memory-gallery-head{text-align:center;margin-bottom:14px}
+.memory-gallery-head .music-kicker{display:block}
+.memory-gallery-head h2{font:400 28px Georgia,serif;color:#f5e5df;margin:8px 0}
+.memory-gallery-head p{font:12px/1.5 system-ui;color:#c4b3b1;margin:0}
+.memory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.memory-photo-card{overflow:hidden;border:1px solid #d9b87966;border-radius:17px;background:linear-gradient(145deg,#352734,#211922);box-shadow:0 12px 28px #0003}
+.memory-photo-card img{display:block;width:100%;height:210px;object-fit:cover;object-position:center 32%}
+.memory-photo-meta{padding:12px 13px 14px}
+.memory-photo-meta b{display:block;color:#f0d7c5;font:17px Georgia,serif}
+.memory-photo-meta span{display:block;color:#bfa9a6;font:10px system-ui;margin-top:4px}
+.love-talk{display:flex;align-items:flex-end;gap:10px;width:min(100%,470px);margin:0 auto;min-height:76px;padding:0 7px}
+.love-talk.from-evy{flex-direction:row-reverse}
+.love-talk img{width:48px;height:48px;flex:0 0 48px;border-radius:50%;object-fit:cover;border:1px solid #f5e2d788;box-shadow:0 2px 18px #0005}
+.love-talk-bubble{position:relative;max-width:calc(100% - 60px);padding:11px 14px;border:1px solid #f1d6c577;border-radius:16px 16px 16px 5px;background:linear-gradient(145deg,#422c3b,#261c2a);box-shadow:0 8px 24px #10091255;color:#fff0e9;transition:opacity .28s ease,transform .28s ease}
+.love-talk.from-evy .love-talk-bubble{border-radius:16px 16px 5px 16px;background:linear-gradient(145deg,#5a3949,#342332)}
+.love-talk-bubble small{display:block;color:#e0bd91;font:700 9px system-ui;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px}
+.love-talk-bubble p{margin:0;font:13px/1.5 system-ui;color:#f8e9e1}
+.love-talk.changing .love-talk-bubble{animation:talk-in .42s ease both}
+@keyframes talk-in{from{opacity:0;transform:translateY(7px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.love-story-illustration{width:min(100%,520px)}
+.love-story-sticky{top:6vh}
+.love-story-track{height:250vh}
+.love-story-caption{font-size:16px;opacity:.9}
+@media(max-width:600px){
+ .presenter-prologue{margin:19px auto 22px}
+ .presenter-bubble p{font-size:12px}
+ .music-card{padding:14px;margin:15px auto 24px}
+ .music-card h3{font-size:21px}
+ .music-frame{width:min(100%,300px)}
+ .memory-photo-card img{height:178px}
+ .love-story-track{height:245vh}
+ .love-story-sticky{top:5vh}
+ .love-talk{min-height:72px}
+ .love-talk img{width:43px;height:43px;flex-basis:43px}
+ .love-talk-bubble p{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -275,6 +334,32 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     </div>
     <div class="eyebrow">ARCHIVO 13 · Revelación</div>
     <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
+    <section class="presenter-prologue" aria-label="Robert y Evelyn presentan la sorpresa">
+      <div class="presenter-prologue-title">LOS PRESENTADORES DE ESTA HISTORIA</div>
+      <div class="presenter-line from-robert">
+        <img class="presenter-photo" src="assets/robert-portrait.jpg" alt="Retrato de Robert">
+        <div class="presenter-bubble"><span class="presenter-name">Robert</span><p>Evy, preparé algo que no cabe en una sola fotografía.</p></div>
+      </div>
+      <div class="presenter-line from-evy">
+        <img class="presenter-photo" src="assets/evy-portrait.jpg" alt="Retrato de Evelyn">
+        <div class="presenter-bubble"><span class="presenter-name">Evelyn</span><p>¿Otra de tus sorpresas? Jajajaja. ¿Y ahora qué inventaste?</p></div>
+      </div>
+      <div class="presenter-line from-robert">
+        <img class="presenter-photo" src="assets/robert-portrait.jpg" alt="Retrato de Robert">
+        <div class="presenter-bubble"><span class="presenter-name">Robert</span><p>Esta vez no tienes que resolver nada. Solo déjate sorprender… y mira un poquito con mis ojos.</p></div>
+      </div>
+    </section>
+    <section class="music-card" aria-label="Nuestra canción">
+      <div class="music-kicker">LA BANDA SONORA DE NOSOTROS</div>
+      <h3>The Avatar’s Love</h3>
+      <p class="music-credit">Versión de Samuel Kim Music · Avatar: The Last Airbender</p>
+      <div class="music-frame"><div id="avatar-player"></div></div>
+      <div class="music-actions">
+        <button class="music-button" id="avatar-music-toggle" type="button">▶ Escuchar nuestra canción</button>
+      </div>
+      <p id="avatar-music-status" class="music-status">Empieza bajito. Poco a poco, la melodía crecerá contigo.</p>
+      <a class="music-source" href="https://www.youtube.com/watch?v=jRcJp1i4Emo" target="_blank" rel="noopener">Abrir la versión de Samuel Kim en YouTube</a>
+    </section>
     <div class="paper">
       <div class="eyebrow">Para Evelyn</div>
       <h2>Más allá de lo que se ve</h2>
@@ -284,6 +369,23 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
       <p>Esta carta es un primer borrador visual. La versión definitiva llevará las palabras de Robert, los recuerdos de ambos y las fotografías elegidas para contar vuestra historia.</p>
       <p class="sign">Con todo mi cariño.</p>
     </div>
+    <section class="memory-gallery" aria-label="Retratos de Robert y Evelyn">
+      <div class="memory-gallery-head">
+        <span class="music-kicker">LOS DOS PROTAGONISTAS</span>
+        <h2>Dos personas. Una historia.</h2>
+        <p>Un par de recuerdos reales antes de que los muñequitos cuenten lo demás.</p>
+      </div>
+      <div class="memory-grid">
+        <article class="memory-photo-card">
+          <img src="assets/robert-portrait.jpg" alt="Retrato de Robert" loading="lazy">
+          <div class="memory-photo-meta"><b>Robert</b><span>El que sigue eligiéndote.</span></div>
+        </article>
+        <article class="memory-photo-card">
+          <img src="assets/evy-portrait.jpg" alt="Retrato de Evelyn" loading="lazy">
+          <div class="memory-photo-meta"><b>Evelyn</b><span>La protagonista de esta historia.</span></div>
+        </article>
+      </div>
+    </section>
     <section class="love-story" aria-label="Una pequeña historia ilustrada de Robert y Evelyn">
       <div class="love-story-head">
         <div class="love-story-kicker">UN PEQUEÑO CUENTO</div>
@@ -366,6 +468,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
               <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
             </svg>
           </div>
+          <div id="love-story-talk" class="love-talk from-robert" aria-live="polite">
+            <img id="love-story-speaker-photo" src="assets/robert-portrait.jpg" alt="">
+            <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, a veces todo empieza con una mirada.</p></div>
+          </div>
           <p id="love-story-caption" class="love-story-caption">A veces, todo empieza con una mirada.</p>
           <div id="love-story-dots" class="love-story-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
           <p class="love-scroll-hint">DESLIZA DESPACITO · LA HISTORIA AVANZA CONTIGO</p>
@@ -440,7 +546,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
      $('preview-ribbon').classList.toggle('hidden',!previewMode);
-     requestAnimationFrame(()=>{loveFrame=-1;updateLoveStory()});
+     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});updateLoveStory()});
    }
  };
  const $=id=>document.getElementById(id);
@@ -715,37 +821,123 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
  const loveCaptions=[
-   'A veces, todo empieza con una mirada.',
-   'Después, dos caminos empiezan a acercarse.',
-   'Hasta que encontramos nuestro lugar en un abrazo.',
+   'La historia se cuenta mejor cuando los dos se atreven a acercarse.',
+   'A veces, un pequeño paso cambia todo.',
+   'Un abrazo puede decir lo que las palabras no alcanzan.',
    'Y por un instante, el mundo entero se queda quieto.'
  ];
- let loveFrame=-1,loveRaf=0;
+ const loveDialogues=[
+   {speaker:'Robert',photo:'assets/robert-portrait.jpg',side:'from-robert',line:'Evy… desde que te encontré, hay algo que siempre quiero hacer: acercarme un poquito más a ti.'},
+   {speaker:'Evelyn',photo:'assets/evy-portrait.jpg',side:'from-evy',line:'¿Y si yo también estaba esperando ese momento sin saberlo?'},
+   {speaker:'Robert',photo:'assets/robert-portrait.jpg',side:'from-robert',line:'Entonces ven. Aquí tienes un abrazo que no tiene prisa por terminar.'},
+   {speaker:'Evelyn',photo:'assets/evy-portrait.jpg',side:'from-evy',line:'No te vayas todavía… que esta parte de la historia me gusta.'}
+ ];
+ let loveFrame=-1,loveRaf=0,loveProgress=0;
+ function updateAvatarCrescendo(progress){
+   loveProgress=progress;
+   if(!avatarPlayer||!avatarMusicPlaying)return;
+   const elapsed=Date.now()-avatarMusicStartedAt;
+   const byTime=7+Math.min(57,elapsed/1000*1.05);
+   const byStory=progress*16;
+   const volume=Math.max(6,Math.min(82,Math.round(byTime+byStory)));
+   try{avatarPlayer.setVolume(volume)}catch(e){}
+ }
  function updateLoveStory(){
    const track=$('love-story-track');
-   if(!track||!track.offsetHeight)return;
-   const rect=track.getBoundingClientRect();
    const sticky=$('love-story-sticky');
-   const stickyHeight=sticky?sticky.offsetHeight:0;
-   const travel=Math.max(1,track.offsetHeight-stickyHeight);
-   const topOffset=window.innerHeight*.07;
-   const startScroll=window.scrollY+rect.top-topOffset;
-   const progress=Math.max(0,Math.min(1,(window.scrollY-startScroll)/travel));
+   if(!track||!sticky||!track.offsetHeight)return;
+   const rect=track.getBoundingClientRect();
+   const stickyRect=sticky.getBoundingClientRect();
+   const stickyHeight=stickyRect.height;
+   const travel=Math.max(1,rect.height-stickyHeight);
+   const topOffset=Math.max(12,window.innerHeight*.06);
+   // Use the panel's viewport position, not window.scrollY. This also works
+   // when Android Chrome scrolls the document element/body in different ways.
+   const progress=Math.max(0,Math.min(1,(topOffset-rect.top)/travel));
    const frame=Math.min(3,Math.floor(progress*4));
+   updateAvatarCrescendo(progress);
    if(frame!==loveFrame){
      loveFrame=frame;
      document.querySelectorAll('#couple-svg .love-pose').forEach((el,i)=>el.classList.toggle('active',i===frame));
      $('love-story-caption').textContent=loveCaptions[frame];
      $('love-story-caption').classList.remove('changing');void $('love-story-caption').offsetWidth;$('love-story-caption').classList.add('changing');
      document.querySelectorAll('#love-story-dots span').forEach((el,i)=>el.classList.toggle('active',i===frame));
+     const d=loveDialogues[frame], talk=$('love-story-talk');
+     talk.classList.toggle('from-evy',d.side==='from-evy');
+     talk.classList.toggle('from-robert',d.side==='from-robert');
+     talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
+     $('love-story-speaker').textContent=d.speaker;
+     $('love-story-speaker-photo').src=d.photo;
+     $('love-story-speaker-photo').alt='Retrato de '+d.speaker;
+     $('love-story-line').textContent=d.line;
    }
  }
  function scheduleLoveStoryUpdate(){
    if(loveRaf)return;
    loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()});
  }
+ // Scroll events do not bubble from nested scroll containers. Capture them
+ // at document level and also subscribe to the common mobile scroll roots.
+ document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
  window.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+ document.body.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+ document.documentElement.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+ window.addEventListener('touchmove',scheduleLoveStoryUpdate,{passive:true});
  window.addEventListener('resize',scheduleLoveStoryUpdate);
+ window.addEventListener('load',scheduleLoveStoryUpdate);
+ document.querySelectorAll('.presenter-photo,.memory-photo-card img').forEach(img=>img.addEventListener('load',scheduleLoveStoryUpdate,{once:true}));
+ if('ResizeObserver' in window){
+   const loveResizeObserver=new ResizeObserver(scheduleLoveStoryUpdate);
+   loveResizeObserver.observe($('love-story-track'));
+   loveResizeObserver.observe($('love-story-sticky'));
+ }
+ let avatarPlayer=null,avatarPlayerReady=false,avatarMusicPlaying=false,avatarMusicStartedAt=0,avatarMusicTimer=null;
+ function loadAvatarMusic(){
+   const init=()=>{
+     if(avatarPlayer||!window.YT||!window.YT.Player)return;
+     avatarPlayer=new YT.Player('avatar-player',{
+       width:'320',height:'180',videoId:'jRcJp1i4Emo',
+       playerVars:{autoplay:0,controls:0,disablekb:1,modestbranding:1,rel:0,playsinline:1,fs:0,origin:location.origin},
+       events:{
+         onReady:()=>{avatarPlayerReady=true;$('avatar-music-status').textContent='Lista. Toca el botón cuando quieras escucharla.'},
+         onStateChange:(event)=>{
+           if(event.data===1){
+             avatarMusicPlaying=true;
+             $('avatar-music-toggle').textContent='Ⅱ Pausar nuestra canción';
+             if(!avatarMusicStartedAt)avatarMusicStartedAt=Date.now();
+             updateAvatarCrescendo(loveProgress);
+             clearInterval(avatarMusicTimer);
+             avatarMusicTimer=setInterval(()=>updateAvatarCrescendo(loveProgress),1000);
+             $('avatar-music-status').textContent='La música irá creciendo poco a poco mientras recorres nuestra historia.';
+           }else if(event.data===2||event.data===0){
+             avatarMusicPlaying=false;
+             clearInterval(avatarMusicTimer);avatarMusicTimer=null;
+             $('avatar-music-toggle').textContent='▶ Continuar nuestra canción';
+             if(event.data===0)$('avatar-music-status').textContent='La melodía llegó al final. Puedes volver a escucharla.';
+           }
+         },
+         onError:()=>{$('avatar-music-status').textContent='No se pudo cargar el reproductor. Usa el enlace de YouTube de abajo.'}
+       }
+     });
+   };
+   if(window.YT&&window.YT.Player){init();return}
+   window.onYouTubeIframeAPIReady=init;
+   if(!document.querySelector('script[data-avatar-youtube-api]')){
+     const api=document.createElement('script');api.src='https://www.youtube.com/iframe_api';api.async=true;api.dataset.avatarYoutubeApi='true';document.head.appendChild(api);
+   }
+ }
+ $('avatar-music-toggle').addEventListener('click',()=>{
+   if(!avatarPlayerReady||!avatarPlayer){
+     $('avatar-music-status').textContent='Preparando el reproductor. Toca de nuevo en un momento.';
+     loadAvatarMusic();return;
+   }
+   const state=avatarPlayer.getPlayerState();
+   if(state===1){avatarPlayer.pauseVideo();return}
+   if(!avatarMusicStartedAt)avatarMusicStartedAt=Date.now();
+   avatarPlayer.setVolume(6);
+   avatarPlayer.playVideo();
+ });
+ loadAvatarMusic();
  $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
  window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null});
 })();
