@@ -97,6 +97,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 .dream-petal{position:absolute;display:block;width:9px;height:16px;border:1px solid #f8e3d577;border-radius:100% 0 100% 0;background:linear-gradient(145deg,#fff6ec66,#e2c2ca33);box-shadow:0 0 9px #edced066;pointer-events:none;animation:petal-drift 9s ease-in-out infinite}
 @keyframes dust-drift{0%,100%{transform:translate3d(0,24px,0) scale(.65);opacity:0}25%,75%{opacity:.62}50%{transform:translate3d(13px,-28px,0) scale(1.25);opacity:.95}}
 @keyframes petal-drift{0%,100%{transform:translate3d(0,26px,0) rotate(-35deg);opacity:0}25%,75%{opacity:.6}50%{transform:translate3d(17px,-36px,0) rotate(42deg);opacity:.85}}
+#pin-hint{display:block;margin:14px auto 0;padding:7px 4px;border:0;background:transparent;color:#d8b99e;text-decoration:underline;text-decoration-color:#d8b99e88;text-underline-offset:4px;font:12px system-ui;cursor:pointer}
+#pin-hint-message{max-width:430px;margin:10px auto 0;color:#e5d2c4;text-align:center;font:12px/1.65 system-ui}
 #camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
 .error-box{max-width:440px;text-align:center}
 @media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
@@ -110,11 +112,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   <section id="pin-screen">
     <div class="eyebrow">Una imagen. Otra historia.</div>
     <h1>Hay cosas que<br><em>merecen ser descubiertas.</em></h1>
-    <p class="lead">La postal te ha traído hasta aquí. Pero la siguiente puerta no se abre con una palabra.</p>
+    <p class="lead">La postal te ha traído hasta aquí. El código no está escrito en esta pantalla: lo guarda la fotografía que te espera. Mira más allá del retrato; los detalles del fondo también cuentan.</p>
     <div class="card">
       <div class="eyebrow">Acceso al expediente</div>
-      <h2 style="text-align:center;margin-top:12px">Introduce el código</h2>
-      <p class="copy" style="text-align:center">Seis cifras. Una puerta a lo que permanece detrás de la imagen.</p>
+      <h2 style="text-align:center;margin-top:12px">La imagen guarda la llave</h2>
+      <p class="copy" style="text-align:center">Seis cifras se esconden entre los detalles que la rodean.</p>
       <div class="pinrow" aria-label="Código de seis cifras">
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Primera cifra">
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Segunda cifra">
@@ -124,7 +126,9 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
         <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Sexta cifra">
       </div>
       <div class="actions"><button class="btn" id="unlock">Abrir expediente</button></div>
-      <p class="hint" id="pin-feedback">La clave definitiva se configurará cuando aprobemos la experiencia final.</p>
+      <p class="hint" id="pin-feedback">Introduce las seis cifras que encuentres en la fotografía.</p>
+      <button id="pin-hint" type="button">¿Una pequeña pista?</button>
+      <p id="pin-hint-message" class="hidden">No busques sobre su rostro. Mira entre las hojas, en la zona inferior derecha de la fotografía: seis cifras se esconden allí.</p>
     </div>
   </section>
 
@@ -233,6 +237,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const $=id=>document.getElementById(id);
  const inputs=[...document.querySelectorAll('.pinrow input')];
  const FIRST_KEY='a13_first_camera_completed_v2';
+ const ACCESS_CODE='919493';
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
  let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1;
@@ -388,7 +393,16 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    }catch(e){$('start-camera').disabled=false;showCameraError(e?.message||'No se pudo iniciar la cámara.')}
  }
  inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}})});
- $('unlock').addEventListener('click',()=>{const code=inputs.map(x=>x.value).join('');if(code.length!==6){$('pin-feedback').textContent='Necesitas las seis cifras para continuar.';return}if(firstDone())show('return-choice-screen');else show('first-camera-screen')});
+ $('unlock').addEventListener('click',()=>{
+   const code=inputs.map(x=>x.value).join('');
+   if(code.length!==6){$('pin-feedback').textContent='Necesitas las seis cifras para continuar.';return}
+   if(code!==ACCESS_CODE){$('pin-feedback').textContent='Todavía no. La clave está en el fondo de la fotografía.';return}
+   $('pin-feedback').textContent='La imagen te ha reconocido. El expediente está abierto.';
+   if(firstDone())show('return-choice-screen');else show('first-camera-screen')
+ });
+ $('pin-hint').addEventListener('click',()=>{
+   $('pin-hint-message').classList.toggle('hidden');
+ });
  $('start-camera').addEventListener('click',beginCamera);
  $('repeat-camera').addEventListener('click',()=>{show('first-camera-screen');$('start-camera').disabled=false});
  $('skip-camera').addEventListener('click',()=>show('letter-screen'));
