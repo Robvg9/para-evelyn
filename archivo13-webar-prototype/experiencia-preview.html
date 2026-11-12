@@ -541,13 +541,16 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 (()=>{
  const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
  let previewMode=false;
+ let loveTrackerInterval=null;
  const show=id=>{
    screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
      $('preview-ribbon').classList.toggle('hidden',!previewMode);
      loadAvatarMusic();
-     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});updateLoveStory()});
+     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker()});
+   }else{
+     stopLoveTracker();
    }
  };
  const $=id=>document.getElementById(id);
@@ -833,7 +836,15 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    {speaker:'Robert',photo:'assets/robert-portrait.jpg',side:'from-robert',line:'Entonces ven. Aquí tienes un abrazo que no tiene prisa por terminar.'},
    {speaker:'Evelyn',photo:'assets/evy-portrait.jpg',side:'from-evy',line:'No te vayas todavía… que esta parte de la historia me gusta.'}
  ];
- let loveFrame=-1,loveRaf=0,loveProgress=0;
+ let loveFrame=-1,loveRaf=0,loveProgress=0,avatarLastVolume=-1;
+ function startLoveTracker(){
+   stopLoveTracker();
+   updateLoveStory();
+   loveTrackerInterval=window.setInterval(updateLoveStory,100);
+ }
+ function stopLoveTracker(){
+   if(loveTrackerInterval){clearInterval(loveTrackerInterval);loveTrackerInterval=null}
+ }
  function updateAvatarCrescendo(progress){
    loveProgress=progress;
    if(!avatarPlayer||!avatarMusicPlaying)return;
@@ -841,7 +852,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    const byTime=7+Math.min(57,elapsed/1000*1.05);
    const byStory=progress*16;
    const volume=Math.max(6,Math.min(82,Math.round(byTime+byStory)));
-   try{avatarPlayer.setVolume(volume)}catch(e){}
+   if(volume!==avatarLastVolume){try{avatarPlayer.setVolume(volume);avatarLastVolume=volume}catch(e){}}
  }
  function updateLoveStory(){
    const track=$('love-story-track');
@@ -939,7 +950,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    avatarPlayer.playVideo();
  });
  $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
- window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null});
+ window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null;stopLoveTracker()});
 })();
 </script>
 </body>
