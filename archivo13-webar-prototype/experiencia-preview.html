@@ -557,8 +557,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
      $('preview-ribbon').classList.toggle('hidden',!previewMode);
-     loadAvatarMusic();
-     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker()});
+     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker();loadMemorySprite()});
    }else{
      stopLoveTracker();
    }
@@ -774,11 +773,13 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  }
  $('open-after-midnight').addEventListener('click',()=>{
    if(Date.now()<UNLOCK_AT){startCountdown();return}
+   startAvatarMusic();
    if(firstDone())show('return-choice-screen');else show('first-camera-screen');
  });
  $('preview-reveal').addEventListener('click',()=>{
    previewMode=true;
    closeScene();
+   startAvatarMusic();
    show('letter-screen');
    window.scrollTo({top:0,behavior:'instant'});
  });
@@ -834,134 +835,83 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('retry-camera').addEventListener('click',beginCamera);
  $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
- const loveCaptions=[
-   'La historia se cuenta mejor cuando los dos se atreven a acercarse.',
-   'A veces, un pequeño paso cambia todo.',
-   'Un abrazo puede decir lo que las palabras no alcanzan.',
-   'Y por un instante, el mundo entero se queda quieto.'
- ];
- const loveDialogues=[
-   {speaker:'Robert',photo:'assets/robert-portrait.jpg',side:'from-robert',line:'Evy… desde que te encontré, hay algo que siempre quiero hacer: acercarme un poquito más a ti.'},
-   {speaker:'Evelyn',photo:'assets/evy-portrait.jpg',side:'from-evy',line:'¿Y si yo también estaba esperando ese momento sin saberlo?'},
-   {speaker:'Robert',photo:'assets/robert-portrait.jpg',side:'from-robert',line:'Entonces ven. Aquí tienes un abrazo que no tiene prisa por terminar.'},
-   {speaker:'Evelyn',photo:'assets/evy-portrait.jpg',side:'from-evy',line:'No te vayas todavía… que esta parte de la historia me gusta.'}
- ];
- let loveFrame=-1,loveRaf=0,loveProgress=0,avatarLastVolume=-1;
- function startLoveTracker(){
-   stopLoveTracker();
-   updateLoveStory();
-   loveTrackerInterval=window.setInterval(updateLoveStory,100);
+ const storyDialogues=[
+ {speaker:'Robert',side:'from-robert',line:'Evy, antes de seguir… quiero contarte algo que no cabe en una fotografía.'},
+ {speaker:'Evelyn',side:'from-evy',line:'¿Otra de tus sorpresas? Jajajaja. A ver, ¿qué inventaste ahora?'},
+ {speaker:'Robert',side:'from-robert',line:'Quiero enseñarte algunos recuerdos… pero sobre todo, lo que hay detrás de ellos.'},
+ {speaker:'Evelyn',side:'from-evy',line:'¿Y qué ves tú cuando me miras de verdad?'},
+ {speaker:'Robert',side:'from-robert',line:'Veo a mi compañera. A quien hace especial hasta el día más sencillo.'},
+ {speaker:'Evelyn',side:'from-evy',line:'Entonces ven… que todavía nos quedan muchísimos capítulos.'}
+];
+let loveFrame=-1,loveRaf=0,loveProgress=0;
+let avatarAudioStarted=false,avatarAudioTimer=null,avatarAudioStartAt=0,avatarLastVolume=-1;
+const AVATAR_LOVE_AUDIO_SRC='';
+const clamp01=n=>Math.max(0,Math.min(1,n));
+const ease=(a,b,x)=>{const t=clamp01((x-a)/(b-a));return t*t*(3-2*t)};
+const mix=(a,b,t)=>a+(b-a)*t;
+function startLoveTracker(){stopLoveTracker();updateLoveStory();loveTrackerInterval=setInterval(updateLoveStory,65)}
+function stopLoveTracker(){if(loveTrackerInterval){clearInterval(loveTrackerInterval);loveTrackerInterval=null}}
+function loadMemorySprite(){
+ if(window.__a13MemorySpriteLoading)return;
+ window.__a13MemorySpriteLoading=true;
+ fetch('assets/recuerdos-sprite.txt',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('No se pudo abrir la galería');return r.text()}).then(encoded=>{
+  const bytes=Uint8Array.from(atob(encoded.trim()),c=>c.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}));
+  document.querySelectorAll('.memory-shot').forEach((el,i)=>{
+   el.style.backgroundImage='url("'+url+'")';
+   el.style.backgroundPosition=[0,33.333,66.667,100][i%4]+'% '+(Math.floor(i/4)?100:0)+'%';
+  });
+  window.__a13MemorySpriteUrl=url;
+ }).catch(()=>{});
+}
+function startAvatarMusic(){
+ const a=$('archivo13-song');
+ if(avatarAudioStarted||!AVATAR_LOVE_AUDIO_SRC||!a)return;
+ avatarAudioStarted=true;a.src=AVATAR_LOVE_AUDIO_SRC;a.loop=true;a.volume=.04;
+ const p=a.play();if(p&&p.catch)p.catch(()=>{avatarAudioStarted=false});
+ avatarAudioStartAt=Date.now();clearInterval(avatarAudioTimer);
+ avatarAudioTimer=setInterval(updateAvatarCrescendo,900);
+}
+function updateAvatarCrescendo(){
+ const a=$('archivo13-song');if(!a||a.paused||!avatarAudioStarted)return;
+ const elapsed=(Date.now()-avatarAudioStartAt)/1000;
+ const v=Math.max(.04,Math.min(.72,.04+Math.min(.46,elapsed*.006)+loveProgress*.26));
+ if(Math.abs(v-avatarLastVolume)>.015){a.volume=v;avatarLastVolume=v}
+}
+function updateLoveStory(){
+ const track=$('love-story-track'),svg=$('couple-svg');
+ if(!track||!svg||!track.offsetHeight)return;
+ const rect=track.getBoundingClientRect(),travel=Math.max(1,track.offsetHeight-window.innerHeight);
+ const p=clamp01((window.innerHeight-rect.top)/travel);loveProgress=p;
+ const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.4,.77,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
+ const bx=mix(-175,275,enterBoy)+approach*25,ex=mix(810,365,enterEvy)-approach*25;
+ $('avatar-boy-main').setAttribute('transform','translate('+bx+' 540) scale(1.12)');
+ $('avatar-evy-main').setAttribute('transform','translate('+ex+' 540) scale(-1.12 1.12)');
+ $('boy-arm-pose').setAttribute('transform','rotate('+mix(0,-48,hug)+' 31 -198)');
+ $('evy-arm-pose').setAttribute('transform','rotate('+mix(0,48,hug)+' 29 -194)');
+ $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
+ $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
+ $('boy-eyes').setAttribute('opacity',kiss>.25 ? 0.1 : 1);
+ $('evy-eyes').setAttribute('opacity',kiss>.25 ? 0.1 : 1);
+ const frame=Math.min(storyDialogues.length-1,Math.floor(p*storyDialogues.length));
+ if(frame!==loveFrame){
+  loveFrame=frame;const d=storyDialogues[frame],talk=$('love-story-talk');
+  talk.classList.toggle('from-evy',d.side==='from-evy');talk.classList.toggle('from-robert',d.side==='from-robert');
+  talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
+  $('love-story-speaker').textContent=d.speaker;$('love-story-line').textContent=d.line;
  }
- function stopLoveTracker(){
-   if(loveTrackerInterval){clearInterval(loveTrackerInterval);loveTrackerInterval=null}
- }
- function updateAvatarCrescendo(progress){
-   loveProgress=progress;
-   if(!avatarPlayer||!avatarMusicPlaying)return;
-   const elapsed=Date.now()-avatarMusicStartedAt;
-   const byTime=7+Math.min(57,elapsed/1000*1.05);
-   const byStory=progress*16;
-   const volume=Math.max(6,Math.min(82,Math.round(byTime+byStory)));
-   if(volume!==avatarLastVolume){try{avatarPlayer.setVolume(volume);avatarLastVolume=volume}catch(e){}}
- }
- function updateLoveStory(){
-   const track=$('love-story-track');
-   const sticky=$('love-story-sticky');
-   if(!track||!sticky||!track.offsetHeight)return;
-   const rect=track.getBoundingClientRect();
-   const stickyRect=sticky.getBoundingClientRect();
-   const stickyHeight=stickyRect.height;
-   const travel=Math.max(1,rect.height-stickyHeight);
-   const topOffset=Math.max(12,window.innerHeight*.06);
-   // Use the panel's viewport position, not window.scrollY. This also works
-   // when Android Chrome scrolls the document element/body in different ways.
-   const progress=Math.max(0,Math.min(1,(topOffset-rect.top)/travel));
-   const frame=Math.min(3,Math.floor(progress*4));
-   updateAvatarCrescendo(progress);
-   if(frame!==loveFrame){
-     loveFrame=frame;
-     document.querySelectorAll('#couple-svg .love-pose').forEach((el,i)=>el.classList.toggle('active',i===frame));
-     $('love-story-caption').textContent=loveCaptions[frame];
-     $('love-story-caption').classList.remove('changing');void $('love-story-caption').offsetWidth;$('love-story-caption').classList.add('changing');
-     document.querySelectorAll('#love-story-dots span').forEach((el,i)=>el.classList.toggle('active',i===frame));
-     const d=loveDialogues[frame], talk=$('love-story-talk');
-     talk.classList.toggle('from-evy',d.side==='from-evy');
-     talk.classList.toggle('from-robert',d.side==='from-robert');
-     talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
-     $('love-story-speaker').textContent=d.speaker;
-     $('love-story-speaker-photo').src=d.photo;
-     $('love-story-speaker-photo').alt='Retrato de '+d.speaker;
-     $('love-story-line').textContent=d.line;
-   }
- }
- function scheduleLoveStoryUpdate(){
-   if(loveRaf)return;
-   loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()});
- }
- // Scroll events do not bubble from nested scroll containers. Capture them
- // at document level and also subscribe to the common mobile scroll roots.
- document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
- window.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
- document.body.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
- document.documentElement.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
- window.addEventListener('touchmove',scheduleLoveStoryUpdate,{passive:true});
- window.addEventListener('resize',scheduleLoveStoryUpdate);
- window.addEventListener('load',scheduleLoveStoryUpdate);
- document.querySelectorAll('.presenter-photo,.memory-photo-card img').forEach(img=>img.addEventListener('load',scheduleLoveStoryUpdate,{once:true}));
- if('ResizeObserver' in window){
-   const loveResizeObserver=new ResizeObserver(scheduleLoveStoryUpdate);
-   loveResizeObserver.observe($('love-story-track'));
-   loveResizeObserver.observe($('love-story-sticky'));
- }
- let avatarPlayer=null,avatarPlayerReady=false,avatarMusicPlaying=false,avatarMusicStartedAt=0,avatarMusicTimer=null;
- function loadAvatarMusic(){
-   const init=()=>{
-     if(avatarPlayer||!window.YT||!window.YT.Player)return;
-     avatarPlayer=new YT.Player('avatar-player',{
-       width:'320',height:'180',videoId:'jRcJp1i4Emo',
-       playerVars:{autoplay:0,controls:0,disablekb:1,modestbranding:1,rel:0,playsinline:1,fs:0,origin:location.origin},
-       events:{
-         onReady:()=>{avatarPlayerReady=true;$('avatar-music-status').textContent='Lista. Toca el botón cuando quieras escucharla.'},
-         onStateChange:(event)=>{
-           if(event.data===1){
-             avatarMusicPlaying=true;
-             $('avatar-music-toggle').textContent='Ⅱ Pausar nuestra canción';
-             if(!avatarMusicStartedAt)avatarMusicStartedAt=Date.now();
-             updateAvatarCrescendo(loveProgress);
-             clearInterval(avatarMusicTimer);
-             avatarMusicTimer=setInterval(()=>updateAvatarCrescendo(loveProgress),1000);
-             $('avatar-music-status').textContent='La música irá creciendo poco a poco mientras recorres nuestra historia.';
-           }else if(event.data===2||event.data===0){
-             avatarMusicPlaying=false;
-             clearInterval(avatarMusicTimer);avatarMusicTimer=null;
-             $('avatar-music-toggle').textContent='▶ Continuar nuestra canción';
-             if(event.data===0)$('avatar-music-status').textContent='La melodía llegó al final. Puedes volver a escucharla.';
-           }
-         },
-         onError:()=>{$('avatar-music-status').textContent='No se pudo cargar el reproductor. Usa el enlace de YouTube de abajo.'}
-       }
-     });
-   };
-   if(window.YT&&window.YT.Player){init();return}
-   window.onYouTubeIframeAPIReady=init;
-   if(!document.querySelector('script[data-avatar-youtube-api]')){
-     const api=document.createElement('script');api.src='https://www.youtube.com/iframe_api';api.async=true;api.dataset.avatarYoutubeApi='true';document.head.appendChild(api);
-   }
- }
- $('avatar-music-toggle').addEventListener('click',()=>{
-   if(!avatarPlayerReady||!avatarPlayer){
-     $('avatar-music-status').textContent='Preparando el reproductor. Toca de nuevo en un momento.';
-     loadAvatarMusic();return;
-   }
-   const state=avatarPlayer.getPlayerState();
-   if(state===1){avatarPlayer.pauseVideo();return}
-   if(!avatarMusicStartedAt)avatarMusicStartedAt=Date.now();
-   avatarPlayer.setVolume(6);
-   avatarPlayer.playVideo();
- });
- $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
- window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null;stopLoveTracker()});
+ $('love-story-caption').textContent=p>.85?'Y por un instante, el mundo entero se queda quieto.':p>.62?'Un abrazo puede decir lo que las palabras no alcanzan.':p>.33?'Dos caminos empiezan a encontrarse.':'A veces, todo empieza con una mirada.';
+ $('story-hearts').classList.toggle('visible',p>.83);
+ updateAvatarCrescendo();
+}
+function scheduleLoveStoryUpdate(){if(loveRaf)return;loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()})}
+document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
+window.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+window.addEventListener('touchmove',scheduleLoveStoryUpdate,{passive:true});
+window.addEventListener('resize',scheduleLoveStoryUpdate);window.addEventListener('load',scheduleLoveStoryUpdate);
+if('ResizeObserver' in window){const obs=new ResizeObserver(scheduleLoveStoryUpdate);obs.observe($('love-story-track'));obs.observe($('love-story-sticky'))}
+loadMemorySprite();
+$('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
+ window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null;stopLoveTracker();clearInterval(avatarAudioTimer);avatarAudioTimer=null});
 })();
 </script>
-</body>
-</html>
