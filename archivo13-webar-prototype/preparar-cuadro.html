@@ -57,6 +57,7 @@ button:disabled{opacity:.45;cursor:wait}
     <p id="summary" class="success">El objetivo personalizado quedó guardado en este teléfono.</p>
     <div class="actions">
       <button id="download">Guardar copia de seguridad .mind</button>
+      <button id="reset-first" class="secondary">Preparar primera visita para Evelyn</button>
       <button id="open">Abrir ARCHIVO 13</button>
     </div>
     <p class="small">No borres los datos de Chrome ni uses el modo incógnito antes de la experiencia. El objetivo vive en el almacenamiento de este navegador.</p>
@@ -148,6 +149,7 @@ button:disabled{opacity:.45;cursor:wait}
      exportedBuffer=await compiler.exportData();
      if(!exportedBuffer||!exportedBuffer.byteLength)throw new Error('El archivo de seguimiento se generó vacío.');
      await saveTarget(exportedBuffer);
+     try{localStorage.removeItem('a13_first_camera_completed_v2')}catch(e){}
      $('bar').style.width='100%';
      $('setup').classList.add('hidden');
      $('done').classList.remove('hidden');
@@ -164,6 +166,14 @@ button:disabled{opacity:.45;cursor:wait}
    const url=URL.createObjectURL(blob);const a=document.createElement('a');
    a.href=url;a.download='ARCHIVO13_ELITE.targets.mind';a.click();
    setTimeout(()=>URL.revokeObjectURL(url),3000);
+ });
+ $('reset-first').addEventListener('click',()=>{
+   try{
+     localStorage.removeItem('a13_first_camera_completed_v2');
+     $('summary').textContent='Preparado para Evelyn: la próxima vez que abra el expediente en este Samsung, la primera lectura de cámara será obligatoria.';
+   }catch(e){
+     $('summary').textContent='No se pudo reiniciar la marca de primera visita. Revisa los permisos de almacenamiento de Chrome.';
+   }
  });
  $('open').addEventListener('click',()=>location.href='./experiencia-preview.html?eliteTarget=1');
 })();
