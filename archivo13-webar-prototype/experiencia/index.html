@@ -253,7 +253,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 #couple-svg .love-pose:not(.pose-0){display:none!important}
 #couple-svg .love-pose.pose-0{display:block!important;opacity:1!important}
 #avatar-boy-main,#avatar-evy-main{filter:drop-shadow(0 6px 9px #100b1d55)}
-#boy-arm-pose,#evy-arm-pose{transform-box:fill-box;transform-origin:15% 12%}
 #boy-mouth,#evy-mouth{transition:d .2s ease}
 #love-story-talk{position:absolute;z-index:10;top:10%;left:5%;right:5%;width:auto;max-width:520px;margin:0 auto;display:block;min-height:0;pointer-events:none}
 #love-story-talk img{display:none}
@@ -366,8 +365,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
         <div class="countdown-unit"><span class="countdown-number" id="cd-seconds">00</span><span class="countdown-caption">Segundos</span></div>
       </div>
       <p class="hint" id="countdown-message">La carta y la cámara permanecen cerradas hasta que llegue el día 13.</p>
-      <!-- TEMPORAL: retirar este acceso de prueba antes de entregar el enlace a Evelyn. -->
-      <button id="preview-reveal" type="button">Vista previa para Robert · ver destino del escaneo</button>
     </div>
   </section>
 
@@ -409,11 +406,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   </section>
 
   <section id="letter-screen" class="hidden">
-    <!-- TEMPORAL: solo para pruebas de Robert; eliminar antes de la entrega a Evelyn. -->
-    <div id="preview-ribbon" class="hidden">
-      VISTA PREVIA DE ROBERT · Esta es la página que aparece al terminar el escaneo.
-      <div class="actions"><button class="btn secondary" id="return-countdown">Volver a la cuenta atrás</button></div>
-    </div>
     <div class="eyebrow">ARCHIVO 13 · Revelación</div>
     <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
     <audio id="archivo13-song" preload="none" playsinline aria-hidden="true"></audio>
@@ -452,7 +444,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
                   <path d="M-34 -210 Q0 -224 35 -210 L43 -118 Q5 -99 -40 -118Z" fill="url(#shirt)"/>
                   <path d="M-14 -213 Q0 -192 14 -213" fill="none" stroke="#a89aaa" stroke-width="3" opacity=".5"/>
                   <g id="boy-arm-left"><path d="M-27 -198 Q-42 -178 -45 -142" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M-46 -145 q-9 1 -10 10 q4 10 14 7 q8 -4 4 -12Z" fill="url(#skin)"/></g>
-                  <g id="boy-arm-pose"><path d="M31 -198 Q50 -185 58 -156 Q65 -137 77 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M75 -126 q10 -2 12 8 q-4 12 -15 6" fill="url(#skin)"/></g>
+                  <g id="boy-arm-pose"><path d="M31 -198 Q43 -181 48 -158 Q54 -139 62 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M61 -126 q9 -3 12 6 q1 10 -10 10 q-8 -3 -2 -16Z" fill="url(#skin)"/></g>
                   <rect x="-12" y="-235" width="24" height="28" rx="8" fill="url(#skin)"/>
                   <ellipse cx="-36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
                   <ellipse cx="36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
@@ -475,7 +467,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
                   <path d="M-54 -53 Q0 -38 56 -53" fill="none" stroke="#fce8e5" stroke-width="3" opacity=".65"/>
                   <g fill="#fff0e7" opacity=".8"><circle cx="-25" cy="-84" r="3"/><circle cx="8" cy="-110" r="3"/><circle cx="29" cy="-72" r="2.5"/></g>
                   <g id="evy-arm-left"><path d="M-27 -193 Q-49 -178 -56 -153 Q-68 -137 -78 -126" fill="none" stroke="url(#skin)" stroke-width="16" stroke-linecap="round"/><path d="M-79 -126 q-9 0 -11 9 q5 11 15 5" fill="url(#skin)"/></g>
-                  <g id="evy-arm-pose"><path d="M29 -194 Q49 -179 61 -158 Q68 -145 74 -136" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/><path d="M72 -139 q11 -4 14 5 q0 10 -10 11 q-9 -3 -4 -16Z" fill="url(#skin)"/></g>
+                  <g id="evy-arm-pose"><path d="M29 -194 Q43 -180 48 -158 Q54 -139 62 -126" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/><path d="M61 -126 q9 -3 12 6 q1 10 -10 10 q-8 -3 -2 -16Z" fill="url(#skin)"/></g>
                   <rect x="-11" y="-237" width="22" height="30" rx="9" fill="url(#skin)"/>
                   <ellipse cx="0" cy="-267" rx="36" ry="46" fill="url(#skin)"/>
                   <path d="M-40 -271 Q-52 -319 -16 -328 Q24 -340 42 -304 Q47 -282 33 -268 Q27 -285 18 -286 Q4 -281 -9 -289 Q-25 -278 -40 -271Z" fill="url(#hair)"/>
@@ -580,13 +572,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 <script>
 (()=>{
  const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
- let previewMode=false;
  let loveTrackerInterval=null;
  const show=id=>{
    screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
-     $('preview-ribbon').classList.toggle('hidden',!previewMode);
      requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker();loadMemorySprite()});
    }else{
      stopLoveTracker();
@@ -597,6 +587,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const inputs=[...document.querySelectorAll('.pinrow input')];
  const FIRST_KEY='a13_first_camera_completed_v2';
  const ACCESS_CODE='919493';
+ const ADMIN_CODE='001101';
  // Midnight at the start of Nov 13, 2026, in this phone's own local timezone.
  const UNLOCK_AT=new Date(2026,10,13,0,0,0,0).getTime();
  let countdownTimer=null;
@@ -806,18 +797,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    startAvatarMusic();
    if(firstDone())show('return-choice-screen');else show('first-camera-screen');
  });
- $('preview-reveal').addEventListener('click',()=>{
-   previewMode=true;
-   closeScene();
-   startAvatarMusic();
-   show('letter-screen');
-   window.scrollTo({top:0,behavior:'instant'});
- });
- $('return-countdown').addEventListener('click',()=>{
-   previewMode=false;
-   show('countdown-screen');
-   startCountdown();
- });
  function showCodeError(message){
    $('pin-feedback').textContent=message;
    $('pin-feedback').classList.add('error');
@@ -836,6 +815,14 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  function submitCode(){
    const code=inputs.map(x=>x.value).join('');
    if(code.length!==6){showCodeError('Faltan cifras. Revisa la fotografía.');return}
+   if(code===ADMIN_CODE){
+     clearCodeError();
+     closeScene();
+     cameraError.classList.add('hidden');
+     startAvatarMusic();
+     show('letter-screen');
+     return;
+   }
    if(code!==ACCESS_CODE){showCodeError('Código incorrecto. Mira otra vez los detalles de la foto.');inputs[5].focus();return}
    clearCodeError();
    $('pin-feedback').textContent='La imagen te ha reconocido. La sorpresa tiene una hora reservada…';
@@ -899,6 +886,8 @@ function startAvatarMusic(){
  const a=$('archivo13-song');
  if(avatarAudioStarted||!AVATAR_LOVE_AUDIO_SRC||!a)return;
  avatarAudioStarted=true;a.src=AVATAR_LOVE_AUDIO_SRC;a.loop=true;a.volume=.035;
+ const seekToOpening=()=>{try{if(Number.isFinite(a.duration)&&a.duration>26)a.currentTime=26}catch(e){}};
+ if(a.readyState>=1)seekToOpening();else a.addEventListener('loadedmetadata',seekToOpening,{once:true});
  const p=a.play();if(p&&p.catch)p.catch(()=>{avatarAudioStarted=false});
  avatarAudioStartAt=Date.now();clearInterval(avatarAudioTimer);
  avatarAudioTimer=setInterval(updateAvatarCrescendo,900);
@@ -916,13 +905,10 @@ function updateLoveStory(){
  const p=clamp01((window.innerHeight-rect.top)/travel);loveProgress=p;
  const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.40,.78,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
  const bob=Math.sin(p*22)*1.5;
- const bx=mix(-180,250,enterBoy)+approach*8,ex=mix(820,390,enterEvy)-approach*8,lean=mix(0,4,kiss);
+ const bx=mix(-180,250,enterBoy)+approach*8,ex=mix(820,390,enterEvy)-approach*8,lean=30*kiss;
  // Whole-character transforms keep every body part attached.
  $('avatar-boy-main').setAttribute('transform','translate('+bx+' '+(540+bob)+') rotate('+lean+' 0 -170) scale(1.12)');
  $('avatar-evy-main').setAttribute('transform','translate('+ex+' '+(540-bob)+') rotate('+(-lean)+' 0 -170) scale(-1.12 1.12)');
- // Whole arm groups include their hands, so nothing can become detached.
- $('boy-arm-pose').setAttribute('transform','rotate('+(-46*hug)+' 31 -198)');
- $('evy-arm-pose').setAttribute('transform','rotate('+(-42*hug)+' 29 -194)');
  $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
  $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
  
