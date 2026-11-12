@@ -296,6 +296,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
  };
  const $=id=>document.getElementById(id);
+ show('pin-screen');
  const inputs=[...document.querySelectorAll('.pinrow input')];
  const FIRST_KEY='a13_first_camera_completed_v2';
  const ACCESS_CODE='919493';
