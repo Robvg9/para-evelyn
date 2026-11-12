@@ -546,6 +546,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
      $('preview-ribbon').classList.toggle('hidden',!previewMode);
+     loadAvatarMusic();
      requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});updateLoveStory()});
    }
  };
@@ -937,7 +938,6 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    avatarPlayer.setVolume(6);
    avatarPlayer.playVideo();
  });
- loadAvatarMusic();
  $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
  window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null});
 })();
