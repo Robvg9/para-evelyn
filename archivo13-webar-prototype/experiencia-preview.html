@@ -139,7 +139,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <div class="card">
       <h2>Activa la cámara</h2>
       <p class="copy">Apunta directamente al cuadro ELITE ya impreso. Este teléfono debe haberse preparado antes con la imagen FINAL; después reconocerá el retrato real, no una tarjeta de muestra.</p>
-      <a class="target-link" href="./preparar-cuadro.html">Preparar este teléfono para reconocer ELITE</a>
+      <a id="prepare-camera-link" class="target-link hidden" href="./preparar-cuadro.html">Preparar este teléfono para reconocer ELITE</a>
       <div class="actions"><button class="btn" id="start-camera">Iniciar lectura con cámara</button></div>
       <p class="hint" id="camera-hint">Permite el acceso a la cámara. No cierres esta página mientras el archivo está leyendo la imagen.</p>
     </div>
@@ -227,7 +227,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <h2 id="error-title" style="font-size:32px;margin:15px 0">No se pudo abrir la cámara</h2>
     <p id="error-text" class="copy">Comprueba el permiso de cámara y vuelve a intentarlo.</p>
     <div class="actions"><button class="btn" id="retry-camera">Reintentar lectura</button><button class="btn secondary" id="close-error">Volver</button></div>
-    <a id="prepare-from-error" class="target-link" href="./preparar-cuadro.html">Preparar el reconocimiento de ELITE en este teléfono</a>
+    <a id="prepare-from-error" class="target-link hidden" href="./preparar-cuadro.html">Preparar el reconocimiento de ELITE en este teléfono</a>
     <p class="hint">En la primera visita no se puede saltar esta lectura.</p>
   </div>
 </div>
@@ -241,6 +241,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const ACCESS_CODE='919493';
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
+ readCompiledTarget().then(value=>{if(!value)$('prepare-camera-link').classList.remove('hidden')}).catch(()=>{$('prepare-camera-link').classList.remove('hidden')});
  let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1,mindTargetUrl=null;
  function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
  function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
@@ -398,7 +399,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
      initAudio();const compiledTarget=await readCompiledTarget();
-     if(!compiledTarget)throw new Error('Este teléfono todavía no tiene preparado el reconocimiento del cuadro. Abre “Preparar este teléfono”, selecciona el JPG FINAL exacto y vuelve a esta página.');
+     if(!compiledTarget){$('prepare-from-error').classList.remove('hidden');throw new Error('Este teléfono todavía no tiene preparado el reconocimiento del cuadro. Abre “Preparar este teléfono”, selecciona el JPG FINAL exacto y vuelve a esta página.')}else $('prepare-from-error').classList.add('hidden');
      const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
      if(mindTargetUrl)URL.revokeObjectURL(mindTargetUrl);
      mindTargetUrl=URL.createObjectURL(new Blob([compiledTarget],{type:'application/octet-stream'}));
