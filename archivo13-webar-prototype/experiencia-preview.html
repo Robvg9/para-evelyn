@@ -101,6 +101,34 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 #pin-hint-message{max-width:430px;margin:10px auto 0;color:#e5d2c4;text-align:center;font:12px/1.65 system-ui}
 #camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
 .error-box{max-width:440px;text-align:center}
+@media(max-width:600px){
+ body.compact-view{height:100dvh;min-height:0;overflow:hidden;overscroll-behavior:none}
+ body.compact-view .wrap{width:min(100% - 22px,520px);height:100dvh;min-height:0;padding:9px 0 12px;display:flex;flex-direction:column}
+ body.compact-view .top{font-size:9px;flex:0 0 auto}
+ body.compact-view .pill{padding:5px 8px;font-size:8px}
+ body.compact-view .rule{margin:8px 0 9px;flex:0 0 1px}
+ body.compact-view #pin-screen,body.compact-view #countdown-screen,body.compact-view #unlock-ready-screen{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+ body.compact-view #pin-screen .eyebrow{font-size:8px;letter-spacing:.22em}
+ body.compact-view #pin-screen h1{font-size:clamp(27px,7.5vw,34px);line-height:.99;margin:7px 0 8px}
+ body.compact-view #pin-screen .lead{font-size:11px;line-height:1.38;max-width:390px}
+ body.compact-view #pin-screen .card{margin:11px 0 0;padding:12px 13px;border-radius:17px;box-shadow:0 10px 25px #0004}
+ body.compact-view #pin-screen .card .eyebrow{font-size:8px}
+ body.compact-view #pin-screen .card h2{font-size:21px;line-height:1.08;margin:7px 0}
+ body.compact-view #pin-screen .copy{font-size:11px;line-height:1.35}
+ body.compact-view .pinrow{gap:6px;margin:10px 0 8px}
+ body.compact-view .pinrow input{width:clamp(37px,10.4vw,43px);height:44px;border-radius:10px;font-size:23px}
+ body.compact-view .actions{margin-top:7px;gap:7px}
+ body.compact-view .btn{padding:11px 18px;font-size:12px}
+ body.compact-view .hint{font-size:10px;line-height:1.35;margin-top:7px;min-height:13px}
+ body.compact-view #pin-hint{font-size:10px;margin:5px auto 0;padding:4px}
+ body.compact-view #pin-hint-message{font-size:10px;line-height:1.3;margin:5px auto 0}
+ body.compact-view #countdown-screen .card,body.compact-view #unlock-ready-screen .card{margin:12px 0;padding:22px 16px}
+ body.compact-view #countdown-screen h1,body.compact-view #unlock-ready-screen h1{font-size:clamp(30px,8vw,40px);margin:10px 0}
+ body.compact-view .countdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:20px 0 9px}
+ body.compact-view .countdown-unit{padding:12px 4px;border:1px solid #d9b87966;border-radius:12px;background:#100c1266;text-align:center}
+ body.compact-view .countdown-number{font:clamp(23px,7vw,31px) Georgia;color:var(--cream);font-variant-numeric:tabular-nums}
+ body.compact-view .countdown-caption{display:block;margin-top:5px;color:#bdaea3;font:8px system-ui;letter-spacing:.12em;text-transform:uppercase}
+}
 @media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
@@ -129,6 +157,35 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
       <p class="hint" id="pin-feedback">Introduce las seis cifras que encuentres en la fotografía.</p>
       <button id="pin-hint" type="button">¿Una pequeña pista?</button>
       <p id="pin-hint-message" class="hidden">No busques sobre su rostro. Mira entre las hojas, en la zona inferior derecha de la fotografía: seis cifras se esconden allí.</p>
+    </div>
+  </section>
+
+  <section id="countdown-screen" class="hidden">
+    <div class="eyebrow">ARCHIVO 13 · UNA FECHA MUY NUESTRA</div>
+    <h1>Hay momentos<br><em>que merecen su hora.</em></h1>
+    <p class="lead">La llave es correcta. Pero esta parte de nuestra historia solo se abre cuando comience nuestro día.</p>
+    <div class="card">
+      <div class="eyebrow">La sorpresa se desbloquea a medianoche</div>
+      <h2 style="text-align:center;margin-top:10px">13 de noviembre · 00:00</h2>
+      <p class="copy" style="text-align:center">Cada segundo nos acerca a otro mes de nosotros.</p>
+      <div class="countdown-grid" aria-live="polite">
+        <div class="countdown-unit"><span class="countdown-number" id="cd-days">00</span><span class="countdown-caption">Días</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-hours">00</span><span class="countdown-caption">Horas</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-minutes">00</span><span class="countdown-caption">Minutos</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-seconds">00</span><span class="countdown-caption">Segundos</span></div>
+      </div>
+      <p class="hint" id="countdown-message">La carta y la cámara permanecen cerradas hasta que llegue el día 13.</p>
+    </div>
+  </section>
+
+  <section id="unlock-ready-screen" class="hidden">
+    <div class="eyebrow">13 · 00:00</div>
+    <h1>Ya llegó<br><em>nuestro día.</em></h1>
+    <div class="card">
+      <div class="eyebrow">La espera terminó</div>
+      <h2 style="text-align:center">La sorpresa está lista.</h2>
+      <p class="copy" style="text-align:center">Feliz 4 años y 3 meses. Ahora sí, abre la siguiente parte de nuestra historia.</p>
+      <div class="actions"><button class="btn" id="open-after-midnight">Abrir expediente</button></div>
     </div>
   </section>
 
@@ -233,12 +290,18 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 </div>
 <script>
 (()=>{
- const screens=['pin-screen','first-camera-screen','return-choice-screen','letter-screen'];
- const show=id=>screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+ const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
+ const show=id=>{
+   screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+   document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
+ };
  const $=id=>document.getElementById(id);
  const inputs=[...document.querySelectorAll('.pinrow input')];
  const FIRST_KEY='a13_first_camera_completed_v2';
  const ACCESS_CODE='919493';
+ // 13 Nov 2026 at 00:00 in America/Puerto_Rico (AST, UTC-04:00).
+ const UNLOCK_AT=Date.UTC(2026,10,13,4,0,0);
+ let countdownTimer=null;
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
  readCompiledTarget().then(value=>{if(!value)$('prepare-camera-link').classList.remove('hidden')}).catch(()=>{$('prepare-camera-link').classList.remove('hidden')});
@@ -417,13 +480,40 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
      $('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
    }catch(e){$('start-camera').disabled=false;showCameraError(e?.message||'No se pudo iniciar la cámara.')}
  }
+ function showUnlockReady(){
+   clearInterval(countdownTimer);countdownTimer=null;
+   show('unlock-ready-screen');
+ }
+ function startCountdown(){
+   show('countdown-screen');
+   clearInterval(countdownTimer);
+   updateCountdown();
+   countdownTimer=setInterval(updateCountdown,250);
+ }
+ function updateCountdown(){
+   const remaining=Math.max(0,UNLOCK_AT-Date.now());
+   if(remaining<=0){showUnlockReady();return}
+   const total=Math.floor(remaining/1000);
+   const days=Math.floor(total/86400);
+   const hours=Math.floor((total%86400)/3600);
+   const minutes=Math.floor((total%3600)/60);
+   const seconds=total%60;
+   $('cd-days').textContent=String(days).padStart(2,'0');
+   $('cd-hours').textContent=String(hours).padStart(2,'0');
+   $('cd-minutes').textContent=String(minutes).padStart(2,'0');
+   $('cd-seconds').textContent=String(seconds).padStart(2,'0');
+ }
+ $('open-after-midnight').addEventListener('click',()=>{
+   if(Date.now()<UNLOCK_AT){startCountdown();return}
+   if(firstDone())show('return-choice-screen');else show('first-camera-screen');
+ });
  inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}})});
  $('unlock').addEventListener('click',()=>{
    const code=inputs.map(x=>x.value).join('');
    if(code.length!==6){$('pin-feedback').textContent='Necesitas las seis cifras para continuar.';return}
    if(code!==ACCESS_CODE){$('pin-feedback').textContent='Todavía no. La clave está en el fondo de la fotografía.';return}
-   $('pin-feedback').textContent='La imagen te ha reconocido. El expediente está abierto.';
-   if(firstDone())show('return-choice-screen');else show('first-camera-screen')
+   $('pin-feedback').textContent='La imagen te ha reconocido. La sorpresa tiene una hora reservada…';
+   if(Date.now()<UNLOCK_AT)startCountdown();else showUnlockReady();
  });
  $('pin-hint').addEventListener('click',()=>{
    $('pin-hint-message').classList.toggle('hidden');
@@ -435,7 +525,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
  $('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
- window.addEventListener('pagehide',closeScene);
+ window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null});
 })();
 </script>
 </body>
