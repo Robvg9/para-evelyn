@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120d16">
+<title>ARCHIVO 13 · Lectura del corazón</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#120d16;--gold:#d9b879;--cream:#f5ead8;--muted:#c6b9ad;--line:#d9b8794d}
+*{box-sizing:border-box}
+html{min-height:100%;overflow-x:clip;overflow-y:auto;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;min-height:100svh;overflow-x:clip;overflow-y:visible;overscroll-behavior-y:contain;touch-action:pan-y;background:radial-gradient(ellipse at 50% -15%,#553342 0,#261a27 42%,var(--bg) 78%);color:var(--cream);font-family:Georgia,'Times New Roman',serif}
+button,input{font:inherit}
+.wrap{width:min(100% - 28px,720px);min-height:100svh;margin:0 auto;padding:20px 0 max(76px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--gold);font:600 10px/1.4 system-ui;letter-spacing:.18em;text-transform:uppercase}
+.pill{border:1px solid #d9b87966;border-radius:99px;padding:7px 10px;color:#ead5ae;font:600 9px system-ui;letter-spacing:.12em}
+.rule{height:1px;background:linear-gradient(90deg,transparent,#a77c43,transparent);margin:18px 0 32px}
+.eyebrow{text-align:center;color:var(--gold);font:600 10px system-ui;letter-spacing:.28em;text-transform:uppercase}
+h1{font-size:clamp(36px,9vw,64px);font-weight:400;line-height:1.02;text-align:center;margin:15px 0}
+h1 em{color:var(--gold);font-weight:400}
+.lead{max-width:540px;margin:0 auto;color:var(--muted);font:15px/1.7 system-ui;text-align:center}
+.card{margin:23px 0;padding:clamp(20px,5vw,34px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#382631e8,#201720f5);box-shadow:0 22px 55px #0005}
+h2{font-size:26px;font-weight:400;margin:0 0 10px}
+.copy{color:var(--muted);font:14px/1.7 system-ui;margin:0}
+.pinrow{display:flex;justify-content:center;gap:7px;margin:23px 0 12px}
+.pinrow input{width:clamp(38px,11vw,52px);height:58px;border-radius:12px;border:1px solid #d9b87977;background:#100c12;color:var(--cream);text-align:center;font:28px Georgia;outline:none}
+.pinrow input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d9b87922}
+.btn{border:0;border-radius:99px;padding:14px 21px;background:linear-gradient(135deg,#f0ddb8,#bd9150);color:#231820;font:700 13px system-ui;cursor:pointer}
+.btn.secondary{background:transparent;border:1px solid #d9b87980;color:var(--cream)}
+.btn:disabled{opacity:.5;cursor:wait}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
+.hint{text-align:center;color:#a99a90;font:11px/1.6 system-ui;margin:12px 0 0}
+.target-link{display:block;max-width:230px;margin:18px auto 0;padding:8px;border:1px solid #d9b87966;border-radius:12px;color:var(--gold);text-align:center;text-decoration:none;font:12px system-ui}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.choice button{min-height:128px;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;background:#1c151d;color:var(--cream);cursor:pointer}
+.choice strong{display:block;font:19px Georgia;margin-bottom:8px;color:var(--gold)}
+.choice span{font:12px/1.5 system-ui;color:var(--muted)}
+.hidden{display:none!important}
+.paper{background:linear-gradient(145deg,#f4ead8,#e7d8c1);color:#34232a;border-radius:4px;padding:clamp(22px,6vw,48px);box-shadow:0 18px 45px #0005;position:relative;overflow:hidden}
+.paper:before{content:'';position:absolute;inset:9px;border:1px solid #b99a6b;pointer-events:none}
+.paper .eyebrow{color:#99713e}
+.paper h2{font-size:clamp(28px,7vw,43px);text-align:center;line-height:1.12;margin:13px 0 22px}
+.paper p{font-size:15px;line-height:1.8;position:relative}
+.paper .sign{margin-top:27px;text-align:right;font-style:italic;color:#816044}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+.photo{min-height:160px;border:1px solid #d9b87966;border-radius:12px;background:linear-gradient(145deg,#3a2933,#211821);display:flex;flex-direction:column;justify-content:end;padding:13px;color:var(--muted);font:11px/1.5 system-ui}
+.photo:first-child{grid-row:span 2;min-height:320px}
+.photo b{color:var(--gold);font:16px Georgia;margin-bottom:4px}
+.secret{display:block;margin:20px auto 0;border:0;background:transparent;color:#a98751;font:12px system-ui;letter-spacing:.35em;cursor:pointer;opacity:.65}
+.secret-message{text-align:center;color:#936d43;font:italic 12px/1.6 system-ui;margin-top:8px}
+.footer{text-align:center;color:#94867d;font:10px/1.6 system-ui;margin:28px 8px 0}
+#camera-shell{display:block;position:fixed;inset:0;background:#000;z-index:20;opacity:0;pointer-events:none}
+#camera-shell.active{opacity:1;pointer-events:auto}
+#ar-scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+#scan-ui{position:absolute!important;z-index:90!important;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(20px,env(safe-area-inset-top)) 18px max(25px,env(safe-area-inset-bottom));pointer-events:none;background:radial-gradient(ellipse at 50% 48%,#f1d9c622 0%,#d7b8b51a 23%,transparent 58%),linear-gradient(180deg,#17111a66 0%,transparent 32%,transparent 58%,#17111aa8 100%)}
+#dream-light{position:absolute;z-index:1;inset:-20%;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,#f8e8d733 0%,#e9c9bd18 22%,transparent 56%),radial-gradient(ellipse at 17% 75%,#efcfd51b,transparent 38%),radial-gradient(ellipse at 83% 22%,#f4dfc51c,transparent 40%);animation:light-breathe 7s ease-in-out infinite}
+#dream-particles{position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none}
+.scanline{position:absolute;z-index:3;left:5%;right:5%;height:1px;top:16%;background:linear-gradient(90deg,transparent,#fff0e2a8,#f8d9c7,#fff0e2a8,transparent);box-shadow:0 0 8px #ffe8d5aa,0 0 20px #f0d5c477;animation:soft-sweep 5.8s ease-in-out infinite;pointer-events:none}
+#scan-burst{position:absolute;z-index:4;inset:0;opacity:0;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,#fff4e6aa 0%,#f4d8ce44 16%,#e5c4bd1c 34%,transparent 65%)}
+#scan-burst.fire{animation:soft-reveal 1.25s ease-out}
+.scan-top{position:relative;z-index:6;text-align:center}
+.scan-label{font:500 9px system-ui;letter-spacing:.28em;color:#f1dfd2;text-shadow:0 1px 12px #251722}
+#scan-title{font:clamp(20px,5.3vw,28px) Georgia,'Times New Roman',serif;font-weight:400;margin-top:11px;color:#fff2e8;text-shadow:0 2px 16px #1c111c,0 0 20px #e9cdc088}
+.scan-center{position:absolute;z-index:6;left:18px;right:18px;top:48%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:17px}
+.dream-orb{position:relative;width:clamp(180px,49vw,236px);height:clamp(180px,49vw,236px);display:grid;place-items:center;margin-bottom:2px;isolation:isolate}
+.dream-orb:before{content:"";position:absolute;inset:17px;border-radius:50%;background:radial-gradient(circle,#fff7ee66 0%,#f2dbd133 31%,#d5b1bb16 55%,transparent 72%);filter:blur(7px);animation:orb-breathe 5.2s ease-in-out infinite}
+.dream-orb:after{content:"";position:absolute;inset:5px;border-radius:50%;border:1px solid #f7e6d27a;box-shadow:0 0 24px #f2dfd055,inset 0 0 24px #fff1e333;opacity:.7;animation:orb-breathe 6s ease-in-out infinite reverse}
+.dream-orb .orb-ring-one{position:absolute;inset:13px;border:1px solid #fae6d266;border-left-color:transparent;border-right-color:#f7e3d099;border-radius:50%;transform:rotate(-28deg);animation:orb-drift 24s linear infinite}
+.dream-orb .orb-ring-two{position:absolute;inset:25px;border:1px solid #f7e7d24d;border-top-color:transparent;border-bottom-color:#fff0e599;border-radius:46% 54% 58% 42%;transform:rotate(32deg);animation:orb-drift 31s linear infinite reverse}
+.dream-orb .orb-petal{position:absolute;width:30px;height:53px;border:1px solid #f7e1d5a3;border-radius:100% 0 100% 0;background:linear-gradient(145deg,#fff5e744,#e6c2c92a);box-shadow:0 0 17px #f7e3d055;transform-origin:50% 90%;animation:petal-float 5.5s ease-in-out infinite}
+.dream-orb .orb-petal.p1{top:12px;left:calc(50% - 15px);transform:rotate(0deg)}
+.dream-orb .orb-petal.p2{right:27px;bottom:48px;transform:rotate(118deg);animation-delay:-1.7s}
+.dream-orb .orb-petal.p3{left:27px;bottom:48px;transform:rotate(-118deg);animation-delay:-3.2s}
+#scan-symbols{position:relative;z-index:4;color:#fff5eb;font:clamp(49px,13vw,68px)/1 Georgia,serif;text-shadow:0 0 10px #fff6e9,0 0 26px #f2d8cc,0 0 52px #e4c2c2aa;animation:heart-breathe 3.2s ease-in-out infinite}
+#scan-status{width:min(100%,500px);font:400 clamp(22px,5.3vw,29px)/1.28 Georgia,'Times New Roman',serif;letter-spacing:.01em;text-align:center;text-wrap:balance;white-space:pre-line;color:#fff4ec;min-height:78px;text-shadow:0 2px 18px #211520,0 0 22px #e8c8c477}
+#scan-status.scan-status-pop{animation:soft-text-in 1s cubic-bezier(.2,.7,.2,1)}
+.scan-bottom{position:relative;z-index:6;max-width:600px;width:100%;margin:0 auto}
+#scan-log{min-height:38px;text-align:center;color:#f2dfd5;font:italic 15px/1.55 Georgia,serif;text-shadow:0 2px 12px #21151f,0 0 14px #e9d1c066;margin-top:10px}
+.progress-track{height:3px;border-radius:9px;background:#ffffff4a;overflow:hidden;margin:12px 0 8px;box-shadow:0 0 10px #271b24}
+#progress-fill{height:100%;width:0;background:linear-gradient(90deg,#b9938b,#f1d9cb,#fff4e7);box-shadow:0 0 10px #fcebdc,0 0 20px #e8c7c3;transition:width .12s linear}
+.progress-meta{display:flex;justify-content:space-between;color:#ead9d0;font:500 9px system-ui;letter-spacing:.13em;text-shadow:0 1px 8px #221620}
+#target-lost{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:#211721dd;text-align:center;padding:30px;color:#f6e8dd;font:500 15px/1.8 system-ui;z-index:120}
+#scan-flash{position:fixed;inset:0;z-index:150;background:#fff7ef;opacity:0;pointer-events:none}
+#scan-flash.fire{animation:flash .9s ease-out}
+@keyframes flash{0%{opacity:0}20%{opacity:.55}100%{opacity:0}}
+@keyframes soft-sweep{0%,100%{top:19%;opacity:0}22%,78%{opacity:.7}50%{top:82%;opacity:.6}}
+@keyframes orb-breathe{0%,100%{transform:scale(.94);opacity:.55}50%{transform:scale(1.08);opacity:1}}
+@keyframes orb-drift{to{transform:rotate(332deg)}}
+@keyframes petal-float{0%,100%{filter:brightness(.9);opacity:.55}50%{filter:brightness(1.35);opacity:1}}
+@keyframes heart-breathe{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.08);opacity:1}}
+@keyframes light-breathe{0%,100%{opacity:.65;transform:scale(.98)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes soft-text-in{0%{opacity:0;transform:translateY(12px);filter:blur(4px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes soft-reveal{0%{opacity:0;transform:scale(.9)}35%{opacity:.9}100%{opacity:0;transform:scale(1.1)}}
+.dream-particle{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle,#fffaf4 0%,#f1d9d0 35%,#e9c8ca00 78%);box-shadow:0 0 8px 2px #f1d8d288,0 0 20px 5px #e8c6ca44;pointer-events:none;animation:dust-drift 7s ease-in-out infinite}
+.dream-petal{position:absolute;display:block;width:9px;height:16px;border:1px solid #f8e3d577;border-radius:100% 0 100% 0;background:linear-gradient(145deg,#fff6ec66,#e2c2ca33);box-shadow:0 0 9px #edced066;pointer-events:none;animation:petal-drift 9s ease-in-out infinite}
+@keyframes dust-drift{0%,100%{transform:translate3d(0,24px,0) scale(.65);opacity:0}25%,75%{opacity:.62}50%{transform:translate3d(13px,-28px,0) scale(1.25);opacity:.95}}
+@keyframes petal-drift{0%,100%{transform:translate3d(0,26px,0) rotate(-35deg);opacity:0}25%,75%{opacity:.6}50%{transform:translate3d(17px,-36px,0) rotate(42deg);opacity:.85}}
+#pin-hint{display:block;margin:14px auto 0;padding:7px 4px;border:0;background:transparent;color:#d8b99e;text-decoration:underline;text-decoration-color:#d8b99e88;text-underline-offset:4px;font:12px system-ui;cursor:pointer}
+#pin-feedback.error{color:#ffe2e4;background:#6f354322;border:1px solid #d58d9a66;border-radius:9px;padding:6px 9px;font-weight:600}
+.pinrow.invalid input{border-color:#d88b99;box-shadow:0 0 0 2px #d88b9944}
+@keyframes code-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.pinrow.invalid{animation:code-nudge .22s ease 2}
+#preview-reveal{margin-top:12px;width:100%;border:1px dashed #d9b87988;background:#d9b87912;color:#f0d8ad;font:600 11px system-ui;letter-spacing:.04em}
+#preview-ribbon{margin:0 0 18px;padding:12px 14px;border:1px dashed #c59d68;border-radius:13px;background:#3a2a3033;color:#875f35;font:600 11px/1.5 system-ui;text-align:center}
+#preview-ribbon .actions{margin-top:8px}
+#pin-hint-message{max-width:430px;margin:10px auto 0;color:#e5d2c4;text-align:center;font:12px/1.65 system-ui}
+#camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
+.error-box{max-width:440px;text-align:center}
+@media(max-width:600px){
+ body.compact-view{height:100dvh;min-height:0;overflow:hidden;overscroll-behavior:none}
+ body.compact-view .wrap{width:min(100% - 22px,520px);height:100dvh;min-height:0;padding:9px 0 12px;display:flex;flex-direction:column}
+ body.compact-view .top{font-size:9px;flex:0 0 auto}
+ body.compact-view .pill{padding:5px 8px;font-size:8px}
+ body.compact-view .rule{margin:8px 0 9px;flex:0 0 1px}
+ body.compact-view #pin-screen,body.compact-view #countdown-screen,body.compact-view #unlock-ready-screen{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+ body.compact-view #pin-screen .eyebrow{font-size:8px;letter-spacing:.22em}
+ body.compact-view #pin-screen h1{font-size:clamp(27px,7.5vw,34px);line-height:.99;margin:7px 0 8px}
+ body.compact-view #pin-screen .lead{font-size:11px;line-height:1.38;max-width:390px}
+ body.compact-view #pin-screen .card{margin:11px 0 0;padding:12px 13px;border-radius:17px;box-shadow:0 10px 25px #0004}
+ body.compact-view #pin-screen .card .eyebrow{font-size:8px}
+ body.compact-view #pin-screen .card h2{font-size:21px;line-height:1.08;margin:7px 0}
+ body.compact-view #pin-screen .copy{font-size:11px;line-height:1.35}
+ body.compact-view .pinrow{gap:6px;margin:10px 0 8px}
+ body.compact-view .pinrow input{width:clamp(37px,10.4vw,43px);height:44px;border-radius:10px;font-size:23px}
+ body.compact-view .actions{margin-top:7px;gap:7px}
+ body.compact-view .btn{padding:11px 18px;font-size:12px}
+ body.compact-view .hint{font-size:10px;line-height:1.35;margin-top:7px;min-height:13px}
+ body.compact-view #pin-hint{font-size:10px;margin:5px auto 0;padding:4px}
+ body.compact-view #pin-hint-message{font-size:10px;line-height:1.3;margin:5px auto 0}
+ body.compact-view #countdown-screen .card,body.compact-view #unlock-ready-screen .card{margin:12px 0;padding:22px 16px}
+ body.compact-view #countdown-screen h1,body.compact-view #unlock-ready-screen h1{font-size:clamp(30px,8vw,40px);margin:10px 0}
+ body.compact-view .countdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:20px 0 9px}
+ body.compact-view .countdown-unit{padding:12px 4px;border:1px solid #d9b87966;border-radius:12px;background:#100c1266;text-align:center}
+ body.compact-view .countdown-number{font:clamp(23px,7vw,31px) Georgia;color:var(--cream);font-variant-numeric:tabular-nums}
+ body.compact-view .countdown-caption{display:block;margin-top:5px;color:#bdaea3;font:8px system-ui;letter-spacing:.12em;text-transform:uppercase}
+}
+@media(max-width:430px){.choice{grid-template-columns:1fr}.choice button{min-height:94px}.photos{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+/* ARCHIVO 13 — storybook, scroll-driven love scene */
+.love-story{margin:36px 0 22px;position:relative}
+.love-story-head{text-align:center;max-width:520px;margin:0 auto 22px;padding:0 12px}
+.love-story-kicker{font:600 9px system-ui;letter-spacing:.27em;text-transform:uppercase;color:#c9a8a2}
+.love-story-head h2{font:400 clamp(27px,7vw,37px)/1.12 Georgia,serif;color:#f7e9df;margin:10px 0}
+.love-story-head p{font:13px/1.7 system-ui;color:#c8b6b3;margin:0}
+.love-story-track{height:225vh;position:relative;margin:0 -2px}
+.love-story-sticky{position:sticky;top:7vh;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px 0 10px}
+.love-story-illustration{position:relative;width:min(100%,520px);overflow:hidden;border-radius:25px;border:1px solid #f6e5dc55;box-shadow:0 18px 55px #09060d55,0 0 28px #d8b5bc22;background:#6d526d}
+.love-story-illustration:after{content:"";position:absolute;inset:0;border-radius:25px;box-shadow:inset 0 0 38px #fff2e51b;pointer-events:none}
+#couple-svg{display:block;width:100%;height:auto}
+#couple-svg .love-pose{display:none;opacity:0}
+#couple-svg .love-pose.active{display:block;opacity:1;animation:pose-soft-in .65s ease both}
+@keyframes pose-soft-in{from{opacity:0;filter:blur(3px);transform:translateY(6px) scale(.99)}to{opacity:1;filter:blur(0);transform:translateY(0) scale(1)}}
+.love-story-caption{max-width:490px;min-height:58px;margin:0 auto;color:#f7e8dc;text-align:center;font:italic clamp(18px,4.8vw,23px)/1.35 Georgia,serif;text-shadow:0 2px 14px #120c16;transition:opacity .35s ease}
+.love-story-caption.changing{animation:caption-soft-in .55s ease both}
+@keyframes caption-soft-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.love-story-dots{display:flex;align-items:center;justify-content:center;gap:8px}
+.love-story-dots span{width:6px;height:6px;border-radius:50%;background:#d6b9b46c;transition:transform .35s ease,background .35s ease}
+.love-story-dots span.active{background:#f2d9cc;transform:scale(1.55);box-shadow:0 0 12px #f3d9c8aa}
+.love-scroll-hint{color:#bda9a9;font:9px system-ui;letter-spacing:.18em;text-transform:uppercase;text-align:center;margin:0}
+.love-story-final{max-width:490px;margin:22px auto 36px;padding:0 16px;text-align:center;color:#f3dfd8;font:italic clamp(21px,5.5vw,28px)/1.35 Georgia,serif}
+.love-story-final:before{content:"✧";display:block;color:#d4b1a8;font-size:22px;margin-bottom:10px}
+.love-secret{margin:34px auto 12px;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center}
+.love-secret .secret{margin:0 auto;width:54px;height:54px;border:1px solid #d9b87966;border-radius:50%;background:radial-gradient(circle,#e8cdbb22,#201620);color:#e9cdb6;font:15px Georgia;letter-spacing:.2em;opacity:.9;box-shadow:0 0 24px #e7c6bb1d}
+.love-secret .hint{margin:0;color:#bdaaa7;font-size:10px}
+.love-secret .secret-message{max-width:310px}
+@media(max-width:600px){
+ .love-story{margin-top:26px}
+ .love-story-head{margin-bottom:15px}
+ .love-story-head p{font-size:11px}
+ .love-story-track{height:220vh}
+ .love-story-sticky{top:6vh;gap:10px}
+ .love-story-illustration{width:min(100%,430px);border-radius:19px}
+ .love-story-caption{min-height:56px;font-size:18px;padding:0 8px}
+ .love-story-final{margin:18px auto 30px}
+}
+@media(prefers-reduced-motion:reduce){
+ .love-story-illustration *{animation:none!important;transition:none!important}
+ .love-story-caption{transition:none!important}
+}
+
+/* ARCHIVO 13 — presentadores, recuerdos y música */
+.presenter-prologue{max-width:590px;margin:26px auto 28px;padding:0 3px}
+.presenter-prologue-title{text-align:center;color:#c9a8a2;font:600 9px system-ui;letter-spacing:.24em;text-transform:uppercase;margin-bottom:15px}
+.presenter-line{display:flex;align-items:flex-end;gap:10px;margin:11px 0}
+.presenter-line.from-evy{flex-direction:row-reverse}
+.presenter-photo{width:46px;height:46px;flex:0 0 46px;border-radius:50%;border:1px solid #e9c9bc88;object-fit:cover;box-shadow:0 3px 14px #0005}
+.presenter-bubble{position:relative;max-width:calc(100% - 62px);padding:12px 14px;border:1px solid #d9b87955;border-radius:17px 17px 17px 5px;background:linear-gradient(145deg,#382733f2,#241a26f4);box-shadow:0 8px 20px #0002;color:#f7e9df}
+.presenter-line.from-evy .presenter-bubble{border-radius:17px 17px 5px 17px;background:linear-gradient(145deg,#46303b,#2c202d)}
+.presenter-name{display:block;margin-bottom:4px;color:#d7b482;font:700 9px system-ui;letter-spacing:.12em;text-transform:uppercase}
+.presenter-bubble p{margin:0;font:14px/1.5 system-ui;color:#f5e8e0}
+.music-card{max-width:580px;margin:18px auto 27px;padding:17px;border:1px solid #d8b47b55;border-radius:20px;background:linear-gradient(145deg,#352733e8,#1d1723f2);box-shadow:0 14px 32px #0003;text-align:center}
+.music-kicker{color:#d1af7e;font:600 9px system-ui;letter-spacing:.22em;text-transform:uppercase}
+.music-card h3{font:400 23px Georgia,serif;color:#f6e9df;margin:8px 0 4px}
+.music-card .music-credit{color:#c4b4b0;font:11px system-ui;margin:0 0 13px}
+.music-frame{width:min(100%,320px);aspect-ratio:16/9;margin:0 auto 13px;overflow:hidden;border-radius:12px;border:1px solid #d9b87955;background:radial-gradient(ellipse at 50% 30%,#654457,#231927 72%)}
+#avatar-player{width:100%;height:100%}
+#avatar-player iframe{width:100%;height:100%;border:0}
+.music-actions{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.music-button{border:1px solid #d9b87999;border-radius:99px;padding:11px 17px;background:linear-gradient(135deg,#f0ddb8,#bd9150);color:#231820;font:700 12px system-ui;cursor:pointer}
+.music-status{min-height:17px;margin:9px 0 0;color:#bda9a6;font:10px/1.5 system-ui}
+.music-source{display:block;margin-top:6px;color:#d6b58f;text-decoration:underline;text-underline-offset:3px;font:10px system-ui}
+.memory-gallery{max-width:600px;margin:32px auto 36px}
+.memory-gallery-head{text-align:center;margin-bottom:14px}
+.memory-gallery-head .music-kicker{display:block}
+.memory-gallery-head h2{font:400 28px Georgia,serif;color:#f5e5df;margin:8px 0}
+.memory-gallery-head p{font:12px/1.5 system-ui;color:#c4b3b1;margin:0}
+.memory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.memory-photo-card{overflow:hidden;border:1px solid #d9b87966;border-radius:17px;background:linear-gradient(145deg,#352734,#211922);box-shadow:0 12px 28px #0003}
+.memory-photo-card img{display:block;width:100%;height:210px;object-fit:cover;object-position:center 32%}
+.memory-photo-meta{padding:12px 13px 14px}
+.memory-photo-meta b{display:block;color:#f0d7c5;font:17px Georgia,serif}
+.memory-photo-meta span{display:block;color:#bfa9a6;font:10px system-ui;margin-top:4px}
+.love-talk{display:flex;align-items:flex-end;gap:10px;width:min(100%,470px);margin:0 auto;min-height:76px;padding:0 7px}
+.love-talk.from-evy{flex-direction:row-reverse}
+.love-talk img{width:48px;height:48px;flex:0 0 48px;border-radius:50%;object-fit:cover;border:1px solid #f5e2d788;box-shadow:0 2px 18px #0005}
+.love-talk-bubble{position:relative;max-width:calc(100% - 60px);padding:11px 14px;border:1px solid #f1d6c577;border-radius:16px 16px 16px 5px;background:linear-gradient(145deg,#422c3b,#261c2a);box-shadow:0 8px 24px #10091255;color:#fff0e9;transition:opacity .28s ease,transform .28s ease}
+.love-talk.from-evy .love-talk-bubble{border-radius:16px 16px 5px 16px;background:linear-gradient(145deg,#5a3949,#342332)}
+.love-talk-bubble small{display:block;color:#e0bd91;font:700 9px system-ui;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px}
+.love-talk-bubble p{margin:0;font:13px/1.5 system-ui;color:#f8e9e1}
+.love-talk.changing .love-talk-bubble{animation:talk-in .42s ease both}
+@keyframes talk-in{from{opacity:0;transform:translateY(7px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.love-story-illustration{width:min(100%,520px)}
+.love-story-sticky{top:6vh}
+.love-story-track{height:250vh}
+.love-story-caption{font-size:16px;opacity:.9}
+@media(max-width:600px){
+ .presenter-prologue{margin:19px auto 22px}
+ .presenter-bubble p{font-size:12px}
+ .music-card{padding:14px;margin:15px auto 24px}
+ .music-card h3{font-size:21px}
+ .music-frame{width:min(100%,300px)}
+ .memory-photo-card img{height:178px}
+ .love-story-track{height:245vh}
+ .love-story-sticky{top:5vh}
+ .love-talk{min-height:72px}
+ .love-talk img{width:43px;height:43px;flex-basis:43px}
+ .love-talk-bubble p{font-size:12px}
+}
+/* ARCHIVO 13 — scroll cinema */
+.presenter-prologue,.music-card{display:none!important}
+.soundtrack-signature{display:flex;align-items:center;justify-content:center;gap:10px;margin:13px auto 20px;color:#d9c1a7}
+.soundtrack-ornament{font:29px Georgia;color:#d7b27d;text-shadow:0 0 18px #f1d6ba66}
+.soundtrack-copy{display:flex;flex-direction:column;gap:3px}
+.soundtrack-copy b{font:italic 16px Georgia;color:#f5e5d9}
+.soundtrack-copy small{font:9px system-ui;letter-spacing:.1em;color:#bba8a8;text-transform:uppercase}
+.love-story-track{height:560svh;min-height:3900px;position:relative}
+.love-story-sticky{position:sticky;top:0;height:100svh;min-height:620px;display:block;overflow:hidden;padding:0!important;gap:0!important}
+.love-story-illustration{position:absolute;inset:0;width:100%;height:100%;max-width:none;overflow:hidden;border:0;border-radius:0;box-shadow:none;background:linear-gradient(180deg,#211a2c 0%,#514057 38%,#b07c86 72%,#3b2c41 100%)}
+#couple-svg{position:absolute;inset:8% 0 7%;width:100%;height:85%;display:block;filter:drop-shadow(0 15px 25px #120b1c55)}
+#couple-svg .love-pose:not(.pose-0){display:none!important}
+#couple-svg .love-pose.pose-0{display:block!important;opacity:1!important}
+#avatar-boy-main,#avatar-evy-main{filter:drop-shadow(0 6px 9px #100b1d55)}
+#boy-arm-pose,#evy-arm-pose{transform-box:fill-box;transform-origin:15% 12%}
+#boy-mouth,#evy-mouth{transition:d .2s ease}
+#love-story-talk{position:absolute;z-index:10;top:10%;left:5%;right:5%;width:auto;max-width:520px;margin:0 auto;display:block;min-height:0;pointer-events:none}
+#love-story-talk img{display:none}
+#love-story-talk .love-talk-bubble{position:relative;max-width:min(100%,420px);margin:0 auto;padding:15px 18px 16px;border:1px solid #f2d8c991;border-radius:22px 22px 22px 7px;background:linear-gradient(145deg,#fff3e9f5,#f4d9d7f2);box-shadow:0 18px 45px #140d1e66,inset 0 1px 0 #fff;color:#49323d;opacity:0;transform:translateY(12px) scale(.97);transition:opacity .35s ease,transform .4s ease}
+#love-story-talk.changing .love-talk-bubble{opacity:1;transform:translateY(0) scale(1)}
+#love-story-talk.from-evy .love-talk-bubble{margin-left:auto;border-radius:22px 22px 7px 22px}
+#love-story-talk .love-talk-bubble:after{content:"✧";position:absolute;right:12px;top:8px;color:#b98964;font:18px Georgia}
+#love-story-talk small{display:block;margin-bottom:5px;color:#a77c67;font:700 9px system-ui;letter-spacing:.18em;text-transform:uppercase}
+#love-story-talk p{margin:0;color:#49323d;font:italic clamp(15px,4vw,18px)/1.4 Georgia,serif}
+.love-story-caption{position:absolute;z-index:8;left:6%;right:6%;bottom:5%;margin:0 auto;max-width:470px;min-height:54px;text-align:center;color:#fae9e0;font:italic clamp(16px,4.3vw,21px)/1.35 Georgia,serif;text-shadow:0 2px 12px #1c1324}
+.love-story-dots,.love-scroll-hint{display:none}
+.love-story-final{max-width:490px;margin:25px auto 28px;padding:0 16px;text-align:center;color:#f3dfd8;font:italic clamp(21px,5.5vw,28px)/1.35 Georgia,serif}
+.memory-gallery{margin:35px auto 30px;max-width:650px}
+.memory-gallery-head{text-align:center;margin:0 auto 17px;padding:0 12px}
+.memory-gallery-head .music-kicker{color:#d9b77d}
+.memory-gallery-head h2{font:400 clamp(26px,7vw,35px) Georgia,serif;color:#f7e9df;margin:9px 0 7px}
+.memory-gallery-head p{font:12px/1.5 system-ui;color:#c8b6b3;margin:0}
+.memory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.memory-photo-card{overflow:hidden;border:1px solid #d9b87955;border-radius:17px;background:linear-gradient(145deg,#352734,#201922);box-shadow:0 12px 28px #0004}
+.memory-photo-card:nth-child(2n){transform:translateY(9px)}
+.memory-shot{width:100%;aspect-ratio:130/180;background:linear-gradient(135deg,#423347,#815d70);background-size:400% 200%;background-position:center;position:relative;overflow:hidden}
+.memory-shot:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#130d18a8 100%)}
+.memory-photo-meta{padding:10px 12px 13px}
+.memory-photo-meta b{display:block;color:#f0d7c5;font:17px Georgia}
+.memory-photo-meta span{display:block;color:#bfa9a6;font:10px/1.4 system-ui;margin-top:4px}
+@media(max-width:600px){
+ .love-story-sticky,.love-story-illustration{min-height:610px}
+ #couple-svg{inset:13% 0 8%;height:79%}
+ #love-story-talk{top:10%;left:4%;right:4%}
+ #love-story-talk .love-talk-bubble{padding:13px 15px 14px}
+ #love-story-talk p{font-size:15px}
+ .love-story-caption{bottom:4%;font-size:16px;min-height:45px}
+ .memory-grid{gap:9px}.memory-photo-meta{padding:9px 10px 11px}
+ .memory-photo-meta b{font-size:15px}.memory-photo-meta span{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){#love-story-talk .love-talk-bubble{transition:none!important}}
+
+/* Character integrity and in-scene cartoon dialogue */
+#archivo13-song{display:none!important}.soundtrack-signature{display:none!important}
+.love-story-sticky{position:sticky;top:0;height:100svh;min-height:610px;display:block;overflow:hidden;padding:0!important;gap:0!important}
+.love-story-illustration{position:absolute;inset:0;width:100%;height:100%;max-width:none;overflow:hidden;border:0;border-radius:0;box-shadow:none;background:linear-gradient(180deg,#211a2c 0%,#514057 38%,#b07c86 72%,#3b2c41 100%)}
+#couple-svg{position:absolute;inset:8% 0 7%;width:100%;height:85%;display:block;filter:drop-shadow(0 15px 25px #120b1c55)}
+#couple-svg .love-pose:not(.pose-0){display:none!important}#couple-svg .love-pose.pose-0{display:block!important;opacity:1!important;animation:none!important}
+#boy-arm-pose,#evy-arm-pose{transform-box:fill-box;transform-origin:15% 12%}
+#love-story-talk{position:absolute;z-index:30;top:20%;left:0;right:0;width:100%;max-width:none;margin:0;padding:0;display:block;min-height:0;pointer-events:none}
+#love-story-talk img{display:none!important}
+#love-story-talk .love-talk-bubble{position:relative;display:block;width:min(78%,390px);max-width:78%;min-height:0;margin:0 0 0 4%;padding:15px 19px 17px;border:1px solid #f6dfd3;border-radius:22px 22px 22px 6px;background:linear-gradient(145deg,#fff4e9 0%,#f2d8d3 100%);box-shadow:0 15px 38px #160d1e66,inset 0 1px 0 #fff;opacity:0;transform:translateY(12px) scale(.97);transition:opacity .28s ease,transform .28s ease;color:#49323d}
+#love-story-talk.changing .love-talk-bubble{opacity:1;transform:translateY(0) scale(1)}
+#love-story-talk.from-evy .love-talk-bubble{margin:0 4% 0 auto;border-radius:22px 22px 6px 22px}
+#love-story-talk .love-talk-bubble:before{content:"";position:absolute;bottom:-13px;left:27px;width:0;height:0;border-top:14px solid #f2d8d3;border-right:14px solid transparent}
+#love-story-talk.from-evy .love-talk-bubble:before{left:auto;right:27px;border-right:0;border-left:14px solid transparent}
+#love-story-talk .love-talk-bubble:after{content:"✧";position:absolute;right:12px;top:7px;color:#b98964;font:18px Georgia}
+#love-story-talk .love-talk-bubble small{display:block;margin:0 0 6px;color:#a77c67;font:700 9px system-ui;letter-spacing:.19em;text-transform:uppercase}
+#love-story-talk .love-talk-bubble p{margin:0;color:#49323d;font:italic clamp(15px,4vw,18px)/1.4 Georgia,serif}
+.love-story-caption{position:absolute;z-index:25;left:6%;right:6%;bottom:4%;max-width:470px;min-height:48px;margin:0 auto;text-align:center;color:#fae9e0;font:italic clamp(16px,4.3vw,21px)/1.35 Georgia,serif;text-shadow:0 2px 12px #1c1324}
+.love-story-dots,.love-scroll-hint{display:none!important}
+.memory-shot{aspect-ratio:130/146;background-size:400% 200%;background-position:center}
+@media(max-width:600px){
+ .love-story-sticky,.love-story-illustration{min-height:610px}
+ #couple-svg{inset:12% 0 8%;height:80%}
+ #love-story-talk{top:19%;left:0;right:0}
+ #love-story-talk .love-talk-bubble{width:80%;max-width:80%;margin-left:3%;padding:13px 15px 15px}
+ #love-story-talk.from-evy .love-talk-bubble{margin-right:3%}
+ #love-story-talk .love-talk-bubble p{font-size:15px}
+ .love-story-caption{bottom:3.5%;font-size:15px;min-height:42px}
+}
+@media(prefers-reduced-motion:reduce){#love-story-talk .love-talk-bubble{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top"><span>ARCHIVO 13</span><span class="pill">EXPEDIENTE 03</span></header>
+  <div class="rule"></div>
+  <section id="pin-screen">
+    <div class="eyebrow">Una imagen. Otra historia.</div>
+    <h1>Hay cosas que<br><em>merecen ser descubiertas.</em></h1>
+    <p class="lead">La postal te ha traído hasta aquí. El código no está escrito en esta pantalla: lo guarda la fotografía que te espera. Mira más allá del retrato; los detalles del fondo también cuentan.</p>
+    <div class="card">
+      <div class="eyebrow">Acceso al expediente</div>
+      <h2 style="text-align:center;margin-top:12px">La imagen guarda la llave</h2>
+      <p class="copy" style="text-align:center">Seis cifras se esconden entre los detalles que la rodean.</p>
+      <div class="pinrow" aria-label="Código de seis cifras">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Primera cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Segunda cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Tercera cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Cuarta cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Quinta cifra">
+        <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Sexta cifra">
+      </div>
+      <div class="actions"><button class="btn" id="unlock">Abrir expediente</button></div>
+      <p class="hint" id="pin-feedback">Introduce las seis cifras que encuentres en la fotografía.</p>
+      <button id="pin-hint" type="button">¿Una pequeña pista?</button>
+      <p id="pin-hint-message" class="hidden">No busques sobre su rostro. Mira entre las hojas, en la zona inferior derecha de la fotografía: seis cifras se esconden allí.</p>
+    </div>
+  </section>
+
+  <section id="countdown-screen" class="hidden">
+    <div class="eyebrow">ARCHIVO 13 · UNA FECHA MUY NUESTRA</div>
+    <h1>Hay momentos<br><em>que merecen su hora.</em></h1>
+    <p class="lead">La llave es correcta. Pero esta parte de nuestra historia solo se abre cuando comience nuestro día.</p>
+    <div class="card">
+      <div class="eyebrow">La sorpresa se desbloquea a medianoche</div>
+      <h2 style="text-align:center;margin-top:10px">13 de noviembre · 00:00</h2>
+      <p class="hint" style="text-align:center">Según el reloj de este teléfono.</p>
+      <p class="copy" style="text-align:center">Cada segundo nos acerca a otro mes de nosotros.</p>
+      <div class="countdown-grid" aria-live="polite">
+        <div class="countdown-unit"><span class="countdown-number" id="cd-days">00</span><span class="countdown-caption">Días</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-hours">00</span><span class="countdown-caption">Horas</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-minutes">00</span><span class="countdown-caption">Minutos</span></div>
+        <div class="countdown-unit"><span class="countdown-number" id="cd-seconds">00</span><span class="countdown-caption">Segundos</span></div>
+      </div>
+      <p class="hint" id="countdown-message">La carta y la cámara permanecen cerradas hasta que llegue el día 13.</p>
+      <!-- TEMPORAL: retirar este acceso de prueba antes de entregar el enlace a Evelyn. -->
+      <button id="preview-reveal" type="button">Vista previa para Robert · ver destino del escaneo</button>
+    </div>
+  </section>
+
+  <section id="unlock-ready-screen" class="hidden">
+    <div class="eyebrow">13 · 00:00</div>
+    <h1>Ya llegó<br><em>nuestro día.</em></h1>
+    <div class="card">
+      <div class="eyebrow">La espera terminó</div>
+      <h2 style="text-align:center">La sorpresa está lista.</h2>
+      <p class="copy" style="text-align:center">Feliz 4 años y 3 meses. Ahora sí, abre la siguiente parte de nuestra historia.</p>
+      <div class="actions"><button class="btn" id="open-after-midnight">Abrir expediente</button></div>
+    </div>
+  </section>
+
+  <section id="first-camera-screen" class="hidden">
+    <div class="eyebrow">Primera lectura obligatoria</div>
+    <h1>El archivo necesita<br><em>verte mirar.</em></h1>
+    <p class="lead">Esta primera vez no existe una ruta alternativa. El cuadro es la llave de esta parte de la historia.</p>
+    <div class="card">
+      <h2>Activa la cámara</h2>
+      <p class="copy">Apunta directamente al cuadro ELITE ya impreso. Este teléfono debe haberse preparado antes con la imagen FINAL; después reconocerá el retrato real, no una tarjeta de muestra.</p>
+      <a id="prepare-camera-link" class="target-link hidden" href="./preparar-cuadro.html">Preparar este teléfono para reconocer ELITE</a>
+      <div class="actions"><button class="btn" id="start-camera">Iniciar lectura con cámara</button></div>
+      <p class="hint" id="camera-hint">Permite el acceso a la cámara. No cierres esta página mientras el archivo está leyendo la imagen.</p>
+    </div>
+    <p class="footer">Primera visita: la cámara es parte de la experiencia. Si no puede abrirse, podrás reintentar, pero no saltar esta escena.</p>
+  </section>
+
+  <section id="return-choice-screen" class="hidden">
+    <div class="eyebrow">Segundo acceso</div>
+    <h1>La primera puerta<br><em>ya fue abierta.</em></h1>
+    <p class="lead">Puedes volver a mirar el cuadro o entrar directamente a la revelación.</p>
+    <div class="card">
+      <div class="choice">
+        <button id="repeat-camera"><strong>① Volver a mirar</strong><span>Repetir la lectura del cuadro y sus señales ocultas.</span></button>
+        <button id="skip-camera"><strong>② Ir a la carta</strong><span>Continuar directamente con la revelación.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="letter-screen" class="hidden">
+    <!-- TEMPORAL: solo para pruebas de Robert; eliminar antes de la entrega a Evelyn. -->
+    <div id="preview-ribbon" class="hidden">
+      VISTA PREVIA DE ROBERT · Esta es la página que aparece al terminar el escaneo.
+      <div class="actions"><button class="btn secondary" id="return-countdown">Volver a la cuenta atrás</button></div>
+    </div>
+    <div class="eyebrow">ARCHIVO 13 · Revelación</div>
+    <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
+    <audio id="archivo13-song" preload="none" playsinline aria-hidden="true"></audio>
+    <div class="paper">
+      
+      <h2>Más allá de lo que se ve</h2>
+      <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
+      <p style="font-size:clamp(23px,6vw,34px);line-height:1.3;text-align:center;color:#815b36">“Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti.”</p>
+      <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en tu forma de ser, en lo que sueñas, en tu fuerza y en todos esos detalles que te hacen tan especial para mí.</p>
+      <p>Esta carta es un primer borrador visual. La versión definitiva llevará las palabras de Robert, los recuerdos de ambos y las fotografías elegidas para contar vuestra historia.</p>
+      <p class="sign">Con todo mi cariño.</p>
+    </div>
+    <section class="love-story" aria-label="Una pequeña historia ilustrada de Robert y Evelyn">
+      <div class="love-story-head">
+        <div class="love-story-kicker">UN PEQUEÑO CUENTO</div>
+        <h2>Y entonces, nos encontramos.</h2>
+        <p>Sigue bajando despacito. Hay historias que se cuentan mejor cuando las recorremos juntos.</p>
+      </div>
+      <div id="love-story-track" class="love-story-track">
+        <div id="love-story-sticky" class="love-story-sticky">
+          <div class="love-story-illustration">
+            <svg id="couple-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 600" role="img" aria-label="Dos personajes ilustrados que se acercan, se abrazan y se besan en un jardín al atardecer">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#45354d"/><stop offset=".48" stop-color="#89677b"/><stop offset="1" stop-color="#d9a6a0"/></linearGradient>
+                <radialGradient id="glow"><stop stop-color="#fff1d7" stop-opacity=".8"/><stop offset="1" stop-color="#f5cbd2" stop-opacity="0"/></radialGradient>
+                <linearGradient id="dress" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6d5d2"/><stop offset=".55" stop-color="#df9db0"/><stop offset="1" stop-color="#bd829e"/></linearGradient>
+                <linearGradient id="shirt" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#555062"/><stop offset="1" stop-color="#232638"/></linearGradient>
+                <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#34212b"/><stop offset=".55" stop-color="#241923"/><stop offset="1" stop-color="#66404a"/></linearGradient>
+                <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5c6a9"/><stop offset="1" stop-color="#d99478"/></linearGradient>
+                <filter id="glow-shadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <g id="avatar-boy">
+                  <path d="M-25 -102 L-26 -14 Q-25 0 -10 0 L1 -4 L3 -104Z" fill="#252638"/>
+                  <path d="M2 -104 L4 -14 Q5 0 21 0 L31 -5 L28 -104Z" fill="#303042"/>
+                  <path d="M-25 -9 Q-42 -2 -40 8 Q-38 14 -8 13 Q2 11 0 4 L-7 -5Z" fill="#eee2d8"/>
+                  <path d="M6 -7 Q1 1 7 10 Q23 15 43 8 Q46 1 31 -7Z" fill="#f2e6dc"/>
+                  <path d="M-34 -210 Q0 -224 35 -210 L43 -118 Q5 -99 -40 -118Z" fill="url(#shirt)"/>
+                  <path d="M-14 -213 Q0 -192 14 -213" fill="none" stroke="#a89aaa" stroke-width="3" opacity=".5"/>
+                  <g id="boy-arm-left"><path d="M-27 -198 Q-42 -178 -45 -142" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M-46 -145 q-9 1 -10 10 q4 10 14 7 q8 -4 4 -12Z" fill="url(#skin)"/></g>
+                  <g id="boy-arm-pose"><path d="M31 -198 Q50 -185 58 -156 Q65 -137 77 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M75 -126 q10 -2 12 8 q-4 12 -15 6" fill="url(#skin)"/></g>
+                  <rect x="-12" y="-235" width="24" height="28" rx="8" fill="url(#skin)"/>
+                  <ellipse cx="-36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
+                  <ellipse cx="36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
+                  <ellipse cx="0" cy="-264" rx="39" ry="48" fill="url(#skin)"/>
+                  <path d="M-39 -267 Q-51 -297 -30 -309 Q-20 -329 -2 -316 Q10 -332 25 -313 Q47 -314 43 -290 Q53 -280 39 -265 Q28 -279 20 -282 Q2 -291 -10 -279 Q-24 -270 -39 -267Z" fill="url(#hair)"/>
+                  <g fill="#2a1c27"><circle cx="-31" cy="-298" r="13"/><circle cx="-18" cy="-310" r="12"/><circle cx="-2" cy="-312" r="13"/><circle cx="14" cy="-307" r="12"/><circle cx="30" cy="-296" r="13"/><circle cx="-39" cy="-282" r="10"/><circle cx="39" cy="-281" r="10"/></g>
+                  <g fill="none" stroke="#302432" stroke-width="4"><rect x="-30" y="-274" width="26" height="19" rx="7"/><rect x="4" y="-274" width="26" height="19" rx="7"/><path d="M-4 -265 Q0 -269 4 -265"/></g>
+                  <g fill="#3a2930"><circle cx="-17" cy="-265" r="2.5"/><circle cx="17" cy="-265" r="2.5"/></g>
+                  <path id="boy-mouth" d="M-7 -244 Q0 -238 8 -244" fill="none" stroke="#9a5a56" stroke-width="2.4" stroke-linecap="round"/>
+                  <circle cx="-22" cy="-245" r="5" fill="#e88885" opacity=".35"/><circle cx="22" cy="-245" r="5" fill="#e88885" opacity=".35"/>
+                </g>
+                <g id="avatar-evy">
+                  <path d="M-42 -269 Q-55 -318 -18 -326 Q22 -343 42 -307 Q55 -280 45 -229 Q52 -178 31 -118 Q21 -105 18 -143 L13 -203 L-25 -205 L-35 -138 Q-48 -110 -52 -150 Q-62 -218 -42 -269Z" fill="url(#hair)"/>
+                  <path d="M-18 -112 L-16 -13 Q-15 1 -3 1 L5 -3 L4 -112Z" fill="url(#skin)"/>
+                  <path d="M4 -112 L8 -13 Q10 0 23 0 L31 -5 L24 -112Z" fill="url(#skin)"/>
+                  <path d="M-18 -5 Q-34 0 -34 9 Q-30 14 -5 12 Q4 9 1 4Z" fill="#f6e8dc"/>
+                  <path d="M11 -5 Q6 3 12 10 Q31 14 40 7 Q41 1 26 -5Z" fill="#f6e8dc"/>
+                  <path d="M-29 -207 Q-1 -225 29 -207 L40 -119 Q56 -81 63 -35 Q4 -12 -61 -35 Q-55 -79 -39 -119Z" fill="url(#dress)"/>
+                  <path d="M-36 -193 Q-18 -176 0 -189 Q18 -176 36 -193" fill="none" stroke="#fff0e7" stroke-width="4" opacity=".8"/>
+                  <path d="M-54 -53 Q0 -38 56 -53" fill="none" stroke="#fce8e5" stroke-width="3" opacity=".65"/>
+                  <g fill="#fff0e7" opacity=".8"><circle cx="-25" cy="-84" r="3"/><circle cx="8" cy="-110" r="3"/><circle cx="29" cy="-72" r="2.5"/></g>
+                  <g id="evy-arm-left"><path d="M-27 -193 Q-49 -178 -56 -153 Q-68 -137 -78 -126" fill="none" stroke="url(#skin)" stroke-width="16" stroke-linecap="round"/><path d="M-79 -126 q-9 0 -11 9 q5 11 15 5" fill="url(#skin)"/></g>
+                  <g id="evy-arm-pose"><path d="M29 -194 Q49 -179 61 -158 Q68 -145 74 -136" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/><path d="M72 -139 q11 -4 14 5 q0 10 -10 11 q-9 -3 -4 -16Z" fill="url(#skin)"/></g>
+                  <rect x="-11" y="-237" width="22" height="30" rx="9" fill="url(#skin)"/>
+                  <ellipse cx="0" cy="-267" rx="36" ry="46" fill="url(#skin)"/>
+                  <path d="M-40 -271 Q-52 -319 -16 -328 Q24 -340 42 -304 Q47 -282 33 -268 Q27 -285 18 -286 Q4 -281 -9 -289 Q-25 -278 -40 -271Z" fill="url(#hair)"/>
+                  <path d="M-39 -280 Q-47 -251 -37 -231 L-44 -179 Q-53 -151 -57 -182 Q-65 -233 -47 -274Z" fill="#2b1d28"/>
+                  <path d="M38 -281 Q48 -253 39 -226 L50 -175 Q54 -148 60 -179 Q66 -236 48 -276Z" fill="#2b1d28"/>
+                  <g fill="#392630"><path d="M-25 -286 Q-8 -299 6 -287 Q22 -296 31 -282 Q20 -278 8 -280 Q-9 -275 -25 -286Z"/></g>
+                  <g fill="#4b2b34"><ellipse cx="-13" cy="-262" rx="3.2" ry="4"/><ellipse cx="13" cy="-262" rx="3.2" ry="4"/></g>
+                  <path id="evy-mouth" d="M-7 -242 Q0 -236 8 -242" fill="none" stroke="#a85e67" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="-21" cy="-243" r="6" fill="#e98c99" opacity=".35"/><circle cx="21" cy="-243" r="6" fill="#e98c99" opacity=".35"/>
+                  <circle cx="0" cy="-216" r="5" fill="#f0d5b9" stroke="#c99675" stroke-width="1"/>
+                </g>
+              </defs>
+              <rect width="640" height="600" rx="30" fill="url(#sky)"/>
+              <circle cx="320" cy="245" r="245" fill="url(#glow)"/>
+              <circle cx="505" cy="106" r="28" fill="#f8e6ce" opacity=".65"/><circle cx="517" cy="94" r="27" fill="#84657d" opacity=".75"/>
+              <g fill="#fff2dc" opacity=".9"><circle cx="90" cy="90" r="3"/><circle cx="170" cy="145" r="2"/><circle cx="350" cy="70" r="2.5"/><circle cx="570" cy="220" r="2"/><circle cx="250" cy="58" r="1.8"/></g>
+              <g fill="none" stroke="#e6c5c6" opacity=".6" stroke-width="2"><path d="M70 205 q38 -35 64 0 q-26 35 -64 0Z"/><path d="M520 300 q30 -30 56 0 q-26 30 -56 0Z"/></g>
+              <path d="M0 445 Q130 405 255 448 T640 438 L640 600 L0 600Z" fill="#665065" opacity=".85"/>
+              <path d="M0 500 Q155 455 320 500 T640 488 L640 600 L0 600Z" fill="#46374c" opacity=".92"/>
+              <path d="M160 600 Q250 505 320 505 Q400 505 480 600Z" fill="#d8b6ae" opacity=".38"/>
+              <path d="M210 600 Q282 520 320 520 Q370 520 430 600" fill="none" stroke="#f6dfd6" stroke-width="3" opacity=".55"/>
+              <g fill="#8da18e" opacity=".85"><path d="M25 560 Q70 470 110 455 Q100 510 25 560Z"/><path d="M50 578 Q80 500 150 495 Q122 550 50 578Z"/><path d="M615 560 Q570 470 530 455 Q540 510 615 560Z"/><path d="M590 578 Q560 500 490 495 Q518 550 590 578Z"/></g>
+              <g fill="#f2d6d3" filter="url(#glow-shadow)"><circle cx="85" cy="475" r="7"/><circle cx="105" cy="456" r="6"/><circle cx="552" cy="470" r="7"/><circle cx="530" cy="448" r="6"/></g>
+              <g class="love-pose pose-0 active"><use id="avatar-boy-main" href="#avatar-boy" transform="translate(-150 540) scale(1.12)"/><use id="avatar-evy-main" href="#avatar-evy" transform="translate(790 540) scale(-1.12 1.12)"/></g>
+              <g class="love-pose pose-1"><use href="#avatar-boy" transform="translate(210 540) scale(.92)"/><use href="#avatar-evy" transform="translate(430 540) scale(-.92 .92)"/><path d="M290 340 Q320 310 350 340" fill="none" stroke="#fce8df" stroke-width="4" stroke-linecap="round" opacity=".8"/><circle cx="320" cy="329" r="6" fill="#f6d6d4"/></g>
+              <g class="love-pose pose-2"><use href="#avatar-boy" transform="translate(270 540) scale(.92)"/><use href="#avatar-evy" transform="translate(370 540) scale(-.92 .92)"/><path d="M288 395 Q320 430 352 395" fill="none" stroke="#f4d2d4" stroke-width="12" stroke-linecap="round" opacity=".9"/><path d="M290 335 C270 314 290 294 310 309 C326 291 347 310 330 330 L310 350Z" fill="#f0b5c6" opacity=".8"/></g>
+              <g class="love-pose pose-3"><use href="#avatar-boy" transform="translate(285 540) rotate(5 -10 -270) scale(.92)"/><use href="#avatar-evy" transform="translate(355 540) rotate(-5 10 -270) scale(-.92 .92)"/><path d="M302 310 C280 286 301 268 320 284 C339 267 360 288 340 310 L321 330Z" fill="#f6c5cd" filter="url(#glow-shadow)"/><g fill="#fff1df"><path d="M252 230 l5 10 10 5 -10 5 -5 10 -5 -10 -10 -5 10 -5Z"/><path d="M396 244 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4Z"/></g></g>
+              <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
+            </svg>
+          <div id="love-story-talk" class="love-talk from-robert changing" aria-live="polite">
+            <img id="love-story-speaker-photo" src="assets/robert-portrait.jpg" alt="" aria-hidden="true">
+            <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, contigo hasta los días más normales terminan teniendo algo especial.</p></div>
+          </div>
+          </div>
+          <p id="love-story-caption" class="love-story-caption">A veces, lo bonito está en los pequeños detalles.</p>
+          <div id="love-story-dots" class="love-story-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
+          <p class="love-scroll-hint">DESLIZA DESPACITO · LA HISTORIA AVANZA CONTIGO</p>
+        </div>
+      </div>
+      <p class="love-story-final">Y si pudiera volver a empezar, volvería a caminar hacia ti.</p>
+    </section>
+    <section class="memory-gallery" aria-label="Ocho recuerdos de Robert y Evelyn">
+<div class="memory-gallery-head"><span class="music-kicker">PEQUEÑAS COSAS QUE HACEN BONITA LA VIDA</span><h2>Momentos que se quedan.</h2><p>Risas, abrazos, ocurrencias y esos detalles que hacen especial compartir el camino.</p></div>
+<div class="memory-grid"><article class="memory-photo-card"><div class="memory-shot" data-photo="0" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Risas espontáneas</b><span>La risa que aparece sin avisar y termina alegrando el día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="1" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Abrazos favoritos</b><span>Un abrazo a tiempo puede hacer que todo se sienta mejor.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="2" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Ocurrencias</b><span>Esas pequeñas locuras que hacen que nunca falten las sonrisas.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="3" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Sonrisas</b><span>La alegría que se contagia con una sola mirada.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="4" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Complicidad</b><span>Entenderse a veces sin tener que explicar demasiado.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="5" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Planes sencillos</b><span>Disfrutar de estar juntos, incluso cuando no hay ningún plan.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="6" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Pequeños gestos</b><span>La ternura que aparece en los detalles de cada día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="7" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Momentos bonitos</b><span>Esos instantes sencillos que dan ganas de repetir.</span></div></article></div></section><div class="love-secret">
+      <button class="secret" id="easter-egg" aria-label="Pista oculta del próximo expediente">13</button>
+      <p class="hint">Hay una última señal escondida. Toca el 13 tres veces.</p>
+      <p id="easter-message" class="secret-message hidden">EXPEDIENTE 04 · La próxima pista no estará en una imagen. Tendrás que escuchar para encontrarla.</p>
+    </div>
+    <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
+    <p class="footer" style="padding:30px 0 max(120px,env(safe-area-inset-bottom))">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
+  </section>
+  <p class="footer">ARCHIVO 13 · Un recuerdo guardado para el día 13.</p>
+</main>
+
+<div id="camera-shell">
+  <div id="scan-ui">
+    <div id="dream-light"></div>
+    <div id="dream-particles"></div>
+    <div class="scanline"></div>
+    <div id="scan-burst"></div>
+    <div class="scan-top"><div class="scan-label">ARCHIVO 13 · ESCÁNER ÓPTICO</div><div id="scan-title">Buscando la imagen original</div></div>
+    <div class="scan-center">
+      <div class="dream-orb">
+        <div class="orb-ring-one"></div><div class="orb-ring-two"></div>
+        <div class="orb-petal p1"></div><div class="orb-petal p2"></div><div class="orb-petal p3"></div>
+        <div id="scan-symbols">♡</div>
+      </div>
+      <div id="scan-status">ENFOCA LA IMAGEN PARA INICIAR LA LECTURA</div>
+    </div>
+    <div class="scan-bottom">
+      <div class="progress-track"><div id="progress-fill"></div></div>
+      <div class="progress-meta"><span id="progress-phase">ESPERANDO OBJETIVO</span><span id="progress-count">00:00 / 00:20</span></div>
+      <div id="scan-log">El archivo permanece en silencio…</div>
+    </div>
+  </div>
+  <div id="target-lost" class="hidden">SEÑAL INTERRUMPIDA<br>Vuelve a encuadrar la imagen.<br>La lectura continuará desde donde se detuvo.</div>
+  <a-scene id="ar-scene"
+    mindar-image="imageTargetSrc: about:blank; autoStart: false; uiLoading: no; uiError: no; uiScanning: no"
+    color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
+    vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
+      <a-plane position="0 0 0.001" width="1" height="1.333" material="shader: flat; color: #F4DDE0; opacity: .045; transparent: true; side: double"></a-plane>
+      <a-sphere position="0 0 0.025" radius="0.12" scale="1 1 0.08" material="shader: flat; color: #FFF0E8; opacity: .10; transparent: true" animation="property: scale; from: 1 1 0.08; to: 1.16 1.16 0.08; dir: alternate; loop: true; dur: 2600; easing: easeInOutSine"></a-sphere>
+      <a-text value="♡" align="center" color="#FFF1EA" width="1.15" position="0 0.02 0.045" animation="property: scale; from: 1 1 1; to: 1.12 1.12 1; dir: alternate; loop: true; dur: 2600; easing: easeInOutSine"></a-text>
+      <a-text value="✧" align="center" color="#FFF0E7" width="0.28" position="-0.30 0.20 0.04"></a-text>
+      <a-text value="✧" align="center" color="#FFF0E7" width="0.22" position="0.32 -0.18 0.04"></a-text>
+    </a-entity>
+  </a-scene>
+</div>
+<div id="scan-flash"></div>
+<div id="camera-error" class="hidden">
+  <div class="error-box">
+    <div class="eyebrow">SEÑAL NO DISPONIBLE</div>
+    <h2 id="error-title" style="font-size:32px;margin:15px 0">No se pudo abrir la cámara</h2>
+    <p id="error-text" class="copy">Comprueba el permiso de cámara y vuelve a intentarlo.</p>
+    <div class="actions"><button class="btn" id="retry-camera">Reintentar lectura</button><button class="btn secondary" id="close-error">Volver</button></div>
+    <a id="prepare-from-error" class="target-link hidden" href="./preparar-cuadro.html">Preparar el reconocimiento de ELITE en este teléfono</a>
+    <p class="hint">En la primera visita no se puede saltar esta lectura.</p>
+  </div>
+</div>
+<script>
+(()=>{
+ const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
+ let previewMode=false;
+ let loveTrackerInterval=null;
+ const show=id=>{
+   screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+   document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
+   if(id==='letter-screen'){
+     $('preview-ribbon').classList.toggle('hidden',!previewMode);
+     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker();loadMemorySprite()});
+   }else{
+     stopLoveTracker();
+   }
+ };
+ const $=id=>document.getElementById(id);
+ show('pin-screen');
+ const inputs=[...document.querySelectorAll('.pinrow input')];
+ const FIRST_KEY='a13_first_camera_completed_v2';
+ const ACCESS_CODE='919493';
+ // Midnight at the start of Nov 13, 2026, in this phone's own local timezone.
+ const UNLOCK_AT=new Date(2026,10,13,0,0,0,0).getTime();
+ let countdownTimer=null;
+ const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
+ const cameraError=$('camera-error'), lost=$('target-lost');
+ readCompiledTarget().then(value=>{if(!value)$('prepare-camera-link').classList.remove('hidden')}).catch(()=>{$('prepare-camera-link').classList.remove('hidden')});
+ let running=false,targetVisible=false,scanStarted=false,elapsed=0,lastTick=0,ticker=null,detectionPoll=null,audioCtx=null,muted=false,eggTaps=0,eggTimer=null,activeStageIndex=-1,mindTargetUrl=null;
+ function firstDone(){try{return localStorage.getItem(FIRST_KEY)==='yes'}catch(e){return false}}
+ function markFirstDone(){try{localStorage.setItem(FIRST_KEY,'yes')}catch(e){}}
+ function closeScene(){
+   try{const system=scene.systems['mindar-image-system'];if(system&&running)system.stop()}catch(e){}
+   running=false;targetVisible=false;clearInterval(ticker);ticker=null;clearInterval(detectionPoll);detectionPoll=null;
+   shell.classList.remove('active');
+   if(mindTargetUrl){URL.revokeObjectURL(mindTargetUrl);mindTargetUrl=null}
+   document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
+ }
+ function readCompiledTarget(){
+   return new Promise((resolve,reject)=>{
+     if(!('indexedDB' in window)){reject(new Error('Este navegador no permite guardar la preparación del cuadro.'));return}
+     const request=indexedDB.open('archivo13-mindar',1);
+     request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains('targets'))db.createObjectStore('targets')};
+     request.onerror=()=>reject(request.error||new Error('No se pudo leer la preparación del cuadro.'));
+     request.onsuccess=()=>{
+       const db=request.result;
+       if(!db.objectStoreNames.contains('targets')){db.close();resolve(null);return}
+       const tx=db.transaction('targets','readonly');
+       const get=tx.objectStore('targets').get('elite');
+       get.onsuccess=()=>{const value=get.result;db.close();resolve(value||null)};
+       get.onerror=()=>{db.close();reject(get.error||new Error('No se pudo recuperar el objetivo ELITE.'))};
+     };
+   });
+ }
+ function showCameraError(message){closeScene();$('error-text').textContent=message||'Comprueba el permiso de cámara, la conexión y vuelve a intentarlo.';cameraError.classList.remove('hidden')}
+ function playTone(freq=660,duration=.12,type='sine',volume=.035){if(muted||!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(volume,audioCtx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration+.03)}catch(e){}}
+ function initAudio(){try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
+ function playSweep(step=0){
+   if(muted||!audioCtx)return;
+   try{
+     const now=audioCtx.currentTime;
+     const notes=[196,246.94,293.66];
+     notes.forEach((frequency,index)=>{
+       const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
+       osc.type='sine';osc.frequency.value=frequency*(1+step*.012);
+       filter.type='lowpass';filter.frequency.value=780;
+       const level=.009-(index*.0015);
+       gain.gain.setValueAtTime(.0001,now);
+       gain.gain.exponentialRampToValueAtTime(level,now+.55);
+       gain.gain.exponentialRampToValueAtTime(.0001,now+1.75);
+       osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);
+       osc.start(now);osc.stop(now+1.8);
+     });
+   }catch(e){}
+ }
+ function triggerBurst(){
+   const burst=$('scan-burst');if(!burst)return;
+   burst.classList.remove('fire');void burst.offsetWidth;burst.classList.add('fire');
+ }
+ function chime(){playTone(392,.42,'sine',.016);setTimeout(()=>playTone(493.88,.55,'sine',.013),260);setTimeout(()=>playTone(587.33,.72,'sine',.011),570)}
+ function soundPulse(){playTone(72,.25,'sine',.055);setTimeout(()=>playTone(90,.18,'sine',.035),500)}
+ function addParticles(){
+   const layer=$('dream-particles');if(!layer)return;layer.innerHTML='';
+   for(let i=0;i<34;i++){
+     const p=document.createElement('i');p.className='dream-particle';
+     const size=3+Math.random()*5;
+     p.style.left=(3+Math.random()*94)+'%';p.style.top=(7+Math.random()*86)+'%';
+     p.style.width=size+'px';p.style.height=size+'px';
+     p.style.animationDelay=(-Math.random()*8)+'s';
+     p.style.animationDuration=(5.5+Math.random()*5)+'s';
+     layer.appendChild(p);
+   }
+   for(let i=0;i<8;i++){
+     const petal=document.createElement('i');petal.className='dream-petal';
+     petal.style.left=(6+Math.random()*88)+'%';petal.style.top=(10+Math.random()*82)+'%';
+     petal.style.animationDelay=(-Math.random()*9)+'s';
+     petal.style.animationDuration=(7+Math.random()*5)+'s';
+     layer.appendChild(petal);
+   }
+ }
+ const stages=[
+ {at:0,log:'Hay recuerdos que guardan una luz propia…',phase:'ABRIENDO UN RECUERDO',status:'NO ES SOLO UNA IMAGEN.\nES UNA PARTE DE NUESTRA HISTORIA.',symbols:'♡'},
+ {at:3,log:'Cada instante deja algo de su luz…',phase:'SIGUIENDO SU LUZ',status:'BUSCANDO TODO ESO QUE UNA FOTOGRAFÍA NO PUEDE CONTAR…',symbols:'✧'},
+ {at:6,log:'Algo muy querido empieza a aparecer…',phase:'UNA HUELLA ESPECIAL',status:'HAY ALGO QUE SOLO SE DESCUBRE CUANDO MIRAS CON EL CORAZÓN.',symbols:'♡'},
+ {at:9,log:'Una pequeña parte de Robert quedó aquí…',phase:'UNA SEÑAL DE ROBERT',status:'ROBERT HA DEJADO UN PEDACITO DE SU CORAZÓN EN ESTA IMAGEN.',symbols:'∞'},
+ {at:12,log:'Los momentos compartidos se acercan…',phase:'UNIENDO RECUERDOS',status:'CADA RECUERDO NOS ACERCA UN POCO MÁS A LO ESENCIAL.',symbols:'✧'},
+ {at:15,log:'La luz encuentra a quien estaba buscando…',phase:'UNA COINCIDENCIA PERFECTA',status:'TODO ESTE CAMINO\nTENÍA UN NOMBRE: EVELYN.',symbols:'♡'},
+ {at:18,log:'Ahora sí. Ya puedes verlo…',phase:'CON TODO MI CARIÑO',status:'AHORA PUEDES VERTE\nUN INSTANTE CON MIS OJOS.',symbols:'♡'}
+ ];
+ function startScan(){
+   if(scanStarted)return;
+   scanStarted=true;
+   elapsed=0;
+   lastTick=performance.now();
+   targetVisible=true;
+   lost.classList.add('hidden');
+   $('scan-title').textContent='Un recuerdo está despertando';
+   $('scan-status').textContent=stages[0].status;
+   $('progress-phase').textContent=stages[0].phase;
+   $('scan-log').textContent=stages[0].log;
+   $('progress-fill').style.width='0%';
+   $('progress-count').textContent='00:00 / 00:20';
+   activeStageIndex=-1;
+   chime();
+   startTicker();
+ }
+ function startTicker(){clearInterval(ticker);lastTick=performance.now();ticker=setInterval(()=>{
+   const now=performance.now();if(targetVisible&&scanStarted)elapsed+=now-lastTick;lastTick=now;
+   const seconds=Math.min(20,elapsed/1000),pct=Math.min(100,seconds/20*100);
+   $('progress-fill').style.width=pct+'%';
+   const s=Math.floor(seconds).toString().padStart(2,'0');$('progress-count').textContent='00:'+s+' / 00:20';
+   let stageIndex=0;for(let i=0;i<stages.length;i++){if(seconds>=stages[i].at)stageIndex=i}
+   const stage=stages[stageIndex];
+   if(targetVisible){
+     $('scan-log').textContent=stage.log;
+     $('progress-phase').textContent=stage.phase;
+     $('scan-status').textContent=stage.status;
+     if(stageIndex!==activeStageIndex){
+       activeStageIndex=stageIndex;
+       $('scan-symbols').textContent=stage.symbols;
+       const status=$('scan-status');
+       status.classList.remove('scan-status-pop');void status.offsetWidth;status.classList.add('scan-status-pop');
+       const emblem=document.querySelector('.scan-emblem');
+       emblem.classList.remove('scan-status-pop');void emblem.offsetWidth;emblem.classList.add('scan-status-pop');
+       triggerBurst();
+       playSweep(stageIndex);
+     }
+   }
+   if(seconds>=20)completeScan();
+ },100)}
+ function completeScan(){
+   clearInterval(ticker);ticker=null;markFirstDone();chime();
+   $('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');
+   setTimeout(()=>{
+     closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;
+     show('letter-screen');
+     document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
+     window.scrollTo({top:0,behavior:'instant'});
+   },650)
+ }
+ function handleTargetFound(source='evento'){
+   lost.classList.add('hidden');
+   if(!targetVisible){targetVisible=true;if(!scanStarted){$('scan-status').textContent='IMAGEN RECONOCIDA · INICIANDO LECTURA';startScan()}else $('scan-status').textContent='SEÑAL RESTABLECIDA · CONTINUANDO LECTURA'}
+ }
+ function handleTargetLost(){
+   if(!targetVisible)return;
+   targetVisible=false;
+   if(scanStarted){lost.classList.remove('hidden');$('scan-status').textContent='SEÑAL INTERRUMPIDA · REENFOCA LA IMAGEN'}
+ }
+ target.addEventListener('targetFound',()=>handleTargetFound('targetFound'));
+ target.addEventListener('targetLost',handleTargetLost);
+ // Respaldo: MindAR marca el ancla visible cuando el objetivo ya está reconocido.
+ scene.addEventListener('targetFound',()=>handleTargetFound('scene targetFound'));
+ scene.addEventListener('targetLost',handleTargetLost);
+ scene.addEventListener('arReady',()=>{$('camera-hint').textContent='Cámara lista. Encuadra el cuadro ELITE completo para que el archivo lo reconozca.'});
+ scene.addEventListener('arError',e=>showCameraError(e?.detail?.error||'MindAR no pudo inicializar la cámara.'));
+ function waitScene(){return scene.hasLoaded?Promise.resolve():new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(new Error('La escena tardó demasiado en cargar. Revisa la conexión y recarga.')),30000);scene.addEventListener('loaded',()=>{clearTimeout(t);resolve()},{once:true})})}
+ async function beginCamera(){
+   scanStarted=false;elapsed=0;targetVisible=false;clearInterval(ticker);ticker=null;
+   $('progress-fill').style.width='0%';$('progress-count').textContent='00:00 / 00:20';
+   $('progress-phase').textContent='ESPERANDO OBJETIVO';$('scan-log').textContent='El archivo permanece en silencio…';
+   lost.classList.add('hidden');cameraError.classList.add('hidden');
+   $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
+   try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
+     initAudio();const compiledTarget=await readCompiledTarget();
+     if(!compiledTarget){$('prepare-from-error').classList.remove('hidden');throw new Error('Este teléfono todavía no tiene preparado el reconocimiento del cuadro. Abre “Preparar este teléfono”, selecciona el JPG FINAL exacto y vuelve a esta página.')}else $('prepare-from-error').classList.add('hidden');
+     const system=scene.systems['mindar-image-system'];if(!system)throw new Error('El lector de imágenes no pudo inicializarse.');
+     if(mindTargetUrl)URL.revokeObjectURL(mindTargetUrl);
+     mindTargetUrl=URL.createObjectURL(new Blob([compiledTarget],{type:'application/octet-stream'}));
+     system.imageTargetSrc=mindTargetUrl;
+     await waitScene();
+     document.documentElement.style.overflowY='hidden';document.body.style.overflowY='hidden';
+     shell.classList.add('active');addParticles();$('scan-title').textContent='Un recuerdo está despertando';$('scan-status').textContent='ENFOCA EL CUADRO PARA INICIAR LA LECTURA';await system.start();running=true;
+     clearInterval(detectionPoll);
+     detectionPoll=setInterval(()=>{
+       if(!running)return;
+       const anchorVisible=!!(target.object3D&&target.object3D.visible);
+       if(anchorVisible&&!targetVisible)handleTargetFound('anchor visibility');
+       else if(!anchorVisible&&targetVisible)handleTargetLost();
+     },100);
+     $('camera-hint').textContent='Mantén la imagen completa dentro del encuadre.';
+   }catch(e){$('start-camera').disabled=false;showCameraError(e?.message||'No se pudo iniciar la cámara.')}
+ }
+ function showUnlockReady(){
+   clearInterval(countdownTimer);countdownTimer=null;
+   show('unlock-ready-screen');
+ }
+ function startCountdown(){
+   show('countdown-screen');
+   clearInterval(countdownTimer);
+   updateCountdown();
+   countdownTimer=setInterval(updateCountdown,250);
+ }
+ function updateCountdown(){
+   const remaining=Math.max(0,UNLOCK_AT-Date.now());
+   if(remaining<=0){showUnlockReady();return}
+   const total=Math.floor(remaining/1000);
+   const days=Math.floor(total/86400);
+   const hours=Math.floor((total%86400)/3600);
+   const minutes=Math.floor((total%3600)/60);
+   const seconds=total%60;
+   $('cd-days').textContent=String(days).padStart(2,'0');
+   $('cd-hours').textContent=String(hours).padStart(2,'0');
+   $('cd-minutes').textContent=String(minutes).padStart(2,'0');
+   $('cd-seconds').textContent=String(seconds).padStart(2,'0');
+ }
+ $('open-after-midnight').addEventListener('click',()=>{
+   if(Date.now()<UNLOCK_AT){startCountdown();return}
+   startAvatarMusic();
+   if(firstDone())show('return-choice-screen');else show('first-camera-screen');
+ });
+ $('preview-reveal').addEventListener('click',()=>{
+   previewMode=true;
+   closeScene();
+   startAvatarMusic();
+   show('letter-screen');
+   window.scrollTo({top:0,behavior:'instant'});
+ });
+ $('return-countdown').addEventListener('click',()=>{
+   previewMode=false;
+   show('countdown-screen');
+   startCountdown();
+ });
+ function showCodeError(message){
+   $('pin-feedback').textContent=message;
+   $('pin-feedback').classList.add('error');
+   $('pin-feedback').setAttribute('role','alert');
+   $('pin-feedback').setAttribute('aria-live','assertive');
+   document.querySelector('.pinrow').classList.remove('invalid');
+   void document.querySelector('.pinrow').offsetWidth;
+   document.querySelector('.pinrow').classList.add('invalid');
+ }
+ function clearCodeError(){
+   $('pin-feedback').classList.remove('error');
+   $('pin-feedback').removeAttribute('role');
+   $('pin-feedback').removeAttribute('aria-live');
+   document.querySelector('.pinrow').classList.remove('invalid');
+ }
+ function submitCode(){
+   const code=inputs.map(x=>x.value).join('');
+   if(code.length!==6){showCodeError('Faltan cifras. Revisa la fotografía.');return}
+   if(code!==ACCESS_CODE){showCodeError('Código incorrecto. Mira otra vez los detalles de la foto.');inputs[5].focus();return}
+   clearCodeError();
+   $('pin-feedback').textContent='La imagen te ha reconocido. La sorpresa tiene una hora reservada…';
+   if(Date.now()<UNLOCK_AT)startCountdown();else showUnlockReady();
+ }
+ inputs.forEach((input,i)=>{input.addEventListener('input',()=>{
+   input.value=input.value.replace(/\D/g,'').slice(0,1);
+   clearCodeError();
+   if(input.value&&inputs[i+1])inputs[i+1].focus();
+  });
+  input.addEventListener('keydown',e=>{
+   if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus();
+   if(e.key==='Enter'){e.preventDefault();submitCode()}
+  });
+  input.addEventListener('paste',e=>{
+   const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+   if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});clearCodeError();inputs[Math.min(d.length,5)].focus()}
+  });
+ });
+ $('unlock').addEventListener('click',submitCode);
+ $('pin-hint').addEventListener('click',()=>{
+   $('pin-hint-message').classList.toggle('hidden');
+ });
+ $('start-camera').addEventListener('click',beginCamera);
+ $('repeat-camera').addEventListener('click',()=>{show('first-camera-screen');$('start-camera').disabled=false});
+ $('skip-camera').addEventListener('click',()=>show('letter-screen'));
+ $('retry-camera').addEventListener('click',beginCamera);
+ $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
+ $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
+ 
+const storyDialogues=[
+ {speaker:'ROBERT',side:'from-robert',line:'Evy, contigo hasta los días más normales terminan teniendo algo especial.'},
+ {speaker:'EVELYN',side:'from-evy',line:'¿Y qué es lo que más te gusta de nuestros momentos juntos?'},
+ {speaker:'ROBERT',side:'from-robert',line:'Que nunca faltan las risas, las ocurrencias y algún abrazo inesperado.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Jajajaja. Bueno… los abrazos nunca sobran.'},
+ {speaker:'ROBERT',side:'from-robert',line:'Tampoco esos pequeños detalles que hacen que cualquier plan sea bonito.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Entonces habrá que seguir llenando la historia de momentos así.'}
+];
+let loveFrame=-1,loveRaf=0,loveProgress=0;
+let avatarAudioStarted=false,avatarAudioTimer=null,avatarAudioStartAt=0,avatarLastVolume=-1;
+const AVATAR_LOVE_AUDIO_SRC='';
+const clamp01=n=>Math.max(0,Math.min(1,n));
+const ease=(a,b,x)=>{const t=clamp01((x-a)/(b-a));return t*t*(3-2*t)};
+const mix=(a,b,t)=>a+(b-a)*t;
+function startLoveTracker(){stopLoveTracker();updateLoveStory();loveTrackerInterval=setInterval(updateLoveStory,65)}
+function stopLoveTracker(){if(loveTrackerInterval){clearInterval(loveTrackerInterval);loveTrackerInterval=null}}
+function loadMemorySprite(){
+ if(window.__a13MemorySpriteLoading)return;
+ window.__a13MemorySpriteLoading=true;
+ fetch('assets/recuerdos-sprite.txt',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('No se pudo abrir la galería');return r.text()}).then(encoded=>{
+  const bytes=Uint8Array.from(atob(encoded.trim()),c=>c.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}));
+  document.querySelectorAll('.memory-shot').forEach((el,i)=>{
+   el.style.backgroundImage='url("'+url+'")';
+   el.style.backgroundPosition=[0,33.333,66.667,100][i%4]+'% '+(Math.floor(i/4)?100:0)+'%';
+  });
+  window.__a13MemorySpriteUrl=url;
+ }).catch(()=>{window.__a13MemorySpriteLoading=false});
+}
+function startAvatarMusic(){
+ const a=$('archivo13-song');
+ if(avatarAudioStarted||!AVATAR_LOVE_AUDIO_SRC||!a)return;
+ avatarAudioStarted=true;a.src=AVATAR_LOVE_AUDIO_SRC;a.loop=true;a.volume=.035;
+ const p=a.play();if(p&&p.catch)p.catch(()=>{avatarAudioStarted=false});
+ avatarAudioStartAt=Date.now();clearInterval(avatarAudioTimer);
+ avatarAudioTimer=setInterval(updateAvatarCrescendo,900);
+}
+function updateAvatarCrescendo(){
+ const a=$('archivo13-song');if(!a||a.paused||!avatarAudioStarted)return;
+ const elapsed=(Date.now()-avatarAudioStartAt)/1000;
+ const v=Math.max(.035,Math.min(.58,.035+Math.min(.38,elapsed*.005)+loveProgress*.16));
+ if(Math.abs(v-avatarLastVolume)>.015){a.volume=v;avatarLastVolume=v}
+}
+function updateLoveStory(){
+ const track=$('love-story-track'),svg=$('couple-svg');
+ if(!track||!svg||!track.offsetHeight)return;
+ const rect=track.getBoundingClientRect(),travel=Math.max(1,track.offsetHeight-window.innerHeight);
+ const p=clamp01((window.innerHeight-rect.top)/travel);loveProgress=p;
+ const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.40,.78,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
+ const bob=Math.sin(p*22)*1.5;
+ const bx=mix(-180,250,enterBoy)+approach*8,ex=mix(820,390,enterEvy)-approach*8,lean=mix(0,4,kiss);
+ // Whole-character transforms keep every body part attached.
+ $('avatar-boy-main').setAttribute('transform','translate('+bx+' '+(540+bob)+') rotate('+lean+' 0 -170) scale(1.12)');
+ $('avatar-evy-main').setAttribute('transform','translate('+ex+' '+(540-bob)+') rotate('+(-lean)+' 0 -170) scale(-1.12 1.12)');
+ // Whole arm groups include their hands, so nothing can become detached.
+ $('boy-arm-pose').setAttribute('transform','rotate('+(-46*hug)+' 31 -198)');
+ $('evy-arm-pose').setAttribute('transform','rotate('+(-42*hug)+' 29 -194)');
+ $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
+ $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
+ const eyesClosed=kiss>.32?'0.12':'1';$('boy-eyes').setAttribute('opacity',eyesClosed);$('evy-eyes').setAttribute('opacity',eyesClosed);
+ const frame=Math.min(storyDialogues.length-1,Math.floor(p*storyDialogues.length));
+ if(frame!==loveFrame){
+  loveFrame=frame;const d=storyDialogues[frame],talk=$('love-story-talk');
+  talk.classList.toggle('from-evy',d.side==='from-evy');talk.classList.toggle('from-robert',d.side==='from-robert');
+  talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
+  $('love-story-speaker').textContent=d.speaker;$('love-story-line').textContent=d.line;
+ }
+ $('love-story-caption').textContent=p>.85?'Y todavía quedan muchos momentos por compartir.':p>.62?'Los mejores recuerdos suelen nacer de las cosas más sencillas.':p>.33?'Risas, abrazos y esa complicidad que aparece sin avisar.':'A veces, lo bonito está en los pequeños detalles.';
+ $('story-hearts').classList.toggle('visible',p>.83);updateAvatarCrescendo();
+}
+function scheduleLoveStoryUpdate(){if(loveRaf)return;loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()})}
+document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
+window.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true});
+window.addEventListener('touchmove',scheduleLoveStoryUpdate,{passive:true});
+window.addEventListener('resize',scheduleLoveStoryUpdate);window.addEventListener('load',scheduleLoveStoryUpdate);
+if('ResizeObserver' in window){const obs=new ResizeObserver(scheduleLoveStoryUpdate);obs.observe($('love-story-track'));obs.observe($('love-story-sticky'))}
+loadMemorySprite();
+$('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
+ window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null;stopLoveTracker();clearInterval(avatarAudioTimer);avatarAudioTimer=null});
+})();
+</script>
