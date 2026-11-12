@@ -167,6 +167,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <div class="card">
       <div class="eyebrow">La sorpresa se desbloquea a medianoche</div>
       <h2 style="text-align:center;margin-top:10px">13 de noviembre · 00:00</h2>
+      <p class="hint" style="text-align:center">Según el reloj de este teléfono.</p>
       <p class="copy" style="text-align:center">Cada segundo nos acerca a otro mes de nosotros.</p>
       <div class="countdown-grid" aria-live="polite">
         <div class="countdown-unit"><span class="countdown-number" id="cd-days">00</span><span class="countdown-caption">Días</span></div>
@@ -300,8 +301,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  const inputs=[...document.querySelectorAll('.pinrow input')];
  const FIRST_KEY='a13_first_camera_completed_v2';
  const ACCESS_CODE='919493';
- // 13 Nov 2026 at 00:00 in America/Puerto_Rico (AST, UTC-04:00).
- const UNLOCK_AT=Date.UTC(2026,10,13,4,0,0);
+ // Midnight at the start of Nov 13, 2026, in this phone's own local timezone.
+ const UNLOCK_AT=new Date(2026,10,13,0,0,0,0).getTime();
  let countdownTimer=null;
  const target=$('ar-target'), scene=$('ar-scene'), shell=$('camera-shell');
  const cameraError=$('camera-error'), lost=$('target-lost');
