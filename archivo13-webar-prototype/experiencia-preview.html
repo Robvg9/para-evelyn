@@ -98,6 +98,13 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 @keyframes dust-drift{0%,100%{transform:translate3d(0,24px,0) scale(.65);opacity:0}25%,75%{opacity:.62}50%{transform:translate3d(13px,-28px,0) scale(1.25);opacity:.95}}
 @keyframes petal-drift{0%,100%{transform:translate3d(0,26px,0) rotate(-35deg);opacity:0}25%,75%{opacity:.6}50%{transform:translate3d(17px,-36px,0) rotate(42deg);opacity:.85}}
 #pin-hint{display:block;margin:14px auto 0;padding:7px 4px;border:0;background:transparent;color:#d8b99e;text-decoration:underline;text-decoration-color:#d8b99e88;text-underline-offset:4px;font:12px system-ui;cursor:pointer}
+#pin-feedback.error{color:#ffe2e4;background:#6f354322;border:1px solid #d58d9a66;border-radius:9px;padding:6px 9px;font-weight:600}
+.pinrow.invalid input{border-color:#d88b99;box-shadow:0 0 0 2px #d88b9944}
+@keyframes code-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.pinrow.invalid{animation:code-nudge .22s ease 2}
+#preview-reveal{margin-top:12px;width:100%;border:1px dashed #d9b87988;background:#d9b87912;color:#f0d8ad;font:600 11px system-ui;letter-spacing:.04em}
+#preview-ribbon{margin:0 0 18px;padding:12px 14px;border:1px dashed #c59d68;border-radius:13px;background:#3a2a3033;color:#875f35;font:600 11px/1.5 system-ui;text-align:center}
+#preview-ribbon .actions{margin-top:8px}
 #pin-hint-message{max-width:430px;margin:10px auto 0;color:#e5d2c4;text-align:center;font:12px/1.65 system-ui}
 #camera-error{position:fixed;z-index:60;inset:0;background:#140e18;display:flex;align-items:center;justify-content:center;padding:24px}
 .error-box{max-width:440px;text-align:center}
@@ -176,6 +183,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
         <div class="countdown-unit"><span class="countdown-number" id="cd-seconds">00</span><span class="countdown-caption">Segundos</span></div>
       </div>
       <p class="hint" id="countdown-message">La carta y la cámara permanecen cerradas hasta que llegue el día 13.</p>
+      <!-- TEMPORAL: retirar este acceso de prueba antes de entregar el enlace a Evelyn. -->
+      <button id="preview-reveal" type="button">Vista previa para Robert · ver destino del escaneo</button>
     </div>
   </section>
 
@@ -217,6 +226,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   </section>
 
   <section id="letter-screen" class="hidden">
+    <!-- TEMPORAL: solo para pruebas de Robert; eliminar antes de la entrega a Evelyn. -->
+    <div id="preview-ribbon" class="hidden">
+      VISTA PREVIA DE ROBERT · Esta es la página que aparece al terminar el escaneo.
+      <div class="actions"><button class="btn secondary" id="return-countdown">Volver a la cuenta atrás</button></div>
+    </div>
     <div class="eyebrow">ARCHIVO 13 · Revelación</div>
     <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
     <div class="paper">
@@ -292,9 +306,11 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 <script>
 (()=>{
  const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
+ let previewMode=false;
  const show=id=>{
    screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
    document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
+   if(id==='letter-screen') $('preview-ribbon').classList.toggle('hidden',!previewMode);
  };
  const $=id=>document.getElementById(id);
  show('pin-screen');
@@ -509,14 +525,55 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    if(Date.now()<UNLOCK_AT){startCountdown();return}
    if(firstDone())show('return-choice-screen');else show('first-camera-screen');
  });
- inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus()});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus()});input.addEventListener('paste',e=>{const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});inputs[Math.min(d.length,5)].focus()}})});
- $('unlock').addEventListener('click',()=>{
+ $('preview-reveal').addEventListener('click',()=>{
+   previewMode=true;
+   closeScene();
+   show('letter-screen');
+   window.scrollTo({top:0,behavior:'instant'});
+ });
+ $('return-countdown').addEventListener('click',()=>{
+   previewMode=false;
+   show('countdown-screen');
+   startCountdown();
+ });
+ function showCodeError(message){
+   $('pin-feedback').textContent=message;
+   $('pin-feedback').classList.add('error');
+   $('pin-feedback').setAttribute('role','alert');
+   $('pin-feedback').setAttribute('aria-live','assertive');
+   document.querySelector('.pinrow').classList.remove('invalid');
+   void document.querySelector('.pinrow').offsetWidth;
+   document.querySelector('.pinrow').classList.add('invalid');
+ }
+ function clearCodeError(){
+   $('pin-feedback').classList.remove('error');
+   $('pin-feedback').removeAttribute('role');
+   $('pin-feedback').removeAttribute('aria-live');
+   document.querySelector('.pinrow').classList.remove('invalid');
+ }
+ function submitCode(){
    const code=inputs.map(x=>x.value).join('');
-   if(code.length!==6){$('pin-feedback').textContent='Necesitas las seis cifras para continuar.';return}
-   if(code!==ACCESS_CODE){$('pin-feedback').textContent='Todavía no. La clave está en el fondo de la fotografía.';return}
+   if(code.length!==6){showCodeError('Faltan cifras. Revisa la fotografía.');return}
+   if(code!==ACCESS_CODE){showCodeError('Código incorrecto. Mira otra vez los detalles de la foto.');inputs[5].focus();return}
+   clearCodeError();
    $('pin-feedback').textContent='La imagen te ha reconocido. La sorpresa tiene una hora reservada…';
    if(Date.now()<UNLOCK_AT)startCountdown();else showUnlockReady();
+ }
+ inputs.forEach((input,i)=>{input.addEventListener('input',()=>{
+   input.value=input.value.replace(/\D/g,'').slice(0,1);
+   clearCodeError();
+   if(input.value&&inputs[i+1])inputs[i+1].focus();
+  });
+  input.addEventListener('keydown',e=>{
+   if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus();
+   if(e.key==='Enter'){e.preventDefault();submitCode()}
+  });
+  input.addEventListener('paste',e=>{
+   const d=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+   if(d){e.preventDefault();d.split('').forEach((n,j)=>{if(inputs[j])inputs[j].value=n});clearCodeError();inputs[Math.min(d.length,5)].focus()}
+  });
  });
+ $('unlock').addEventListener('click',submitCode);
  $('pin-hint').addEventListener('click',()=>{
    $('pin-hint-message').classList.toggle('hidden');
  });
