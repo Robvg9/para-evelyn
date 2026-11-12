@@ -290,6 +290,37 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  .memory-photo-meta b{font-size:15px}.memory-photo-meta span{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){#love-story-talk .love-talk-bubble{transition:none!important}}
+
+/* Character integrity and in-scene cartoon dialogue */
+#archivo13-song{display:none!important}.soundtrack-signature{display:none!important}
+.love-story-sticky{position:sticky;top:0;height:100svh;min-height:610px;display:block;overflow:hidden;padding:0!important;gap:0!important}
+.love-story-illustration{position:absolute;inset:0;width:100%;height:100%;max-width:none;overflow:hidden;border:0;border-radius:0;box-shadow:none;background:linear-gradient(180deg,#211a2c 0%,#514057 38%,#b07c86 72%,#3b2c41 100%)}
+#couple-svg{position:absolute;inset:8% 0 7%;width:100%;height:85%;display:block;filter:drop-shadow(0 15px 25px #120b1c55)}
+#couple-svg .love-pose:not(.pose-0){display:none!important}#couple-svg .love-pose.pose-0{display:block!important;opacity:1!important;animation:none!important}
+#boy-arm-pose,#evy-arm-pose{transform-box:fill-box;transform-origin:15% 12%}
+#love-story-talk{position:absolute;z-index:30;top:13%;left:0;right:0;width:100%;max-width:none;margin:0;padding:0;display:block;min-height:0;pointer-events:none}
+#love-story-talk img{display:none!important}
+#love-story-talk .love-talk-bubble{position:relative;display:block;width:min(78%,390px);max-width:78%;min-height:0;margin:0 0 0 4%;padding:15px 19px 17px;border:1px solid #f6dfd3;border-radius:22px 22px 22px 6px;background:linear-gradient(145deg,#fff4e9 0%,#f2d8d3 100%);box-shadow:0 15px 38px #160d1e66,inset 0 1px 0 #fff;opacity:0;transform:translateY(12px) scale(.97);transition:opacity .28s ease,transform .28s ease;color:#49323d}
+#love-story-talk.changing .love-talk-bubble{opacity:1;transform:translateY(0) scale(1)}
+#love-story-talk.from-evy .love-talk-bubble{margin:0 4% 0 auto;border-radius:22px 22px 6px 22px}
+#love-story-talk .love-talk-bubble:before{content:"";position:absolute;bottom:-13px;left:27px;width:0;height:0;border-top:14px solid #f2d8d3;border-right:14px solid transparent}
+#love-story-talk.from-evy .love-talk-bubble:before{left:auto;right:27px;border-right:0;border-left:14px solid transparent}
+#love-story-talk .love-talk-bubble:after{content:"✧";position:absolute;right:12px;top:7px;color:#b98964;font:18px Georgia}
+#love-story-talk .love-talk-bubble small{display:block;margin:0 0 6px;color:#a77c67;font:700 9px system-ui;letter-spacing:.19em;text-transform:uppercase}
+#love-story-talk .love-talk-bubble p{margin:0;color:#49323d;font:italic clamp(15px,4vw,18px)/1.4 Georgia,serif}
+.love-story-caption{position:absolute;z-index:25;left:6%;right:6%;bottom:4%;max-width:470px;min-height:48px;margin:0 auto;text-align:center;color:#fae9e0;font:italic clamp(16px,4.3vw,21px)/1.35 Georgia,serif;text-shadow:0 2px 12px #1c1324}
+.love-story-dots,.love-scroll-hint{display:none!important}
+.memory-shot{aspect-ratio:130/146;background-size:400% 200%;background-position:center}
+@media(max-width:600px){
+ .love-story-sticky,.love-story-illustration{min-height:610px}
+ #couple-svg{inset:12% 0 8%;height:80%}
+ #love-story-talk{top:13%;left:0;right:0}
+ #love-story-talk .love-talk-bubble{width:80%;max-width:80%;margin-left:3%;padding:13px 15px 15px}
+ #love-story-talk.from-evy .love-talk-bubble{margin-right:3%}
+ #love-story-talk .love-talk-bubble p{font-size:15px}
+ .love-story-caption{bottom:3.5%;font-size:15px;min-height:42px}
+}
+@media(prefers-reduced-motion:reduce){#love-story-talk .love-talk-bubble{transition:none!important}}
 </style>
 </head>
 <body>
@@ -385,7 +416,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     </div>
     <div class="eyebrow">ARCHIVO 13 · Revelación</div>
     <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
-    <div class="soundtrack-signature"><span class="soundtrack-ornament">♫</span><span class="soundtrack-copy"><b>The Avatar’s Love</b><small>La melodía de nuestra historia</small></span><audio id="archivo13-song" preload="none"></audio></div><div class="paper">
+    <audio id="archivo13-song" preload="none" playsinline aria-hidden="true"></audio>
+    <div class="paper">
       <div class="eyebrow">Para Evelyn</div>
       <h2>Más allá de lo que se ve</h2>
       <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
@@ -419,9 +451,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
                   <path d="M6 -7 Q1 1 7 10 Q23 15 43 8 Q46 1 31 -7Z" fill="#f2e6dc"/>
                   <path d="M-34 -210 Q0 -224 35 -210 L43 -118 Q5 -99 -40 -118Z" fill="url(#shirt)"/>
                   <path d="M-14 -213 Q0 -192 14 -213" fill="none" stroke="#a89aaa" stroke-width="3" opacity=".5"/>
-                  <path d="M-27 -198 Q-42 -178 -45 -142" fill="none" stroke="#f0bda2" stroke-width="18" stroke-linecap="round"/>
-                  <path id="boy-arm-pose" d="M31 -198 Q50 -185 58 -156 Q65 -137 77 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/>
-                  <path d="M75 -126 q10 -2 12 8 q-4 12 -15 6" fill="url(#skin)"/>
+                  <g id="boy-arm-left"><path d="M-27 -198 Q-42 -178 -45 -142" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M-46 -145 q-9 1 -10 10 q4 10 14 7 q8 -4 4 -12Z" fill="url(#skin)"/></g>
+                  <g id="boy-arm-pose"><path d="M31 -198 Q50 -185 58 -156 Q65 -137 77 -126" fill="none" stroke="url(#skin)" stroke-width="18" stroke-linecap="round"/><path d="M75 -126 q10 -2 12 8 q-4 12 -15 6" fill="url(#skin)"/></g>
                   <rect x="-12" y="-235" width="24" height="28" rx="8" fill="url(#skin)"/>
                   <ellipse cx="-36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
                   <ellipse cx="36" cy="-261" rx="8" ry="12" fill="#dc9e80"/>
@@ -443,9 +474,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
                   <path d="M-36 -193 Q-18 -176 0 -189 Q18 -176 36 -193" fill="none" stroke="#fff0e7" stroke-width="4" opacity=".8"/>
                   <path d="M-54 -53 Q0 -38 56 -53" fill="none" stroke="#fce8e5" stroke-width="3" opacity=".65"/>
                   <g fill="#fff0e7" opacity=".8"><circle cx="-25" cy="-84" r="3"/><circle cx="8" cy="-110" r="3"/><circle cx="29" cy="-72" r="2.5"/></g>
-                  <path d="M-27 -193 Q-49 -178 -56 -153 Q-68 -137 -78 -126" fill="none" stroke="url(#skin)" stroke-width="16" stroke-linecap="round"/>
-                  <path d="M-79 -126 q-9 0 -11 9 q5 11 15 5" fill="url(#skin)"/>
-                  <path id="evy-arm-pose" d="M29 -194 Q46 -178 44 -151" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/>
+                  <g id="evy-arm-left"><path d="M-27 -193 Q-49 -178 -56 -153 Q-68 -137 -78 -126" fill="none" stroke="url(#skin)" stroke-width="16" stroke-linecap="round"/><path d="M-79 -126 q-9 0 -11 9 q5 11 15 5" fill="url(#skin)"/></g>
+                  <g id="evy-arm-pose"><path d="M29 -194 Q49 -179 61 -158 Q68 -145 74 -136" fill="none" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/><path d="M72 -139 q11 -4 14 5 q0 10 -10 11 q-9 -3 -4 -16Z" fill="url(#skin)"/></g>
                   <rect x="-11" y="-237" width="22" height="30" rx="9" fill="url(#skin)"/>
                   <ellipse cx="0" cy="-267" rx="36" ry="46" fill="url(#skin)"/>
                   <path d="M-40 -271 Q-52 -319 -16 -328 Q24 -340 42 -304 Q47 -282 33 -268 Q27 -285 18 -286 Q4 -281 -9 -289 Q-25 -278 -40 -271Z" fill="url(#hair)"/>
@@ -475,10 +505,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
               <g class="love-pose pose-3"><use href="#avatar-boy" transform="translate(285 540) rotate(5 -10 -270) scale(.92)"/><use href="#avatar-evy" transform="translate(355 540) rotate(-5 10 -270) scale(-.92 .92)"/><path d="M302 310 C280 286 301 268 320 284 C339 267 360 288 340 310 L321 330Z" fill="#f6c5cd" filter="url(#glow-shadow)"/><g fill="#fff1df"><path d="M252 230 l5 10 10 5 -10 5 -5 10 -5 -10 -10 -5 10 -5Z"/><path d="M396 244 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4Z"/></g></g>
               <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
             </svg>
-          </div>
           <div id="love-story-talk" class="love-talk from-robert" aria-live="polite">
             <img id="love-story-speaker-photo" src="assets/robert-portrait.jpg" alt="" aria-hidden="true">
             <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, a veces todo empieza con una mirada.</p></div>
+          </div>
           </div>
           <p id="love-story-caption" class="love-story-caption">A veces, todo empieza con una mirada.</p>
           <div id="love-story-dots" class="love-story-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
@@ -487,9 +517,9 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
       </div>
       <p class="love-story-final">Y si pudiera volver a empezar, volvería a caminar hacia ti.</p>
     </section>
-    <section class="memory-gallery" aria-label="Ocho recuerdos reales de Robert y Evelyn">
-<div class="memory-gallery-head"><span class="music-kicker">FRAGMENTOS DE NOSOTROS</span><h2>Y esto también somos.</h2><p>Ocho pequeños recuerdos. Ninguno necesita ser perfecto para ser nuestro.</p></div>
-<div class="memory-grid"><article class="memory-photo-card"><div class="memory-shot" data-photo="0"></div><div class="memory-photo-meta"><b>El comienzo</b><span>Cuando todo empezó a sentirse especial.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="1"></div><div class="memory-photo-meta"><b>Celebrar contigo</b><span>Hasta los días comunes se vuelven fiesta.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="2"></div><div class="memory-photo-meta"><b>Un beso sin prisa</b><span>Hay recuerdos que se explican solos.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="3"></div><div class="memory-photo-meta"><b>Una noche especial</b><span>De esas que uno guarda para siempre.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="4"></div><div class="memory-photo-meta"><b>La cafetería</b><span>Mi lugar favorito también puede ser a tu lado.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="5"></div><div class="memory-photo-meta"><b>Un día de sol</b><span>Risas, agua y nosotros.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="6"></div><div class="memory-photo-meta"><b>Nuestro último recuerdo</b><span>Una página más que ya es nuestra.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="7"></div><div class="memory-photo-meta"><b>Así, de sorpresa</b><span>Uno de esos abrazos que arreglan el día.</span></div></article></div></section><div class="love-secret">
+    <section class="memory-gallery" aria-label="Ocho recuerdos de Robert y Evelyn">
+<div class="memory-gallery-head"><span class="music-kicker">PEQUEÑAS COSAS QUE HACEN BONITA LA VIDA</span><h2>Momentos que se quedan.</h2><p>Risas, abrazos, ocurrencias y esos detalles que hacen especial compartir el camino.</p></div>
+<div class="memory-grid"><article class="memory-photo-card"><div class="memory-shot" data-photo="0" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Risas espontáneas</b><span>La risa que aparece sin avisar y termina alegrando el día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="1" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Abrazos favoritos</b><span>Un abrazo a tiempo puede hacer que todo se sienta mejor.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="2" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Ocurrencias</b><span>Esas pequeñas locuras que hacen que nunca falten las sonrisas.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="3" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Sonrisas</b><span>La alegría que se contagia con una sola mirada.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="4" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Complicidad</b><span>Entenderse a veces sin tener que explicar demasiado.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="5" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Planes sencillos</b><span>Disfrutar de estar juntos, incluso cuando no hay ningún plan.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="6" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Pequeños gestos</b><span>La ternura que aparece en los detalles de cada día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="7" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Momentos bonitos</b><span>Esos instantes sencillos que dan ganas de repetir.</span></div></article></div></section><div class="love-secret">
       <button class="secret" id="easter-egg" aria-label="Pista oculta del próximo expediente">13</button>
       <p class="hint">Hay una última señal escondida. Toca el 13 tres veces.</p>
       <p id="easter-message" class="secret-message hidden">EXPEDIENTE 04 · La próxima pista no estará en una imagen. Tendrás que escuchar para encontrarla.</p>
@@ -835,13 +865,14 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('retry-camera').addEventListener('click',beginCamera);
  $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
- const storyDialogues=[
- {speaker:'Robert',side:'from-robert',line:'Evy, antes de seguir… quiero contarte algo que no cabe en una fotografía.'},
- {speaker:'Evelyn',side:'from-evy',line:'¿Otra de tus sorpresas? Jajajaja. A ver, ¿qué inventaste ahora?'},
- {speaker:'Robert',side:'from-robert',line:'Quiero enseñarte algunos recuerdos… pero sobre todo, lo que hay detrás de ellos.'},
- {speaker:'Evelyn',side:'from-evy',line:'¿Y qué ves tú cuando me miras de verdad?'},
- {speaker:'Robert',side:'from-robert',line:'Veo a mi compañera. A quien hace especial hasta el día más sencillo.'},
- {speaker:'Evelyn',side:'from-evy',line:'Entonces ven… que todavía nos quedan muchísimos capítulos.'}
+ 
+const storyDialogues=[
+ {speaker:'ROBERT',side:'from-robert',line:'Evy, contigo hasta los días más normales terminan teniendo algo especial.'},
+ {speaker:'EVELYN',side:'from-evy',line:'¿Y qué es lo que más te gusta de nuestros momentos juntos?'},
+ {speaker:'ROBERT',side:'from-robert',line:'Que nunca faltan las risas, las ocurrencias y algún abrazo inesperado.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Jajajaja. Bueno… los abrazos nunca sobran.'},
+ {speaker:'ROBERT',side:'from-robert',line:'Tampoco esos pequeños detalles que hacen que cualquier plan sea bonito.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Entonces habrá que seguir llenando la historia de momentos así.'}
 ];
 let loveFrame=-1,loveRaf=0,loveProgress=0;
 let avatarAudioStarted=false,avatarAudioTimer=null,avatarAudioStartAt=0,avatarLastVolume=-1;
@@ -862,12 +893,12 @@ function loadMemorySprite(){
    el.style.backgroundPosition=[0,33.333,66.667,100][i%4]+'% '+(Math.floor(i/4)?100:0)+'%';
   });
   window.__a13MemorySpriteUrl=url;
- }).catch(()=>{});
+ }).catch(()=>{window.__a13MemorySpriteLoading=false});
 }
 function startAvatarMusic(){
  const a=$('archivo13-song');
  if(avatarAudioStarted||!AVATAR_LOVE_AUDIO_SRC||!a)return;
- avatarAudioStarted=true;a.src=AVATAR_LOVE_AUDIO_SRC;a.loop=true;a.volume=.04;
+ avatarAudioStarted=true;a.src=AVATAR_LOVE_AUDIO_SRC;a.loop=true;a.volume=.035;
  const p=a.play();if(p&&p.catch)p.catch(()=>{avatarAudioStarted=false});
  avatarAudioStartAt=Date.now();clearInterval(avatarAudioTimer);
  avatarAudioTimer=setInterval(updateAvatarCrescendo,900);
@@ -875,7 +906,7 @@ function startAvatarMusic(){
 function updateAvatarCrescendo(){
  const a=$('archivo13-song');if(!a||a.paused||!avatarAudioStarted)return;
  const elapsed=(Date.now()-avatarAudioStartAt)/1000;
- const v=Math.max(.04,Math.min(.72,.04+Math.min(.46,elapsed*.006)+loveProgress*.26));
+ const v=Math.max(.035,Math.min(.58,.035+Math.min(.38,elapsed*.005)+loveProgress*.16));
  if(Math.abs(v-avatarLastVolume)>.015){a.volume=v;avatarLastVolume=v}
 }
 function updateLoveStory(){
@@ -883,16 +914,18 @@ function updateLoveStory(){
  if(!track||!svg||!track.offsetHeight)return;
  const rect=track.getBoundingClientRect(),travel=Math.max(1,track.offsetHeight-window.innerHeight);
  const p=clamp01((window.innerHeight-rect.top)/travel);loveProgress=p;
- const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.4,.77,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
- const bx=mix(-175,275,enterBoy)+approach*25,ex=mix(810,365,enterEvy)-approach*25;
- $('avatar-boy-main').setAttribute('transform','translate('+bx+' 540) scale(1.12)');
- $('avatar-evy-main').setAttribute('transform','translate('+ex+' 540) scale(-1.12 1.12)');
- $('boy-arm-pose').setAttribute('transform','rotate('+mix(0,-48,hug)+' 31 -198)');
- $('evy-arm-pose').setAttribute('transform','rotate('+mix(0,48,hug)+' 29 -194)');
+ const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.40,.78,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
+ const bob=Math.sin(p*22)*1.5;
+ const bx=mix(-180,250,enterBoy)+approach*8,ex=mix(820,390,enterEvy)-approach*8,lean=mix(0,4,kiss);
+ // Whole-character transforms keep every body part attached.
+ $('avatar-boy-main').setAttribute('transform','translate('+bx+' '+(540+bob)+') rotate('+lean+' 0 -170) scale(1.12)');
+ $('avatar-evy-main').setAttribute('transform','translate('+ex+' '+(540-bob)+') rotate('+(-lean)+' 0 -170) scale(-1.12 1.12)');
+ // Whole arm groups include their hands, so nothing can become detached.
+ $('boy-arm-pose').setAttribute('transform','rotate('+(-46*hug)+' 31 -198)');
+ $('evy-arm-pose').setAttribute('transform','rotate('+(-42*hug)+' 29 -194)');
  $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
  $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
- $('boy-eyes').setAttribute('opacity',kiss>.25 ? 0.1 : 1);
- $('evy-eyes').setAttribute('opacity',kiss>.25 ? 0.1 : 1);
+ const eyesClosed=kiss>.32?'0.12':'1';$('boy-eyes').setAttribute('opacity',eyesClosed);$('evy-eyes').setAttribute('opacity',eyesClosed);
  const frame=Math.min(storyDialogues.length-1,Math.floor(p*storyDialogues.length));
  if(frame!==loveFrame){
   loveFrame=frame;const d=storyDialogues[frame],talk=$('love-story-talk');
@@ -900,9 +933,8 @@ function updateLoveStory(){
   talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
   $('love-story-speaker').textContent=d.speaker;$('love-story-line').textContent=d.line;
  }
- $('love-story-caption').textContent=p>.85?'Y por un instante, el mundo entero se queda quieto.':p>.62?'Un abrazo puede decir lo que las palabras no alcanzan.':p>.33?'Dos caminos empiezan a encontrarse.':'A veces, todo empieza con una mirada.';
- $('story-hearts').classList.toggle('visible',p>.83);
- updateAvatarCrescendo();
+ $('love-story-caption').textContent=p>.85?'Y todavía quedan muchos momentos por compartir.':p>.62?'Los mejores recuerdos suelen nacer de las cosas más sencillas.':p>.33?'Risas, abrazos y esa complicidad que aparece sin avisar.':'A veces, lo bonito está en los pequeños detalles.';
+ $('story-hearts').classList.toggle('visible',p>.83);updateAvatarCrescendo();
 }
 function scheduleLoveStoryUpdate(){if(loveRaf)return;loveRaf=requestAnimationFrame(()=>{loveRaf=0;updateLoveStory()})}
 document.addEventListener('scroll',scheduleLoveStoryUpdate,{passive:true,capture:true});
