@@ -317,6 +317,33 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  .love-story-caption{bottom:3.5%;font-size:15px;min-height:42px}
 }
 @media(prefers-reduced-motion:reduce){#love-story-talk .love-talk-bubble{transition:none!important}}
+
+/* ARCHIVO 13 · corazones, expresión enamorada y juego de pistas */
+#love-heart-burst{position:absolute;z-index:27;inset:0;overflow:visible;pointer-events:none}
+#love-heart-burst .floating-heart{position:absolute;display:block;color:#ffc2d4;text-shadow:0 0 9px #ffd8e7,0 0 22px #f3a9c788;opacity:0;animation:heart-float 1.9s cubic-bezier(.18,.68,.24,1) forwards;will-change:transform,opacity}
+@keyframes heart-float{0%{opacity:0;transform:translate3d(0,18px,0) scale(.35) rotate(-12deg)}18%{opacity:1;transform:translate3d(0,0,0) scale(1.1) rotate(6deg)}100%{opacity:0;transform:translate3d(var(--heart-drift,0),-145px,0) scale(.55) rotate(24deg)}}
+#evy-normal-eyes,#evy-love-eyes{transition:opacity .32s ease}
+#handhold-sparkle{transition:opacity .38s ease;filter:drop-shadow(0 0 9px #f6c1d4)}
+.memory-shot{filter:saturate(1.07) contrast(1.055);image-rendering:auto}
+.expedition-quiz{width:min(100%,570px);margin:18px auto 8px;padding:22px 18px;border:1px solid #d9b87966;border-radius:20px;background:linear-gradient(145deg,#382733f4,#211923f7);box-shadow:0 15px 36px #0004;text-align:left}
+.quiz-kicker{color:#d8b681;font:700 9px system-ui;letter-spacing:.22em;text-transform:uppercase;text-align:center}
+.expedition-quiz h2{margin:9px 0 8px;text-align:center;color:#f7e9df;font:400 clamp(23px,6vw,30px)/1.15 Georgia,serif}
+.quiz-intro{max-width:430px;margin:0 auto 18px;text-align:center;color:#c7b4b2;font:12px/1.6 system-ui}
+.quiz-question{border:0;border-top:1px solid #d9b87935;padding:15px 0 0;margin:14px 0 0;min-width:0}
+.quiz-question legend{padding:0 0 8px;color:#f3dfd5;font:15px/1.45 Georgia,serif}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quiz-options label{display:flex;align-items:center;gap:8px;min-height:44px;padding:9px 10px;border:1px solid #d9b8793d;border-radius:12px;background:#17121bd9;color:#e8d9d3;font:11px/1.4 system-ui;cursor:pointer}
+.quiz-options label:has(input:checked){border-color:#ddb98b;background:#d9b87918;color:#fff0e7;box-shadow:inset 0 0 0 1px #d9b87930}
+.quiz-options input{flex:0 0 auto;width:15px;height:15px;margin:0;accent-color:#d9ae8c}
+.quiz-submit{display:block;width:100%;margin:19px auto 0}
+.quiz-result{margin-top:19px;padding:17px 14px 6px;border-top:1px solid #d9b87955;text-align:center}
+.quiz-result h3{margin:8px 0;color:#f7e5df;font:400 23px Georgia,serif}
+.quiz-result p{color:#cbb7b3;font:12px/1.6 system-ui}
+.quiz-result .quiz-clue{margin:13px 0;padding:13px;border-radius:12px;background:#d9b87912;color:#f3dfd0;font:italic 15px/1.5 Georgia,serif}
+.quiz-share{display:inline-flex;justify-content:center;align-items:center;margin:8px auto 4px;text-decoration:none}
+@media(max-width:420px){.expedition-quiz{padding:18px 13px}.quiz-options{grid-template-columns:1fr}.quiz-options label{min-height:40px}}
+@media(prefers-reduced-motion:reduce){#love-heart-burst .floating-heart{animation-duration:.01ms!important}#evy-normal-eyes,#evy-love-eyes{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -474,9 +501,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
                   <path d="M-39 -280 Q-47 -251 -37 -231 L-44 -179 Q-53 -151 -57 -182 Q-65 -233 -47 -274Z" fill="#2b1d28"/>
                   <path d="M38 -281 Q48 -253 39 -226 L50 -175 Q54 -148 60 -179 Q66 -236 48 -276Z" fill="#2b1d28"/>
                   <g fill="#392630"><path d="M-25 -286 Q-8 -299 6 -287 Q22 -296 31 -282 Q20 -278 8 -280 Q-9 -275 -25 -286Z"/></g>
-                  <g fill="#4b2b34"><ellipse cx="-13" cy="-262" rx="3.2" ry="4"/><ellipse cx="13" cy="-262" rx="3.2" ry="4"/></g>
+                  <g id="evy-normal-eyes" fill="#4b2b34"><ellipse cx="-13" cy="-262" rx="3.2" ry="4"/><ellipse cx="13" cy="-262" rx="3.2" ry="4"/></g>
+                  <g id="evy-love-eyes" opacity="0" fill="#d85e88"><path d="M0 8 C-18 -2 -10 -18 0 -10 C10 -18 18 -2 0 8Z" transform="translate(-13 -263) scale(.62)"/><path d="M0 8 C-18 -2 -10 -18 0 -10 C10 -18 18 -2 0 8Z" transform="translate(13 -263) scale(.62)"/></g>
                   <path id="evy-mouth" d="M-7 -242 Q0 -236 8 -242" fill="none" stroke="#a85e67" stroke-width="2.5" stroke-linecap="round"/>
-                  <circle cx="-21" cy="-243" r="6" fill="#e98c99" opacity=".35"/><circle cx="21" cy="-243" r="6" fill="#e98c99" opacity=".35"/>
+                  <circle id="evy-blush-left" cx="-21" cy="-243" r="6" fill="#e98c99" opacity=".35"/><circle id="evy-blush-right" cx="21" cy="-243" r="6" fill="#e98c99" opacity=".35"/>
                   <circle cx="0" cy="-216" r="5" fill="#f0d5b9" stroke="#c99675" stroke-width="1"/>
                   </g>
                 </g>
@@ -496,12 +524,14 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
               <g class="love-pose pose-1"><use href="#avatar-boy" transform="translate(210 540) scale(.92)"/><use href="#avatar-evy" transform="translate(430 540) scale(-.92 .92)"/><path d="M290 340 Q320 310 350 340" fill="none" stroke="#fce8df" stroke-width="4" stroke-linecap="round" opacity=".8"/><circle cx="320" cy="329" r="6" fill="#f6d6d4"/></g>
               <g class="love-pose pose-2"><use href="#avatar-boy" transform="translate(270 540) scale(.92)"/><use href="#avatar-evy" transform="translate(370 540) scale(-.92 .92)"/><path d="M288 395 Q320 430 352 395" fill="none" stroke="#f4d2d4" stroke-width="12" stroke-linecap="round" opacity=".9"/><path d="M290 335 C270 314 290 294 310 309 C326 291 347 310 330 330 L310 350Z" fill="#f0b5c6" opacity=".8"/></g>
               <g class="love-pose pose-3"><use href="#avatar-boy" transform="translate(285 540) rotate(5 -10 -270) scale(.92)"/><use href="#avatar-evy" transform="translate(355 540) rotate(-5 10 -270) scale(-.92 .92)"/><path d="M302 310 C280 286 301 268 320 284 C339 267 360 288 340 310 L321 330Z" fill="#f6c5cd" filter="url(#glow-shadow)"/><g fill="#fff1df"><path d="M252 230 l5 10 10 5 -10 5 -5 10 -5 -10 -10 -5 10 -5Z"/><path d="M396 244 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4Z"/></g></g>
+              <g id="handhold-sparkle" opacity="0"><path d="M320 390 C308 379 299 393 310 404 L320 414 L330 404 C341 393 332 379 320 390Z" fill="#f1b8ce" stroke="#fff0e8" stroke-width="2"/><path d="M296 382 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3Z M344 409 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2Z" fill="#fff0e8"/></g>
               <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
             </svg>
           <div id="love-story-talk" class="love-talk from-robert changing" aria-live="polite">
             <img id="love-story-speaker-photo" src="assets/robert-portrait.jpg" alt="" aria-hidden="true">
-            <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, contigo hasta los días más normales terminan teniendo algo especial.</p></div>
+            <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, aprendí que amarte es una de las formas más bonitas de vivir cada momento.</p></div>
           </div>
+          <div id="love-heart-burst" aria-hidden="true"></div>
           </div>
           <p id="love-story-caption" class="love-story-caption">A veces, lo bonito está en los pequeños detalles.</p>
           <div id="love-story-dots" class="love-story-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
@@ -513,9 +543,41 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     <section class="memory-gallery" aria-label="Ocho recuerdos de Robert y Evelyn">
 <div class="memory-gallery-head"><span class="music-kicker">PEQUEÑAS COSAS QUE HACEN BONITA LA VIDA</span><h2>Momentos que se quedan.</h2><p>Risas, abrazos, ocurrencias y esos detalles que hacen especial compartir el camino.</p></div>
 <div class="memory-grid"><article class="memory-photo-card"><div class="memory-shot" data-photo="0" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Risas espontáneas</b><span>La risa que aparece sin avisar y termina alegrando el día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="1" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Abrazos favoritos</b><span>Un abrazo a tiempo puede hacer que todo se sienta mejor.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="2" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Ocurrencias</b><span>Esas pequeñas locuras que hacen que nunca falten las sonrisas.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="3" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Sonrisas</b><span>La alegría que se contagia con una sola mirada.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="4" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Complicidad</b><span>Entenderse a veces sin tener que explicar demasiado.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="5" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Planes sencillos</b><span>Disfrutar de estar juntos, incluso cuando no hay ningún plan.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="6" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Pequeños gestos</b><span>La ternura que aparece en los detalles de cada día.</span></div></article><article class="memory-photo-card"><div class="memory-shot" data-photo="7" role="img" aria-label="Recuerdo de Robert y Evelyn"></div><div class="memory-photo-meta"><b>Momentos bonitos</b><span>Esos instantes sencillos que dan ganas de repetir.</span></div></article></div></section><div class="love-secret">
-      <button class="secret" id="easter-egg" aria-label="Pista oculta del próximo expediente">13</button>
-      <p class="hint">Hay una última señal escondida. Toca el 13 tres veces.</p>
-      <p id="easter-message" class="secret-message hidden">EXPEDIENTE 04 · La próxima pista no estará en una imagen. Tendrás que escuchar para encontrarla.</p>
+      <button class="secret" id="easter-egg" aria-label="Abrir un pequeño juego secreto">13</button>
+      <p class="hint">Hay una última curiosidad escondida. Toca el 13 tres veces.</p>
+      <section id="easter-message" class="expedition-quiz hidden" aria-label="Pequeño juego secreto">
+        <div class="quiz-kicker">EXPEDIENTE 04 · UNA SEÑAL TUYA</div>
+        <h2>Elige sin pensarlo demasiado.</h2>
+        <p class="quiz-intro">No hay respuestas correctas. Solo sigue tu primera intuición y deja que tres pequeñas elecciones hablen por ti.</p>
+        <form id="expedition-04-form">
+          <fieldset class="quiz-question"><legend>1. Cuando un momento se vuelve inolvidable, ¿qué suele quedarse contigo?</legend><div class="quiz-options">
+            <label><input type="radio" name="memory" value="Unas palabras que no se olvidan" required><span>Unas palabras que no se olvidan</span></label>
+            <label><input type="radio" name="memory" value="Una canción que lo devuelve todo"><span>Una canción que lo devuelve todo</span></label>
+            <label><input type="radio" name="memory" value="Una fotografía para volver a mirarla"><span>Una fotografía para volver a mirarla</span></label>
+            <label><input type="radio" name="memory" value="La sensación de aquel día"><span>La sensación de aquel día</span></label>
+          </div></fieldset>
+          <fieldset class="quiz-question"><legend>2. Elige el escenario que te provoca una sonrisa sin pensarlo mucho.</legend><div class="quiz-options">
+            <label><input type="radio" name="scene" value="Un lugar nuevo que no conocemos" required><span>Un lugar nuevo que no conocemos</span></label>
+            <label><input type="radio" name="scene" value="Una noche especial, con música y luces"><span>Una noche especial, con música y luces</span></label>
+            <label><input type="radio" name="scene" value="Un rincón tranquilo, solo los dos"><span>Un rincón tranquilo, solo los dos</span></label>
+            <label><input type="radio" name="scene" value="Una aventura que nos haga reír"><span>Una aventura que nos haga reír</span></label>
+          </div></fieldset>
+          <fieldset class="quiz-question"><legend>3. En una historia, ¿qué detalle despierta primero tu curiosidad?</legend><div class="quiz-options">
+            <label><input type="radio" name="curiosity" value="Resolver una pista escondida" required><span>Resolver una pista escondida</span></label>
+            <label><input type="radio" name="curiosity" value="Descubrir algo hecho a mano"><span>Descubrir algo hecho a mano</span></label>
+            <label><input type="radio" name="curiosity" value="Un mensaje que aparece en el momento justo"><span>Un mensaje que aparece en el momento justo</span></label>
+            <label><input type="radio" name="curiosity" value="Vivir algo fuera de lo cotidiano"><span>Vivir algo fuera de lo cotidiano</span></label>
+          </div></fieldset>
+          <button class="btn quiz-submit" type="submit">Revelar mi pequeña señal</button>
+        </form>
+        <div id="quiz-result" class="quiz-result hidden">
+          <div class="quiz-kicker">SEÑAL DESCUBIERTA</div>
+          <h3>Has dejado una pista en el camino.</h3>
+          <p>La próxima sorpresa todavía está tomando forma… pero ahora tiene un detalle que nació de tus elecciones.</p>
+          <p class="quiz-clue">Pista: esta vez no bastará con mirar. Una de tus propias elecciones será parte de lo que viene.</p>
+          <a id="quiz-share" class="btn quiz-share" href="#" target="_blank" rel="noopener">Enviar mi señal a Robert</a>
+        </div>
+      </section>
     </div>
     <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
     <p class="footer" style="padding:30px 0 max(120px,env(safe-area-inset-bottom))">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
@@ -855,12 +917,12 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
  
 const storyDialogues=[
- {speaker:'ROBERT',side:'from-robert',line:'Evy, contigo hasta los días más normales terminan teniendo algo especial.'},
- {speaker:'EVELYN',side:'from-evy',line:'¿Y qué es lo que más te gusta de nuestros momentos juntos?'},
- {speaker:'ROBERT',side:'from-robert',line:'Que nunca faltan las risas, las ocurrencias y algún abrazo inesperado.'},
- {speaker:'EVELYN',side:'from-evy',line:'Jajajaja. Bueno… los abrazos nunca sobran.'},
- {speaker:'ROBERT',side:'from-robert',line:'Tampoco esos pequeños detalles que hacen que cualquier plan sea bonito.'},
- {speaker:'EVELYN',side:'from-evy',line:'Entonces habrá que seguir llenando la historia de momentos así.'}
+ {speaker:'ROBERT',side:'from-robert',line:'Evy, aprendí que amarte es una de las formas más bonitas de vivir cada momento.'},
+ {speaker:'EVELYN',side:'from-evy',line:'¿Y qué hace que nuestros momentos sean tan especiales?'},
+ {speaker:'ROBERT',side:'from-robert',line:'Que solo contigo puedo ser yo de verdad… y me haces sentir el más amado del mundo.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Te amo.'},
+ {speaker:'ROBERT',side:'from-robert',line:'Lo que siento por ti vivirá en mi alma para siempre.'},
+ {speaker:'EVELYN',side:'from-evy',line:'Te amo, Robert.'}
 ];
 let loveFrame=-1,loveRaf=0,loveProgress=0;
 let avatarAudioStarted=false,avatarAudioTimer=null,avatarAudioStartAt=0,avatarLastVolume=-1;
@@ -899,21 +961,35 @@ function updateAvatarCrescendo(){
  const v=Math.max(.035,Math.min(.58,.035+Math.min(.38,elapsed*.005)+loveProgress*.16));
  if(Math.abs(v-avatarLastVolume)>.015){a.volume=v;avatarLastVolume=v}
 }
+function spawnHeartBurst(count=16){
+ const layer=$('love-heart-burst');if(!layer)return;
+ layer.innerHTML='';
+ const hearts=['♥','♡','❤','ღ'];
+ for(let i=0;i<count;i++){
+  const h=document.createElement('span');h.className='floating-heart';h.textContent=hearts[i%hearts.length];
+  h.style.left=(36+Math.random()*28)+'%';h.style.top=(47+Math.random()*18)+'%';
+  h.style.setProperty('--heart-drift',(-70+Math.random()*140)+'px');
+  h.style.animationDelay=(Math.random()*.42)+'s';h.style.animationDuration=(1.5+Math.random()*.8)+'s';
+  h.style.fontSize=(17+Math.random()*19)+'px';layer.appendChild(h);
+ }
+ setTimeout(()=>{if(layer)layer.innerHTML=''},2900);
+}
 function updateLoveStory(){
  const track=$('love-story-track'),svg=$('couple-svg');
  if(!track||!svg||!track.offsetHeight)return;
  const rect=track.getBoundingClientRect(),travel=Math.max(1,track.offsetHeight-window.innerHeight);
  const p=clamp01((window.innerHeight-rect.top)/travel);loveProgress=p;
  const enterBoy=ease(0,.36,p),enterEvy=ease(.11,.47,p),approach=ease(.40,.78,p),hug=ease(.65,.86,p),kiss=ease(.84,.98,p);
- const bob=Math.sin(p*22)*1.5;
+ const bob=Math.sin(p*22)*1.25*(1-kiss*.85);
  const bx=mix(-180,250,enterBoy)+approach*8,ex=mix(820,390,enterEvy)-approach*8;
  // Whole-character transforms keep every body part attached.
  $('avatar-boy-main').setAttribute('transform','translate('+bx+' '+(540+bob)+') scale(1.12)');
  $('avatar-evy-main').setAttribute('transform','translate('+ex+' '+(540-bob)+') scale(-1.12 1.12)');
- const headMove=24*kiss,headTilt=7*kiss;
+ const headMove=16*kiss,headTilt=6*kiss;
  $('boy-head').setAttribute('transform','translate('+headMove+' 0) rotate('+headTilt+' 0 -235)');
  $('evy-head').setAttribute('transform','translate('+headMove+' 0) rotate('+(-headTilt)+' 0 -237)');
  $('evy-hair-back').setAttribute('transform','translate('+headMove+' 0) rotate('+(-headTilt)+' 0 -237)');
+ $('handhold-sparkle').setAttribute('opacity',String(ease(.70,.83,p)*.92));
  $('boy-mouth').setAttribute('d',p>.24?'M-9 -246 Q0 -232 9 -246':'M-7 -244 Q0 -238 8 -244');
  $('evy-mouth').setAttribute('d',p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242');
  
@@ -934,7 +1010,19 @@ window.addEventListener('touchmove',scheduleLoveStoryUpdate,{passive:true});
 window.addEventListener('resize',scheduleLoveStoryUpdate);window.addEventListener('load',scheduleLoveStoryUpdate);
 if('ResizeObserver' in window){const obs=new ResizeObserver(scheduleLoveStoryUpdate);obs.observe($('love-story-track'));obs.observe($('love-story-sticky'))}
 loadMemorySprite();
-$('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
+$('easter-egg').addEventListener('click',()=>{eggTaps++;clearTimeout(eggTimer);if(eggTaps>=3){$('easter-message').classList.remove('hidden');$('easter-message').scrollIntoView({behavior:'smooth',block:'center'});playTone(880,.3,'sine',.04);eggTaps=0}else eggTimer=setTimeout(()=>eggTaps=0,1800)});
+ $('expedition-04-form').addEventListener('submit',e=>{
+   e.preventDefault();
+   const form=$('expedition-04-form');
+   const memory=form.querySelector('input[name="memory"]:checked')?.value;
+   const scene=form.querySelector('input[name="scene"]:checked')?.value;
+   const curiosity=form.querySelector('input[name="curiosity"]:checked')?.value;
+   if(!memory||!scene||!curiosity)return;
+   const message='Mi pequeña señal del Archivo 13 💗\n\n1. '+memory+'\n2. '+scene+'\n3. '+curiosity+'\n\nYa quiero saber qué sigue…';
+   $('quiz-share').href='https://wa.me/?text='+encodeURIComponent(message);
+   $('quiz-result').classList.remove('hidden');
+   $('quiz-result').scrollIntoView({behavior:'smooth',block:'center'});
+ });
  window.addEventListener('pagehide',()=>{closeScene();clearInterval(countdownTimer);countdownTimer=null;stopLoveTracker();clearInterval(avatarAudioTimer);avatarAudioTimer=null});
 })();
 </script>
