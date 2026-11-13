@@ -344,6 +344,35 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 @media(max-width:420px){.expedition-quiz{padding:18px 13px}.quiz-options{grid-template-columns:1fr}.quiz-options label{min-height:40px}}
 @media(prefers-reduced-motion:reduce){#love-heart-burst .floating-heart{animation-duration:.01ms!important}#evy-normal-eyes,#evy-love-eyes{transition:none!important}}
 
+/* ARCHIVO 13 · sobre sellado, carta en dos gestos y escáner sin cronómetro */
+.progress-track,.progress-meta{display:none!important}
+#scan-title{font:italic 16px/1.4 Georgia,serif;color:#f4e3da;letter-spacing:.02em;text-align:center}
+#scan-log{min-height:46px;max-width:540px;margin:10px auto 0;text-align:center;font:italic clamp(15px,4.3vw,19px)/1.5 Georgia,serif;color:#f6e4dc;text-shadow:0 2px 16px #211520,0 0 18px #e8c8c477;animation:scan-whisper 3.6s ease-in-out infinite}
+@keyframes scan-whisper{0%,100%{opacity:.76;transform:translateY(2px)}50%{opacity:1;transform:translateY(-2px)}}
+.letter-gate{min-height:calc(100svh - 110px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:25px;padding:26px 8px 48px;text-align:center;transition:opacity .6s ease,transform .6s ease}
+.letter-gate-heading{max-width:420px}
+.letter-gate-heading p{margin:10px auto 0;color:#d5c0bc;font:italic 16px/1.6 Georgia,serif}
+.letter-envelope{display:block;width:min(84vw,360px);padding:0;border:0;background:transparent;cursor:pointer;perspective:1000px;-webkit-tap-highlight-color:transparent}
+.letter-envelope:focus-visible{outline:2px solid #e7c89e;outline-offset:10px;border-radius:16px}
+.envelope-art{position:relative;display:block;width:100%;aspect-ratio:1.53;filter:drop-shadow(0 24px 34px #09050d77)}
+.envelope-back{position:absolute;inset:0;border:1px solid #f3ddca88;border-radius:13px;background:linear-gradient(145deg,#e7c7b9,#c28f91 62%,#a96e80);box-shadow:inset 0 1px 0 #fff8}
+.envelope-paper{position:absolute;z-index:2;left:8%;right:8%;top:7%;height:88%;border-radius:5px 5px 2px 2px;background:linear-gradient(145deg,#fff6e8,#ead9c5);box-shadow:0 2px 14px #4a293333;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:18px;color:#8e675b;font:italic 14px Georgia,serif;transition:transform 1s cubic-bezier(.2,.72,.2,1)}
+.envelope-paper b{display:block;margin-top:9px;color:#b67f85;font:30px Georgia}
+.envelope-front{position:absolute;z-index:4;inset:0;border-radius:13px;background:linear-gradient(145deg,#e6c0b3,#c58f93);clip-path:polygon(0 0,50% 59%,100% 0,100% 100%,0 100%);border:1px solid #f7dfd18a}
+.envelope-flap{position:absolute;z-index:5;inset:0;border-radius:13px;background:linear-gradient(145deg,#f0d9c8,#d6a8a2);clip-path:polygon(0 0,100% 0,50% 63%);transform-origin:50% 0;transform:rotateX(0);transition:transform .85s cubic-bezier(.2,.72,.2,1);backface-visibility:hidden}
+.envelope-seal{position:absolute;z-index:6;left:50%;top:54%;width:48px;height:48px;display:grid;place-items:center;transform:translate(-50%,-50%);border:1px solid #f9e5d6;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5dcd0,#bd8490);box-shadow:0 4px 13px #74495c66;color:#fff4ec;font:17px Georgia;transition:opacity .4s ease,transform .55s ease}
+.letter-envelope.opened .envelope-flap{transform:rotateX(180deg);z-index:1}
+.letter-envelope.opened .envelope-seal{opacity:0;transform:translate(-50%,-35%) scale(.45)}
+.letter-envelope.releasing .envelope-paper{transform:translateY(-68%) scale(1.06);z-index:7}
+.letter-gate.releasing .letter-gate-heading,.letter-gate.releasing .letter-envelope-prompt{opacity:0;transition:opacity .35s ease}
+.letter-envelope-prompt{max-width:330px;margin:0;color:#e0c5bc;font:italic 15px/1.5 Georgia,serif;min-height:24px;transition:opacity .3s ease}
+.letter-main-title{text-align:center;font:400 clamp(35px,8.5vw,55px)/1.03 Georgia,serif;margin:16px 0 28px;color:#f6e7df}
+.letter-main-title em{color:#d9b879;font-weight:400}
+.paper p{margin:0 0 18px;font:15px/1.82 Georgia,'Times New Roman',serif;color:#46333a}
+.paper .letter-quote{margin:25px auto 29px;max-width:520px;text-align:center;color:#8b6341;font:italic clamp(22px,5.8vw,32px)/1.32 Georgia,serif}
+.paper .letter-sign{margin-top:25px;padding-top:17px;border-top:1px solid #b99a6b88;text-align:center;color:#815b36;font-style:italic}
+@media(max-width:600px){.letter-gate{min-height:calc(100svh - 85px);gap:21px}.envelope-seal{width:43px;height:43px}.envelope-paper{font-size:12px;padding-top:13px}.paper p{font-size:14px;line-height:1.75}}
+
 </style>
 </head>
 <body>
@@ -392,6 +421,21 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
     </div>
   </section>
 
+  <section id="admin-screen" class="hidden">
+    <div class="eyebrow">ARCHIVO 13 · ACCESO ADMINISTRATIVO</div>
+    <h1>Panel de<br><em>Robert.</em></h1>
+    <p class="lead">Desde aquí puedes comprobar que el cuadro real activa el escáner o abrir la carta para revisar la sorpresa. La prueba no consume la primera visita de Evelyn.</p>
+    <div class="card">
+      <h2 style="text-align:center">¿Qué quieres probar?</h2>
+      <div class="choice">
+        <button id="admin-scan"><strong>① Probar el escáner</strong><span>Abre la cámara para apuntar al cuadro ELITE y verificar que lo reconoce.</span></button>
+        <button id="admin-letter"><strong>② Abrir la carta</strong><span>Salta directamente al sobre cerrado y a la revelación.</span></button>
+      </div>
+      <p id="admin-scan-result" class="hint">Todavía falta comprobar el reconocimiento del cuadro con la cámara de este teléfono.</p>
+      <a class="target-link" href="../preparar-cuadro.html">Preparar el reconocimiento en este teléfono</a>
+    </div>
+  </section>
+
   <section id="unlock-ready-screen" class="hidden">
     <div class="eyebrow">13 · 00:00</div>
     <h1>Ya llegó<br><em>nuestro día.</em></h1>
@@ -430,18 +474,46 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
   </section>
 
   <section id="letter-screen" class="hidden">
-    <div class="eyebrow">ARCHIVO 13 · Revelación</div>
-    <h1>Lo que yo veo<br><em>cuando te miro.</em></h1>
-    <audio id="archivo13-song" preload="none" playsinline aria-hidden="true"></audio>
-    <div class="paper">
-      
-      <h2>Más allá de lo que se ve</h2>
-      <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
-      <p style="font-size:clamp(23px,6vw,34px);line-height:1.3;text-align:center;color:#815b36">“Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti.”</p>
-      <p>Tu belleza no termina en lo que se ve por fuera. También está en tu interior, en tu forma de ser, en lo que sueñas, en tu fuerza y en todos esos detalles que te hacen tan especial para mí.</p>
-      <p>Esta carta es un primer borrador visual. La versión definitiva llevará las palabras de Robert, los recuerdos de ambos y las fotografías elegidas para contar vuestra historia.</p>
-      <p class="sign">Con todo mi cariño.</p>
-    </div>
+    <section id="letter-gate" class="letter-gate" aria-label="Abrir la carta">
+      <div class="letter-gate-heading">
+        <div class="eyebrow">ARCHIVO 13 · UNAS PALABRAS PARA TI</div>
+        <p>Hay algo que Robert quiere entregarte en sus propias palabras.</p>
+      </div>
+      <button id="letter-envelope" class="letter-envelope" type="button" data-step="0" aria-label="Toca para abrir el sobre">
+        <span class="envelope-art" aria-hidden="true">
+          <span class="envelope-back"></span>
+          <span class="envelope-paper"><span>Para ti, mi amor</span><b>♡</b></span>
+          <span class="envelope-front"></span>
+          <span class="envelope-flap"></span>
+          <span class="envelope-seal">13</span>
+        </span>
+      </button>
+      <p id="letter-envelope-prompt" class="letter-envelope-prompt">Toca el sobre para abrirlo.</p>
+    </section>
+    <div id="letter-content" class="hidden">
+      <div class="eyebrow">ARCHIVO 13 · REVELACIÓN</div>
+      <h1 class="letter-main-title">La mujer de la que<br><em>me enamoré.</em></h1>
+      <audio id="archivo13-song" preload="auto" playsinline aria-hidden="true"></audio>
+      <div class="paper">
+        <p>Hay algo que una fotografía nunca podrá mostrar por completo.</p>
+        <p class="letter-quote">«Quiero que puedas mirarte con mis ojos y descubrir lo que yo veo dentro de ti».</p>
+        <p>Vuelve a mirar el cuadro que te regalé. Es muy especial para mí, porque en él estás tú. Para mí, la mujer más hermosa entre todas las mujeres. Mi novia. MI NOVIA…</p>
+        <p>Y es que estoy muy preocupado por algo: todavía no he descubierto dónde voy a guardar todo el amor que sigue creciendo dentro de mí. Cada día parece haber un poquito más, una emoción nueva, una forma distinta de quererte. Pero creo que finalmente encontré la solución: puedo entregártelo a ti. Puedo convertirlo en palabras, en abrazos, en detalles y en todas esas maneras que encuentro para hacerte saber lo profundamente que te amo.</p>
+        <p>La mujer que aparece en ese cuadro eres tú. Así te veo: hermosa, preciosa, capaz de dejarme sin palabras con una sola mirada. Pero quiero que entiendas algo: eso no es ni de cerca todo lo que eres para mí. En realidad, tu belleza exterior es apenas la primera parte de todo lo que me enamora de ti. Lo verdaderamente extraordinario está detrás de esa imagen, en la mujer que eres cuando nadie te está mirando, en tu forma de pensar, de sentir, de soñar y de enfrentarte a la vida.</p>
+        <p>EVELYN, eres la mujer más increíble que he conocido. Y estoy profundamente orgulloso de haberme encontrado contigo. Aunque, sinceramente, cada vez estoy más convencido de que aquello no fue una simple casualidad. Siempre sentí que estaba destinado a vivir algo grande, algo verdadero, algo que tuviera un significado especial en mi vida. Y hoy, cuando miro a mi lado, siento que ese algo eres tú.</p>
+        <p>Eres alguien que me inspira, que me motiva a seguir creciendo, a mejorar, a perseguir mis sueños, incluso cuando parecen <strong>SUEÑOS DE UN NIÑO PEQUEÑO Y SOÑADOR.</strong> Porque tienes esa capacidad tan tuya de comprenderme de formas que a veces ni yo mismo entiendo. Comprendes mis maneras extrañas de ser, de actuar, de pensar y hasta de amar. Sé que a veces soy difícil de descifrar, que tengo mis locuras, mis ocurrencias y mis formas particulares de demostrar lo que siento. Pero tú encuentras la manera de entenderlas. Y créeme, eso significa muchísimo para mí.</p>
+        <p>A veces he sentido que no puedo contener tanto amor como el que me das. Me sorprende, me desborda y me hace sentir afortunado de una manera que no siempre sé explicar. Es una bendición que todavía me cuesta comprender por completo, pero que quiero cuidar todos los días.</p>
+        <p>Estoy impresionado con la mujer en la que te has convertido. Me encanta tu fortaleza, esa capacidad que tienes para seguir adelante incluso cuando las cosas no son fáciles. Me encanta que puedas ser tan fuerte y, al mismo tiempo, tan sensible. Que a veces seas mi niñita, llorona, malcriada y testaruda —sí, también esas cosas tuyas que me hacen reír—, y que otras veces seas esa mujer decidida, valiente y segura que parece poder con todo.</p>
+        <p>Eres calma y tormenta. A veces consigues que nuestro pequeño mundo se sienta en paz con solo estar cerca; otras veces llegas con todas tus emociones, tus ocurrencias y tus tempestades. Pero incluso en medio de todo eso, hay algo que nunca cambia: eres tú. Y yo estoy enamorado de todas esas versiones tuyas, no solamente de las que resultan fáciles de entender.</p>
+        <p>Hay días en los que necesito a mi niñita, esa que quiere cariño, atención y abrazos; y hay otros en los que necesito a esa mujer fuerte que me inspira y me recuerda todo lo que somos capaces de conseguir. Lo increíble es que no tengo que elegir entre una y otra, porque ambas viven en ti. Y me encanta poder conocerlas, cuidarlas y compartir la vida contigo.</p>
+        <p>Dios… a veces siento que ni siquiera sé cómo expresarte lo que significas para mí. Comienzo intentando escribir una idea y termino descubriendo diez sentimientos más que también quisiera contarte. Es como si cada palabra se quedara pequeña cuando intento explicar lo que llevo dentro.</p>
+        <p>No quiero que pienses que te amo únicamente por lo que haces por mí, por los momentos bonitos que vivimos o por la felicidad que me das. Te amo por ser tú. Por la mujer que eres, por la que has sido y por todo lo que todavía te queda por descubrir de ti misma. Te amo en tus días buenos y en los difíciles, cuando sonríes y cuando necesitas llorar, cuando tienes el mundo bajo control y cuando simplemente necesitas que alguien te abrace y te recuerde que no tienes que poder con todo.</p>
+        <p>Y, sobre todo, quiero que nunca olvides algo: estoy orgulloso de ti. De tu manera de ser, de todo lo que has superado, de tus sueños, de tus esfuerzos y de esa persona tan especial que tengo la suerte de llamar mi novia y espero algun dia llamar esposa.</p>
+        <p>Ojalá, cuando vuelvas a mirar ese cuadro, puedas recordar que detrás de cada detalle hay alguien que te mira con un amor inmenso. Alguien que no solamente ve a una mujer hermosa, sino a una persona que ha llegado a ocupar un lugar irreemplazable en su vida.</p>
+        <p>No sé si algún día encontraré las palabras exactas para explicarte todo lo que siento. Quizás no existan. Pero mientras las encuentro, quiero seguir demostrándotelo, seguir eligiéndote, seguir creciendo contigo y seguir construyendo algo que sea tan nuestro que ninguna palabra tenga que explicar lo que significa.</p>
+        <p>Porque si hay algo que tengo claro, es que entre todas las personas que podría haber conocido, entre todos los caminos que podría haber recorrido, me siento inmensamente afortunado de que nuestras vidas se hayan encontrado.</p>
+        <p class="letter-sign">Te amo, Evelyn. Te amo por todo lo que eres, por todo lo que significas para mí y por todo lo que todavía nos queda por vivir.</p>
+      </div>
     <section class="love-story" aria-label="Una pequeña historia ilustrada de Robert y Evelyn">
       <div class="love-story-head">
         <div class="love-story-kicker">UN PEQUEÑO CUENTO</div>
@@ -528,7 +600,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
               <rect x="1.5" y="1.5" width="637" height="597" rx="29" fill="none" stroke="#f9e6d9" stroke-opacity=".35" stroke-width="3"/>
             </svg>
           <div id="love-story-talk" class="love-talk from-robert changing" aria-live="polite">
-            <img id="love-story-speaker-photo" src="assets/robert-portrait.jpg" alt="" aria-hidden="true">
+            <img id="love-story-speaker-photo" src="../assets/robert-portrait.jpg" alt="" aria-hidden="true">
             <div class="love-talk-bubble"><small id="love-story-speaker">Robert</small><p id="love-story-line">Evy, aprendí que amarte es una de las formas más bonitas de vivir cada momento.</p></div>
           </div>
           <div id="love-heart-burst" aria-hidden="true"></div>
@@ -579,8 +651,10 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
         </div>
       </section>
     </div>
-    <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
-    <p class="footer" style="padding:30px 0 max(120px,env(safe-area-inset-bottom))">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
+
+      <div class="actions"><button class="btn secondary" id="restart">Volver al principio</button></div>
+      <p class="footer" style="padding:30px 0 max(120px,env(safe-area-inset-bottom))">FIN DEL EXPEDIENTE 03 · La siguiente señal espera en silencio.</p>
+    </div>
   </section>
   <p class="footer">ARCHIVO 13 · Un recuerdo guardado para el día 13.</p>
 </main>
@@ -634,13 +708,21 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
 </div>
 <script>
 (()=>{
- const screens=['pin-screen','countdown-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
+ const screens=['pin-screen','countdown-screen','admin-screen','unlock-ready-screen','first-camera-screen','return-choice-screen','letter-screen'];
  let loveTrackerInterval=null;
+ let adminScannerTest=false;
  const show=id=>{
    screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
-   document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','unlock-ready-screen'].includes(id));
+   document.body.classList.toggle('compact-view',['pin-screen','countdown-screen','admin-screen','unlock-ready-screen'].includes(id));
    if(id==='letter-screen'){
-     requestAnimationFrame(()=>{loveFrame=-1;window.scrollTo({top:0,behavior:'instant'});startLoveTracker();loadMemorySprite()});
+     $('letter-gate').classList.remove('hidden','opened','releasing');
+     $('letter-envelope').classList.remove('opened','releasing');
+     $('letter-envelope').dataset.step='0';
+     $('letter-envelope').setAttribute('aria-label','Toca para abrir el sobre');
+     $('letter-envelope-prompt').textContent='Toca el sobre para abrirlo.';
+     $('letter-content').classList.add('hidden');
+     stopLoveTracker();
+     window.scrollTo({top:0,behavior:'instant'});
    }else{
      stopLoveTracker();
    }
@@ -730,13 +812,13 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    }
  }
  const stages=[
- {at:0,log:'Hay recuerdos que guardan una luz propia…',phase:'ABRIENDO UN RECUERDO',status:'NO ES SOLO UNA IMAGEN.\nES UNA PARTE DE NUESTRA HISTORIA.',symbols:'♡'},
- {at:3,log:'Cada instante deja algo de su luz…',phase:'SIGUIENDO SU LUZ',status:'BUSCANDO TODO ESO QUE UNA FOTOGRAFÍA NO PUEDE CONTAR…',symbols:'✧'},
- {at:6,log:'Algo muy querido empieza a aparecer…',phase:'UNA HUELLA ESPECIAL',status:'HAY ALGO QUE SOLO SE DESCUBRE CUANDO MIRAS CON EL CORAZÓN.',symbols:'♡'},
- {at:9,log:'Una pequeña parte de Robert quedó aquí…',phase:'UNA SEÑAL DE ROBERT',status:'ROBERT HA DEJADO UN PEDACITO DE SU CORAZÓN EN ESTA IMAGEN.',symbols:'∞'},
- {at:12,log:'Los momentos compartidos se acercan…',phase:'UNIENDO RECUERDOS',status:'CADA RECUERDO NOS ACERCA UN POCO MÁS A LO ESENCIAL.',symbols:'✧'},
- {at:15,log:'La luz encuentra a quien estaba buscando…',phase:'UNA COINCIDENCIA PERFECTA',status:'TODO ESTE CAMINO\nTENÍA UN NOMBRE: EVELYN.',symbols:'♡'},
- {at:18,log:'Ahora sí. Ya puedes verlo…',phase:'CON TODO MI CARIÑO',status:'AHORA PUEDES VERTE\nUN INSTANTE CON MIS OJOS.',symbols:'♡'}
+ {at:0,log:'Calibrando los detalles de una imagen muy especial…',phase:'LEYENDO SU LUZ',status:'CALIBRANDO LA IMAGEN Y BUSCANDO\\nMÁS ALLÁ DE LO QUE SE VE…',symbols:'♡'},
+ {at:3,log:'Buscando aquello que no aparece en las fotografías…',phase:'MÁS ALLÁ DEL RETRATO',status:'BUSCANDO TODO LO QUE HACE\\nÚNICA A EVELYN…',symbols:'✧'},
+ {at:6,log:'Cada pequeño detalle tiene algo que contar…',phase:'DESCUBRIENDO SU ESENCIA',status:'LEYENDO LOS DETALLES\\nQUE HABLAN DE SU INTERIOR…',symbols:'♡'},
+ {at:9,log:'Conectando los recuerdos con los sentimientos de Robert…',phase:'CONECTANDO DOS HISTORIAS',status:'CONECTANDO LOS SENTIMIENTOS\\nDE ROBERT CON ESTA IMAGEN…',symbols:'∞'},
+ {at:12,log:'Reuniendo sonrisas, abrazos y momentos que nos pertenecen…',phase:'UNIENDO RECUERDOS',status:'REUNIENDO SONRISAS,\\nABRAZOS Y PROMESAS…',symbols:'✧'},
+ {at:15,log:'El nombre que une todos estos recuerdos empieza a aparecer…',phase:'UNA HISTORIA CON NOMBRE PROPIO',status:'TODO ESTE CAMINO\\nTENÍA UN NOMBRE: EVELYN…',symbols:'♡'},
+ {at:18,log:'La imagen ya contó lo que necesitaba. Ahora faltan las palabras…',phase:'CON TODO EL AMOR DE ROBERT',status:'HAY UNA CARTA QUE ROBERT\\nESCRIBIÓ PENSANDO EN TI…',symbols:'♡'}
  ];
  function startScan(){
    if(scanStarted)return;
@@ -780,10 +862,18 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    if(seconds>=20)completeScan();
  },100)}
  function completeScan(){
-   clearInterval(ticker);ticker=null;markFirstDone();chime();
+   clearInterval(ticker);ticker=null;chime();
    $('scan-flash').classList.remove('fire');void $('scan-flash').offsetWidth;$('scan-flash').classList.add('fire');
    setTimeout(()=>{
-     closeScene();cameraError.classList.add('hidden');$('easter-message').classList.add('hidden');eggTaps=0;
+     closeScene();cameraError.classList.add('hidden');
+     if(adminScannerTest){
+       adminScannerTest=false;
+       configureCameraIntro(false);
+       $('admin-scan-result').textContent='Prueba completada: el escáner reconoció el cuadro y terminó la lectura. La primera visita de Evelyn sigue intacta.';
+       show('admin-screen');
+       return;
+     }
+     markFirstDone();$('easter-message').classList.add('hidden');eggTaps=0;
      show('letter-screen');
      document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';
      window.scrollTo({top:0,behavior:'instant'});
@@ -809,9 +899,9 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  async function beginCamera(){
    scanStarted=false;elapsed=0;targetVisible=false;clearInterval(ticker);ticker=null;
    $('progress-fill').style.width='0%';$('progress-count').textContent='00:00 / 00:20';
-   $('progress-phase').textContent='ESPERANDO OBJETIVO';$('scan-log').textContent='El archivo permanece en silencio…';
+   $('progress-phase').textContent='BUSCANDO MÁS ALLÁ DE LO VISIBLE';$('scan-log').textContent='Hay cosas que el corazón reconoce antes que los ojos…';
    lost.classList.add('hidden');cameraError.classList.add('hidden');
-   $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';
+   $('start-camera').disabled=true;$('camera-hint').textContent='Cargando lector óptico y solicitando permiso de cámara…';$('scan-title').textContent='Calibrando una imagen muy especial';$('scan-status').textContent='PREPARANDO LA LECTURA DE UN RECUERDO…';
    try{if(!window.isSecureContext)throw new Error('La cámara necesita una página HTTPS.');if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no ofrece acceso a la cámara.');
      initAudio();const compiledTarget=await readCompiledTarget();
      if(!compiledTarget){$('prepare-from-error').classList.remove('hidden');throw new Error('Este teléfono todavía no tiene preparado el reconocimiento del cuadro. Abre “Preparar este teléfono”, selecciona el JPG FINAL exacto y vuelve a esta página.')}else $('prepare-from-error').classList.add('hidden');
@@ -821,7 +911,7 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
      system.imageTargetSrc=mindTargetUrl;
      await waitScene();
      document.documentElement.style.overflowY='hidden';document.body.style.overflowY='hidden';
-     shell.classList.add('active');addParticles();$('scan-title').textContent='Un recuerdo está despertando';$('scan-status').textContent='ENFOCA EL CUADRO PARA INICIAR LA LECTURA';await system.start();running=true;
+     shell.classList.add('active');addParticles();$('scan-title').textContent='Buscando lo que esconde la imagen';$('scan-status').textContent='ENCUADRA EL CUADRO ELITE PARA CONTINUAR…';$('scan-log').textContent='Buscando todo aquello que no cabe en una fotografía…';await system.start();running=true;
      clearInterval(detectionPoll);
      detectionPoll=setInterval(()=>{
        if(!running)return;
@@ -857,9 +947,18 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
  }
  $('open-after-midnight').addEventListener('click',()=>{
    if(Date.now()<UNLOCK_AT){startCountdown();return}
-   startAvatarMusic();
-   if(firstDone())show('return-choice-screen');else show('first-camera-screen');
+   if(firstDone())show('return-choice-screen');else {configureCameraIntro(false);show('first-camera-screen')}
  });
+ function configureCameraIntro(isAdminTest){
+   const section=$('first-camera-screen');
+   section.querySelector('.eyebrow').textContent=isAdminTest?'PRUEBA PRIVADA · ESCÁNER':'Primera lectura obligatoria';
+   section.querySelector('h1').innerHTML=isAdminTest?'Vamos a comprobar<br><em>el cuadro real.</em>':'El archivo necesita<br><em>verte mirar.</em>';
+   section.querySelector('.lead').textContent=isAdminTest?'Esta prueba es para comprobar que la cámara reconoce el cuadro impreso. No consume la primera visita de Evelyn.':'Esta primera vez no existe una ruta alternativa. El cuadro es la llave de esta parte de la historia.';
+   section.querySelector('.card .copy').textContent=isAdminTest?'Apunta al cuadro ELITE impreso y mantén la imagen completa dentro del encuadre. La lectura solo terminará cuando el teléfono reconozca el objetivo.':'Apunta directamente al cuadro ELITE ya impreso. Este teléfono debe haberse preparado antes con la imagen FINAL; después reconocerá el retrato real, no una tarjeta de muestra.';
+   section.querySelector('.footer').textContent=isAdminTest?'PRUEBA DE ROBERT · Esta lectura no marcará como completada la primera visita de Evelyn.':'Primera visita: la cámara es parte de la experiencia. Si no puede abrirse, podrás reintentar, pero no saltar esta escena.';
+   $('camera-hint').textContent=isAdminTest?'Prueba de Robert: permite el acceso a la cámara y encuadra el cuadro ELITE completo.':'Permite el acceso a la cámara. No cierres esta página mientras el archivo está leyendo la imagen.';
+   $('start-camera').disabled=false;
+ }
  function showCodeError(message){
    $('pin-feedback').textContent=message;
    $('pin-feedback').classList.add('error');
@@ -882,8 +981,8 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
      clearCodeError();
      closeScene();
      cameraError.classList.add('hidden');
-     startAvatarMusic();
-     show('letter-screen');
+     adminScannerTest=false;
+     show('admin-screen');
      return;
    }
    if(code!==ACCESS_CODE){showCodeError('Código incorrecto. Mira otra vez los detalles de la foto.');inputs[5].focus();return}
@@ -910,11 +1009,43 @@ h2{font-size:26px;font-weight:400;margin:0 0 10px}
    $('pin-hint-message').classList.toggle('hidden');
  });
  $('start-camera').addEventListener('click',beginCamera);
- $('repeat-camera').addEventListener('click',()=>{show('first-camera-screen');$('start-camera').disabled=false});
+ $('admin-scan').addEventListener('click',()=>{adminScannerTest=true;configureCameraIntro(true);show('first-camera-screen')});
+ $('admin-letter').addEventListener('click',()=>{adminScannerTest=false;show('letter-screen')});
+ $('repeat-camera').addEventListener('click',()=>{configureCameraIntro(false);show('first-camera-screen')});
  $('skip-camera').addEventListener('click',()=>show('letter-screen'));
  $('retry-camera').addEventListener('click',beginCamera);
- $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false});
+ $('close-error').addEventListener('click',()=>{cameraError.classList.add('hidden');$('start-camera').disabled=false;if(adminScannerTest){adminScannerTest=false;configureCameraIntro(false);show('admin-screen')}});
  $('restart').addEventListener('click',()=>{closeScene();inputs.forEach(x=>x.value='');$('start-camera').disabled=false;show('pin-screen')});
+ $('letter-envelope').addEventListener('click',()=>{
+   const gate=$('letter-gate'),envelope=$('letter-envelope'),prompt=$('letter-envelope-prompt');
+   const step=Number(envelope.dataset.step||'0');
+   if(step===0){
+     envelope.dataset.step='1';
+     envelope.classList.add('opened');
+     gate.classList.add('opened');
+     envelope.setAttribute('aria-label','Toca otra vez para descubrir la carta');
+     prompt.textContent='La carta empieza a abrirse… toca una vez más.';
+     startAvatarMusic();
+     playTone(523.25,.18,'sine',.018);
+     return;
+   }
+   if(step===1){
+     envelope.dataset.step='2';
+     envelope.classList.add('releasing');
+     gate.classList.add('releasing');
+     prompt.textContent='Con todo mi amor…';
+     playTone(659.25,.25,'sine',.016);
+     setTimeout(()=>{
+       gate.classList.add('hidden');
+       $('letter-content').classList.remove('hidden');
+       window.scrollTo({top:0,behavior:'smooth'});
+       loveFrame=-1;
+       startLoveTracker();
+       loadMemorySprite();
+     },1050);
+   }
+ });
+
  
 const storyDialogues=[
  {speaker:'ROBERT',side:'from-robert',line:'Evy, aprendí que amarte es una de las formas más bonitas de vivir cada momento.'},
