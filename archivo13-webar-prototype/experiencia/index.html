@@ -996,6 +996,13 @@ function updateLoveStory(){
  const frame=Math.min(storyDialogues.length-1,Math.floor(p*storyDialogues.length));
  if(frame!==loveFrame){
   loveFrame=frame;const d=storyDialogues[frame],talk=$('love-story-talk');
+  if(frame===2||frame===5)spawnHeartBurst(frame===5?22:16);
+  const lovestruck=frame===5;
+  $('evy-normal-eyes').setAttribute('opacity',lovestruck?'0':'1');
+  $('evy-love-eyes').setAttribute('opacity',lovestruck?'1':'0');
+  $('evy-mouth').setAttribute('d',lovestruck?'M-10 -244 Q0 -225 10 -244 Q0 -234 -10 -244Z':(p>.35?'M-9 -244 Q0 -230 9 -244':'M-7 -242 Q0 -236 8 -242'));
+  $('evy-blush-left').setAttribute('opacity',lovestruck?'.8':'.35');
+  $('evy-blush-right').setAttribute('opacity',lovestruck?'.8':'.35');
   talk.classList.toggle('from-evy',d.side==='from-evy');talk.classList.toggle('from-robert',d.side==='from-robert');
   talk.classList.remove('changing');void talk.offsetWidth;talk.classList.add('changing');
   $('love-story-speaker').textContent=d.speaker;$('love-story-line').textContent=d.line;
